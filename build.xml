@@ -1,0 +1,18 @@
+<!-- Build file for ABAGAIL (c) Andrew Guillory 2005 --><project default = "all">
+	<!-- compile target -->
+	<target name = "compile">
+		<mkdir dir="bin"/>
+		<javac srcdir= "src" destdir = "bin"/>
+	</target>
+	
+	<!-- jar target -->
+	<target name = "jar" depends = "compile">
+		<manifest file = "manifest.mf"/>
+		<delete file = "ABAGAIL.jar"/>
+		<jar basedir = "bin/" destfile = "ABAGAIL.jar" manifest = "manifest.mf"/>
+	</target>
+
+	<!-- all target-->
+	<target name = "all" depends = "compile,jar"/>
+</project>
+		
