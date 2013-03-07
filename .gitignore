@@ -6,3 +6,4 @@ ABAGAIL.jar
 *.jar
 *.war
 *.ear
+manifest.mf

@@ -1,6 +1,7 @@
 package shared.tester;
 
 import shared.Instance;
+import shared.reader.DataSetLabelBinarySeperator;
 import util.linalg.Vector;
 
 /**
@@ -17,20 +18,21 @@ public class AccuracyTestMetric implements TestMetric {
     @Override
     public void addResult(Instance expected, Instance actual) {
         Comparison c = new Comparison(expected, actual);
-        for (int ii = 0; ii < expected.size(); ii++) {
-            //count up one for each instance
-            count++;
-            if (c.isCorrect(ii)) {
-                //count up one for each correct instance
-                countCorrect++;
-            }
+
+        count++;
+        if (c.isAllCorrect()) {
+            countCorrect++;
         }
     }
     
+    public double getPctCorrect() {
+        return count > 0 ? ((double)countCorrect)/count : 1; //if count is 0, we consider it all correct
+    }
+
     public void printResults() {
         //only report results if there were any results to report.
         if (count > 0) {
-            double pctCorrect   = ((double)countCorrect)/count;
+            double pctCorrect   = getPctCorrect();
             double pctIncorrect = (1 - pctCorrect);
             System.out.println(String.format("Correctly Classified Instances: %.02f%%",   100 * pctCorrect));
             System.out.println(String.format("Incorrectly Classified Instances: %.02f%%", 100 * pctIncorrect));
