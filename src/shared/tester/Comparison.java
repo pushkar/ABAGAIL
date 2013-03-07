@@ -41,6 +41,7 @@ public class Comparison {
         }
         return equals;
     }
+
     /**
      * A generic comparison function.  This should work for continuous, discrete and boolean
      * output values, but will not make inferences for boolean or discrete values represented

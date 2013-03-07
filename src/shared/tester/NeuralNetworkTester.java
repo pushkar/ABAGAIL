@@ -1,6 +1,7 @@
 package shared.tester;
 
 import shared.Instance;
+import shared.reader.DataSetLabelBinarySeperator;
 import func.nn.NeuralNetwork;
 
 /**
@@ -31,9 +32,16 @@ public class NeuralNetworkTester implements Tester {
             Instance expected = instances[i].getLabel();
             Instance actual   = new Instance(network.getOutputValues());
 
+            //collapse the values, for statistics reporting
+            //NOTE: assumes discrete labels, with n output nodes for n
+            // potential labels, and an activation function that outputs
+            // values between 0 and 1.
+            Instance expectedOne = DataSetLabelBinarySeperator.combineLabels(expected);
+            Instance actualOne   = DataSetLabelBinarySeperator.combineLabels(actual);
+
             //run this result past all of the available test metrics
             for (TestMetric metric : metrics) {
-                metric.addResult(expected, actual);
+                metric.addResult(expectedOne, actualOne);
             }
         }
     }

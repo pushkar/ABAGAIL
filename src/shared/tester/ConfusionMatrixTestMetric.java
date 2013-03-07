@@ -3,7 +3,10 @@ package shared.tester;
 import java.util.HashMap;
 import java.util.Map;
 
+import shared.AttributeType;
+import shared.DataSetDescription;
 import shared.Instance;
+import shared.reader.DataSetLabelBinarySeperator;
 
 /**
  * A test metric to generate a confusion matrix.  This metric expects the true labels
@@ -111,22 +114,37 @@ public class ConfusionMatrixTestMetric implements TestMetric {
         }
     }
 
-    @Override
-    public void addResult(Instance expected, Instance actual) {
-        Comparison c = new Comparison(expected, actual);
-        for (int ii = 0; ii < expected.size(); ii++) {
-            
-            //find the actual value in the list of classes
-            //...this makes sure we work with homogeneous label values, so our
-            // matrix is readable.
-            Instance found = findLabel(this.labels, actual);
-            MatrixEntry e = new MatrixEntry(expected, found);
-            if (matrix.containsKey(e)) {
-                matrix.put(e, matrix.get(e) + 1);
-            } else {
-                matrix.put(e, 1);
+    /**
+     * Construct the test metric with discrete values, contained in the label desc.
+     * 
+     * @param labelDesc
+     */
+    public ConfusionMatrixTestMetric(DataSetDescription labelDesc) {
+        for (AttributeType type : labelDesc.getAttributeTypes()) {
+            if (type == AttributeType.CONTINUOUS) {
+                throw new IllegalStateException("This metric only works with discrete or binary labels");
             }
-            
+        }
+        int range = labelDesc.getDiscreteRange();
+        this.labels    = new Instance[range];
+        this.labelStrs = new String  [range];
+        for (int i = 0; i < labelDesc.getDiscreteRange(); i++) {
+            this.labels   [i] = new Instance(i);
+            this.labelStrs[i] = Integer.toString(i);
+        }
+    }
+
+    @Override
+    public void addResult(Instance expected, Instance actual) {        
+        //find the actual value in the list of classes
+        //...this makes sure we work with homogeneous label values, so our
+        // matrix is readable.
+        Instance found = findLabel(this.labels, actual);
+        MatrixEntry e = new MatrixEntry(expected, found);
+        if (matrix.containsKey(e)) {
+            matrix.put(e, matrix.get(e) + 1);
+        } else {
+            matrix.put(e, 1);
         }
     }
 
@@ -183,5 +201,7 @@ public class ConfusionMatrixTestMetric implements TestMetric {
             System.out.print("\t");
             System.out.print(val);
         }
+        
+        System.out.println();
     }
 }
