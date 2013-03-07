@@ -1,7 +1,8 @@
 
 
-package func.nn;
+package func.nn.feedfwd;
 
+import func.nn.Neuron;
 import func.nn.activation.ActivationFunction;
 
 /**

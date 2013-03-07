@@ -2,7 +2,7 @@
 
 package func.nn.backprop;
 
-import func.nn.FeedForwardNetwork;
+import func.nn.feedfwd.FeedForwardNetwork;
 
 /**
  * A back propagation network
