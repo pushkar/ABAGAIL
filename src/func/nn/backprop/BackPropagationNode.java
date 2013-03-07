@@ -2,9 +2,9 @@
 
 package func.nn.backprop;
 
-import func.nn.FeedForwardNode;
 import func.nn.Link;
 import func.nn.activation.DifferentiableActivationFunction;
+import func.nn.feedfwd.FeedForwardNode;
 
 /**
  * A back propagation node

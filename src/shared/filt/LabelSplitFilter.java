@@ -1,6 +1,7 @@
 package shared.filt;
 
 import shared.DataSet;
+import shared.DataSetDescription;
 import shared.Instance;
 import util.linalg.Vector;
 
@@ -45,7 +46,7 @@ public class LabelSplitFilter implements DataSetFilter {
             instance.setData(input);
             instance.setLabel(new Instance(output));
         }
-        dataSet.setDescription(null);
+        dataSet.setDescription(new DataSetDescription(dataSet));
     }
 
 }

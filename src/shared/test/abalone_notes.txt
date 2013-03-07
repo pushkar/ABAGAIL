@@ -1,0 +1,6 @@
+abalone.data notes are in abalone.names
+
+The first parameter of each instance in abalone.data represents the sex, which has been converted from strings to ints as follows:
+  - M -> 1
+  - F -> -1
+  - I -> 0
