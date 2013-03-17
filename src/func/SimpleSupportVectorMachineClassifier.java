@@ -59,6 +59,7 @@ public class SimpleSupportVectorMachineClassifier extends AbstractConditionalDis
         dtbf.filter(set);
         SequentialMinimalOptimization smo = 
             new SequentialMinimalOptimization(set, kernel, c);
+	smo.train();
         svm = smo.getSupportVectorMachine();
     }
 
