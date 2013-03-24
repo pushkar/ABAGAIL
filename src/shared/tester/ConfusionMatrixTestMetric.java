@@ -201,7 +201,6 @@ public class ConfusionMatrixTestMetric implements TestMetric {
             System.out.print("\t");
             System.out.print(val);
         }
-        
         System.out.println();
     }
 }

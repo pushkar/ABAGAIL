@@ -32,4 +32,3 @@
 
 	<target name = "all" depends = "compile,jar"/>
 </project>
-		
