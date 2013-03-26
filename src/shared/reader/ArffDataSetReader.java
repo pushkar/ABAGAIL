@@ -88,7 +88,9 @@ public class ArffDataSetReader extends DataSetReader {
 				String[] values = pattern.split(line.trim());
 				double[] ins = new double[values.length];
 				for (int i = 0; i < values.length; i++) {
-					String v = values[i];
+				    //some values are single quoted (especially in datafiles bundled
+				    // with weka)
+					String v = values[i].replaceAll("'", "");
 					// defaulting to 0 if attribute value unknown.
 					double d = 0;
 					try {
