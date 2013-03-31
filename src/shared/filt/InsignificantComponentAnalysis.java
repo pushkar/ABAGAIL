@@ -66,6 +66,25 @@ public class InsignificantComponentAnalysis implements ReversibleFilter {
         }
     }
     
+    public InsignificantComponentAnalysis(DataSet dataSet, double varianceToKeep) {
+        MultivariateGaussian mg = new MultivariateGaussian();
+        mg.estimate(dataSet);
+        Matrix covarianceMatrix = mg.getCovarianceMatrix();
+        mean = mg.getMean();
+
+        SymmetricEigenvalueDecomposition sed = 
+            new SymmetricEigenvalueDecomposition(covarianceMatrix);
+        Matrix eigenVectors = sed.getU();
+        eigenValues = sed.getD();
+
+        VarianceCounter vc = new VarianceCounter(eigenValues);
+        int toKeep = vc.countRight(varianceToKeep);
+        projection = new RectangularMatrix(toKeep, eigenVectors.m());
+        for (int i = eigenVectors.m() - 1; eigenVectors.m() - i  - 1 < toKeep; i--) {
+            projection.setRow(eigenVectors.m() - i - 1, eigenVectors.getColumn(i));
+        }
+    }
+
     /**
      * Make a new PCA filter
      * @param numberOfComponents the number to keep
