@@ -60,6 +60,23 @@ public abstract class Vector implements Serializable, Copyable {
     public abstract void set(int i, double d);
     
     /**
+     * Remove a column from the middle of the vector and return a new vector
+     * 
+     * @param i
+     */
+    public Vector remove(int inx) {
+        double[] data = new double[size()];
+        for (int i = 0; i < data.length; i++) {
+            data[i] = get(i);
+        }
+        
+        double[] result = new double[size() - 1];
+        System.arraycopy(data, 0,       result, 0,   inx);
+        System.arraycopy(data, inx + 1, result, inx, size() - inx - 1);
+        
+        return new DenseVector(result);
+    }
+    /**
      * Get the maximum of this vector with the given vector
      * @param v the other vector
      * @return the max

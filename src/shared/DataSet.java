@@ -1,12 +1,15 @@
 package shared;
 
+import java.util.Arrays;
+import java.util.Iterator;
+
 
 /**
  * A data set is just a collection of instances
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
-public class DataSet {
+public class DataSet implements Copyable, Iterable<Instance> {
     /**
      * The list of instances
      */
@@ -122,5 +125,19 @@ public class DataSet {
         return result;
     }
 
+    @Override
+    public DataSet copy() {
+        Instance[] copy = new Instance[this.size()];
+        for (int i = 0; i < copy.length; i++) {
+            copy[i] = (Instance) this.get(i).copy();
+        }
+        DataSet newSet = new DataSet(copy);
+        newSet.setDescription(new DataSetDescription(newSet));
+        return newSet;
+    }
 
+    @Override
+    public Iterator<Instance> iterator() {
+        return Arrays.asList(instances).iterator();
+    }
 }
