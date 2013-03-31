@@ -2,6 +2,7 @@ package shared.filt;
 
 import dist.MultivariateGaussian;
 import shared.DataSet;
+import shared.DataSetDescription;
 import shared.Instance;
 import util.linalg.Matrix;
 import util.linalg.RectangularMatrix;
@@ -65,6 +66,32 @@ public class PrincipalComponentAnalysis implements ReversibleFilter {
     
     /**
      * Make a new PCA filter
+     * @param varianceToKeep The % variance to keep.  This assumes that sum(eigenvalues) represents all of the variance, and 
+     * @param dataSet the set form which to estimate components
+     */
+    public PrincipalComponentAnalysis(DataSet dataSet, double varianceToKeep) {
+        MultivariateGaussian mg = new MultivariateGaussian();
+        mg.estimate(dataSet);
+        Matrix covarianceMatrix = mg.getCovarianceMatrix();
+        mean = mg.getMean();
+//        if (toKeep == -1) {
+//            toKeep = mean.size();
+//        }
+        SymmetricEigenvalueDecomposition sed = 
+            new SymmetricEigenvalueDecomposition(covarianceMatrix);
+        Matrix eigenVectors = sed.getU();
+        eigenValues = sed.getD();
+
+        VarianceCounter vc = new VarianceCounter(eigenValues);
+        int toKeep = vc.countLeft(varianceToKeep);
+        projection = new RectangularMatrix(toKeep, eigenVectors.m());
+        for (int i = 0; i < toKeep; i++) {
+            projection.setRow(i, eigenVectors.getColumn(i));
+        }
+    }
+    
+    /**
+     * Make a new PCA filter
      * @param numberOfComponents the number to keep
      * @param set the data set to estimate components from
      */
@@ -90,7 +117,7 @@ public class PrincipalComponentAnalysis implements ReversibleFilter {
             instance.setData(instance.getData().minus(mean));
             instance.setData(projection.times(instance.getData()));
         }
-        dataSet.setDescription(null);
+        dataSet.setDescription(new DataSetDescription(dataSet));
     }
    
 

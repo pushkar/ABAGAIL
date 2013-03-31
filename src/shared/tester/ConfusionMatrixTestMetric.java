@@ -170,6 +170,11 @@ public class ConfusionMatrixTestMetric implements TestMetric {
     }
     
 
+    /**
+     * 
+     * NOTE: Rows are "expected", columns are "actual"
+     * 
+     */
     @Override
     public void printResults() {
         System.out.println("Confusion Matrix:");
