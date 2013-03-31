@@ -57,11 +57,6 @@ public class VarianceCounter {
     public int countRight(double varianceToKeep) {
         int toKeep  = 0;
         double kept = 0;
-//        while (belowThreshold < toKeep && 
-//                eigenValues.get(eigenValues.m() - belowThreshold - 1, 
-//                    eigenValues.m() - belowThreshold - 1) < threshold) {
-//           belowThreshold++;
-//        }
         for (int ii = eigenValues.m() - 1; ii >= 0; ii--) {
             double var = eigenValues.get(ii, ii) / sum;
             if (kept + var > varianceToKeep) {
