@@ -31,31 +31,37 @@ public class VarianceCounter {
      * Count from the left...this captures the biggest components first. 
      * 
      * @param varianceToKeep
-     * @return
+     * @return The number of components to keep (from the left)
      */
     public int countLeft(double varianceToKeep) {
-        int toKeep  = 0;
+        int toKeep  = -1;
         double kept = 0;
         for (int ii = 0; ii < eigenValues.m(); ii++) {
             double var = eigenValues.get(ii, ii) / sum;
-            if (kept + var > varianceToKeep) {
+            if (((kept + var) - varianceToKeep) > 1e-6) {
                 break;
             }
             toKeep  = ii;
             kept   += var;
         }
+        
+        //if we couldn't find at least one attribute, throw an exception...otherwise, the various
+        // algorithms do really weird things.
+        if (toKeep < 0) {
+            throw new IllegalStateException(String.format("No one attribute explains <= %.02f variance", varianceToKeep));
+        }
     
-        return toKeep;
+        return toKeep + 1; //add one, to provide a count (not an index)
     }
     
     /**
      * Count from the right...this captures the smallest components first. 
      * 
      * @param varianceToKeep
-     * @return
+     * @return The number of components to keep (from the right)
      */
     public int countRight(double varianceToKeep) {
-        int toKeep  = 0;
+        int toKeep  = -1;
         double kept = 0;
         for (int ii = eigenValues.m() - 1; ii >= 0; ii--) {
             double var = eigenValues.get(ii, ii) / sum;
@@ -66,7 +72,13 @@ public class VarianceCounter {
             kept   += var;
         }
     
-        return toKeep;
+        //if we couldn't find at least one attribute, throw an exception...otherwise, the various
+        // algorithms do really weird things.
+        if (toKeep < 0) {
+            throw new IllegalStateException(String.format("No one attribute explains <= %.02f variance", varianceToKeep));
+        }
+    
+        return eigenValues.m() - toKeep;
     }
 
     private boolean isDiagonal(Matrix eigenValues) {

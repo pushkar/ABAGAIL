@@ -2,6 +2,7 @@ package shared.filt;
 
 import dist.MultivariateGaussian;
 import shared.DataSet;
+import shared.DataSetDescription;
 import shared.Instance;
 import shared.filt.ica.*;
 import util.linalg.DenseVector;
@@ -150,6 +151,8 @@ public class IndependentComponentAnalysis implements ReversibleFilter {
             Instance instance = dataSet.get(i);
             instance.setData(projection.times(instance.getData()));
         }
+        
+        dataSet.setDescription(new DataSetDescription(dataSet));
     }
     
     /**
@@ -160,8 +163,8 @@ public class IndependentComponentAnalysis implements ReversibleFilter {
             Instance instance = dataSet.get(i);
             instance.setData(reverseProjection.times(instance.getData()));
         }
-        dataSet.setDescription(null);
         pca.reverse(dataSet);
+        dataSet.setDescription(new DataSetDescription(dataSet));
     }
     
     

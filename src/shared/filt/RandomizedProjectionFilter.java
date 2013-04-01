@@ -1,6 +1,7 @@
 package shared.filt;
 
 import shared.DataSet;
+import shared.DataSetDescription;
 import shared.Instance;
 import util.linalg.Matrix;
 import util.linalg.RectangularMatrix;
@@ -18,8 +19,8 @@ public class RandomizedProjectionFilter implements ReversibleFilter {
     private Matrix projection;
     /**
      * Make a new random projection
-     * @param componentsToKeep the number of components to keep
-     * @param components the number of original components
+     * @param componentsOut the number of components to keep
+     * @param componentsIn the number of original components
      */
     public RandomizedProjectionFilter(int componentsOut, int componentsIn){
         projection = RectangularMatrix.random(componentsOut, componentsIn);
@@ -40,6 +41,7 @@ public class RandomizedProjectionFilter implements ReversibleFilter {
             Instance instance = dataSet.get(i);
             instance.setData(projection.times(instance.getData()));
         }
+        dataSet.setDescription(new DataSetDescription(dataSet));
     }
     
     /**
@@ -50,6 +52,7 @@ public class RandomizedProjectionFilter implements ReversibleFilter {
             Instance instance = dataSet.get(i);
             instance.setData(projection.transpose().times(instance.getData()));
         }
+        dataSet.setDescription(new DataSetDescription(dataSet));
     }
 
     /**

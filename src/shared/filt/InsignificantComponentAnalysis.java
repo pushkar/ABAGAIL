@@ -2,6 +2,7 @@ package shared.filt;
 
 import dist.MultivariateGaussian;
 import shared.DataSet;
+import shared.DataSetDescription;
 import shared.Instance;
 import util.linalg.Matrix;
 import util.linalg.RectangularMatrix;
@@ -112,7 +113,7 @@ public class InsignificantComponentAnalysis implements ReversibleFilter {
             instance.setData(instance.getData().minus(mean));
             instance.setData(projection.times(instance.getData()));
         }
-        dataSet.setDescription(null);
+        dataSet.setDescription(new DataSetDescription(dataSet));
     }
    
 
@@ -125,7 +126,7 @@ public class InsignificantComponentAnalysis implements ReversibleFilter {
             instance.setData(projection.transpose().times(instance.getData()));
             instance.setData(instance.getData().plus(mean));
         }
-        dataSet.setDescription(null);
+        dataSet.setDescription(new DataSetDescription(dataSet));
     }
 
     /**

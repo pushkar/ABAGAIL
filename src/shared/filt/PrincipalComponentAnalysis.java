@@ -130,7 +130,7 @@ public class PrincipalComponentAnalysis implements ReversibleFilter {
             instance.setData(projection.transpose().times(instance.getData()));
             instance.setData(instance.getData().plus(mean));
         }
-        dataSet.setDescription(null);
+        dataSet.setDescription(new DataSetDescription(dataSet));
     }
 
     /**
