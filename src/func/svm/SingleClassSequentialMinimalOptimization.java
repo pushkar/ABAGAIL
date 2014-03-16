@@ -216,7 +216,7 @@ public class SingleClassSequentialMinimalOptimization implements Trainer {
         }
         // if the second choice hueristic fails we look
         // at all non bound indices, starting from a random point
-        int startI = (int) Math.random() * a.length;
+        int startI = (int) (Math.random() * a.length);
         i = startI;
         do {
             if (!isBound(i) && takeStep(i, j, oj)) {
@@ -226,7 +226,7 @@ public class SingleClassSequentialMinimalOptimization implements Trainer {
         } while (i != startI);
         // if that fails we look at all of the indices, starting from
         // a random point
-        startI = (int) Math.random() * a.length;
+        startI = (int) (Math.random() * a.length);
         i = startI;
         do {
             if (takeStep(i, j, oj)) {
@@ -329,7 +329,7 @@ public class SingleClassSequentialMinimalOptimization implements Trainer {
             return true;
         }
         // use any other non bound alpha
-        int startK = (int) Math.random() * a.length;
+        int startK = (int) (Math.random() * a.length);
         int k = startK;
         do {
             if (!isBound(k)) {
