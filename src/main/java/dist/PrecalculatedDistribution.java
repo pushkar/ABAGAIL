@@ -14,7 +14,7 @@ public class PrecalculatedDistribution extends AbstractDistribution implements C
     /**
      * The index at which the precalculated probability is stored
      */
-    private int i;
+    private final int i;
     
     /**
      * Make a new precalculated output distribution

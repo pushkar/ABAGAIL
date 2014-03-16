@@ -1,6 +1,7 @@
 package util.graph;
 
 import java.util.Arrays;
+import java.util.Set;
 
 /**
  * Kruskal's minimum spanning tree algorithm
@@ -23,7 +24,8 @@ public class KruskalsMST implements GraphTransformation {
      * @see graph.GraphTransform#transform(graph.Graph)
      */
     public Graph transform(Graph g) {
-        WeightedEdge[] edges = (WeightedEdge[]) g.getEdges().toArray(new WeightedEdge[0]);
+        final Set var = g.getEdges();
+        WeightedEdge[] edges = (WeightedEdge[]) var.toArray(new WeightedEdge[var.size()]);
         Arrays.sort(edges);
         for (int i = 0; i < g.getNodeCount(); i++) {
             g.getNode(i).getEdges().clear();      
@@ -34,12 +36,12 @@ public class KruskalsMST implements GraphTransformation {
             ranks[i] = 0;
             paths[i] = i;
         }
-        for (int i = 0; i < edges.length; i++) {
-            int in = edges[i].getA().getLabel();
-            int out = edges[i].getB().getLabel();
+        for (final WeightedEdge edge : edges) {
+            int in = edge.getA().getLabel();
+            int out = edge.getB().getLabel();
             if (set(in) != set(out)) {
                 combine(in, out);
-                g.getNode(in).connect(g.getNode(out), edges[i]);
+                g.getNode(in).connect(g.getNode(out), edge);
             }
         }
         ranks = null;

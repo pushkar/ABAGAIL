@@ -10,12 +10,12 @@ import java.awt.Graphics;
  */
 public class MazeMarkovDecisionProcessVisualization {
     /** How many pixels each square in the maze should be */
-    private int RESOLUTION = 20;
+    private final int RESOLUTION = 20;
     
     /**
      * The maze that is being visualized
      */
-    private MazeMarkovDecisionProcess mmdp;
+    private final MazeMarkovDecisionProcess mmdp;
     
     /**
      * Make a new maze markov decision process

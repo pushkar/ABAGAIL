@@ -13,15 +13,15 @@ public class PolicyIteration implements PolicyLearner {
     /**
      * The policy
      */
-    private Policy policy;
+    private final Policy policy;
     /**
      * The process
      */
-    private MarkovDecisionProcess process;
+    private final MarkovDecisionProcess process;
     /**
      * The decay value
      */
-    private double gamma;
+    private final double gamma;
 
     
     /**

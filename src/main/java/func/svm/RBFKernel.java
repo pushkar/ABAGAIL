@@ -13,12 +13,12 @@ public class RBFKernel extends Kernel {
     /**
      * The sigma parameter
      */
-    private double sigma;
+    private final double sigma;
     
     /**
      * The gamma value
      */
-    private double gamma;
+    private final double gamma;
     
     /**
      * Make a new radial basis function kernel

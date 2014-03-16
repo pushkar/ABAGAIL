@@ -13,12 +13,12 @@ public class DataSetWriter {
     /**
      * The dat set
      */
-    private DataSet set;
+    private final DataSet set;
     
     /**
      * The file name
      */
-    private String filename;
+    private final String filename;
 
     /**
      * True to append the results to the end of
@@ -28,9 +28,9 @@ public class DataSetWriter {
      *  dataset.
      * 
      */
-    private boolean append;
+    private final boolean append;
 
-    private String[] labelStrings;
+    private final String[] labelStrings;
 
     /**
      * Make a new data set writer

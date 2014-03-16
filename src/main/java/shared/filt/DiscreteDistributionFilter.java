@@ -17,7 +17,7 @@ public class DiscreteDistributionFilter implements DataSetFilter {
     /**
      * The classifier in use
      */
-    private ConditionalDistribution classifier;
+    private final ConditionalDistribution classifier;
     
     /**
      * Make a new classifier filter

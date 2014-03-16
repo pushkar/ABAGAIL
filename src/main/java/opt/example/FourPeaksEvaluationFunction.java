@@ -13,7 +13,7 @@ public class FourPeaksEvaluationFunction implements EvaluationFunction {
     /**
      * The t value
      */
-    private int t;
+    private final int t;
     
     /**
      * Make a new four peaks function

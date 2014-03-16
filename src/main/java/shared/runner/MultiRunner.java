@@ -17,9 +17,9 @@ import util.TimeUtil;
  */
 public class MultiRunner {
 
-    private Runner runner;
-    private int[] iterArray;
-    private int[] pctTrainArray;
+    private final Runner runner;
+    private final int[] iterArray;
+    private final int[] pctTrainArray;
     private Writer writer;
     private File outputFolder;
 

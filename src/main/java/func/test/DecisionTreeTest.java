@@ -44,8 +44,8 @@ public class DecisionTreeTest {
         DecisionTreeClassifier dt = new DecisionTreeClassifier(igse, null, true);
         dt.estimate(set);
         System.out.println(dt);
-        for (int i = 0; i < tests.length; i++) {
-            System.out.println(dt.value(tests[i]));
+        for (final Instance test : tests) {
+            System.out.println(dt.value(test));
         }
     }
 }

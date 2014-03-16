@@ -22,11 +22,11 @@ public class GaussianProcessRegression extends AbstractConditionalDistribution i
     /**
      * The kernel
      */
-    private Kernel kernel;
+    private final Kernel kernel;
     /**
      * The noise sigma
      */
-    private double noiseSigma;
+    private final double noiseSigma;
     /**
      * The kernel matrix
      */

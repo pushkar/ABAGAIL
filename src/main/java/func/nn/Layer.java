@@ -17,7 +17,7 @@ public class Layer implements Serializable {
 	/**
 	 * The list of nodes in this layer
 	 */
-	private List nodes;
+	private final List nodes;
 
 	/**
 	 * Make a new empty layer
@@ -121,8 +121,8 @@ public class Layer implements Serializable {
      */
     public List getLinks() {
         List links = new ArrayList();
-        for (int i = 0; i < nodes.size(); i++) {
-            Neuron n = (Neuron) nodes.get(i);
+        for (Object node : nodes) {
+            Neuron n = (Neuron) node;
             links.addAll(n.getInLinks());
         }
         return links;

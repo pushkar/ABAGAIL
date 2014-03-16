@@ -47,11 +47,11 @@ public class XORTest {
         fit.train();
         Instance opt = o.getOptimal();
         network.setWeights(opt.getData());
-        for (int i = 0; i < patterns.length; i++) {
-            network.setInputValues(patterns[i].getData());
+        for (final Instance pattern : patterns) {
+            network.setInputValues(pattern.getData());
             network.run();
             System.out.println("~~");
-            System.out.println(patterns[i].getLabel());
+            System.out.println(pattern.getLabel());
             System.out.println(network.getOutputValues());
         }
     } 

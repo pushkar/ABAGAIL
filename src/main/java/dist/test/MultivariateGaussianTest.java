@@ -33,9 +33,9 @@ public class MultivariateGaussianTest {
         for (int i = 0; i < 10; i++) {
             System.out.println(mg.sample(null));
         }
-        for (int i = 0; i < instances.length; i++) {
-            System.out.println("Probability of \n" + instances[i] 
-                + "\n " + mg.p(instances[i]));
+        for (final Instance instance : instances) {
+            System.out.println("Probability of \n" + instance
+                    + "\n " + mg.p(instance));
         }
     }
 

@@ -12,12 +12,12 @@ public class HouseholderReflection {
     /**
      * The householder vector
      */
-    private Vector v;
+    private final Vector v;
     
     /**
      * The scalar factor beta
      */
-    private double beta;
+    private final double beta;
     
     /**
      * Create a new householder reflection

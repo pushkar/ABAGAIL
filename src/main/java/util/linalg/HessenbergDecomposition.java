@@ -17,12 +17,12 @@ public class HessenbergDecomposition {
 	/**
 	 * The orthonormal matrix
 	 */
-	private RectangularMatrix u;
+	private final RectangularMatrix u;
 
 	/**
 	 * The upper hessenberg matrix
 	 */
-	private RectangularMatrix h;
+	private final RectangularMatrix h;
 
 	/**
 	 * Make a new hessenberg decomposition of

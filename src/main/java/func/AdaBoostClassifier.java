@@ -16,7 +16,7 @@ public class AdaBoostClassifier extends AbstractConditionalDistribution implemen
     /**
      * The classifier class to use
      */
-    private Class classifier;
+    private final Class classifier;
     
     /**
      * The stumps themselves
@@ -87,7 +87,7 @@ public class AdaBoostClassifier extends AbstractConditionalDistribution implemen
             try {
                 // make a new classifier
                 classifiers[i] = (FunctionApproximater) 
-                    classifier.getConstructor(new Class[0]).newInstance(new Object[0]);
+                    classifier.getConstructor(new Class[0]).newInstance();
                 classifiers[i].estimate(instances);
             } catch (Exception e) {
                 throw new UnsupportedOperationException("Could not create " + classifier);

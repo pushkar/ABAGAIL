@@ -14,8 +14,8 @@ import func.nn.NeuralNetwork;
  */
 public class NeuralNetworkTester implements Tester {
 
-    private NeuralNetwork network;
-    private TestMetric[] metrics;
+    private final NeuralNetwork network;
+    private final TestMetric[] metrics;
 
     public NeuralNetworkTester(NeuralNetwork network, TestMetric ... metrics) {
         this.network = network;
@@ -24,20 +24,20 @@ public class NeuralNetworkTester implements Tester {
 
     @Override
     public void test(Instance[] instances) {
-        for (int i = 0; i < instances.length; i++) {
+        for (final Instance instance : instances) {
             //run the instance data through the network
-            network.setInputValues(instances[i].getData());
+            network.setInputValues(instance.getData());
             network.run();
 
-            Instance expected = instances[i].getLabel();
-            Instance actual   = new Instance(network.getOutputValues());
+            Instance expected = instance.getLabel();
+            Instance actual = new Instance(network.getOutputValues());
 
             //collapse the values, for statistics reporting
             //NOTE: assumes discrete labels, with n output nodes for n
             // potential labels, and an activation function that outputs
             // values between 0 and 1.
             Instance expectedOne = DataSetLabelBinarySeperator.combineLabels(expected);
-            Instance actualOne   = DataSetLabelBinarySeperator.combineLabels(actual);
+            Instance actualOne = DataSetLabelBinarySeperator.combineLabels(actual);
 
             //run this result past all of the available test metrics
             for (TestMetric metric : metrics) {

@@ -13,17 +13,17 @@ public class BidiagonalDecomposition {
     /**
      * The resulting u matrix
      */
-    private RectangularMatrix u;
+    private final RectangularMatrix u;
     
     /**
      * The resulting v matrix
      */
-    private RectangularMatrix v;
+    private final RectangularMatrix v;
 
     /**
      * The resulting bidiagonal matrix b's diagonal
      */
-    private RectangularMatrix b;
+    private final RectangularMatrix b;
 
     /** 
      * Create a bidiagonal decomposition of the given matrix

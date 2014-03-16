@@ -9,7 +9,7 @@ package util;
 public class TimeUtil {
 
     public static String formatTime(long time) {
-        long secs = ((long) time) / 1000;
+        long secs = time / 1000;
         long min  = secs / 60;
         secs     -= min  * 60;
         return String.format("%02d:%02d", min, secs);

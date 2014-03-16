@@ -12,17 +12,17 @@ public class UpperTriangularMatrix extends Matrix {
 	/**
 	 * The row size
 	 */
-	private int m;
+	private final int m;
 	
 	/**
 	 * The column size
 	 */
-	private int n;
+	private final int n;
 	
 	/**
 	 * The internal data storage
 	 */
-	private double[][] data;
+	private final double[][] data;
 	
 	/**
 	 * Create a new square zero matrix that is
@@ -167,9 +167,7 @@ public class UpperTriangularMatrix extends Matrix {
 	public Copyable copy() {
 		UpperTriangularMatrix result = new UpperTriangularMatrix(m(), n());
 		for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < data[i].length; j++) {
-				result.data[i][j] = data[i][j];		
-			}
+            System.arraycopy(data[i], 0, result.data[i], 0, data[i].length);
 		}
 		return result;
 	}

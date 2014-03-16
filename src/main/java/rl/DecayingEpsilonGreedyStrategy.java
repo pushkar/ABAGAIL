@@ -15,7 +15,7 @@ public class DecayingEpsilonGreedyStrategy implements ExplorationStrategy {
     /**
      * The decay value
      */
-    private double decay;
+    private final double decay;
     
     /**
      * Make a epsilon greedy strategy

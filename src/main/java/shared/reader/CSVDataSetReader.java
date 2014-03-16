@@ -25,7 +25,7 @@ public class CSVDataSetReader extends DataSetReader {
 	public DataSet read() throws Exception {
         BufferedReader br = new BufferedReader(new FileReader(file));
         String line;
-        List<Instance> data = new ArrayList<Instance>();
+        List<Instance> data = new ArrayList<>();
         Pattern pattern = Pattern.compile("[ ,]+");
         while ((line = br.readLine()) != null) {
             String[] split = pattern.split(line.trim());
@@ -37,7 +37,7 @@ public class CSVDataSetReader extends DataSetReader {
             data.add(instance);
         }
         br.close();
-        Instance[] instances = (Instance[]) data.toArray(new Instance[0]);
+        Instance[] instances = data.toArray(new Instance[data.size()]);
         DataSet set = new DataSet(instances);
         set.setDescription(new DataSetDescription(set));
         return set;

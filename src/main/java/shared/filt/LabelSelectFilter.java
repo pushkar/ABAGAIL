@@ -17,7 +17,7 @@ public class LabelSelectFilter implements DataSetFilter {
     /**
      * The size of the data
      */
-    private int labelIndex;
+    private final int labelIndex;
     
     /**
      * Make a new label select filter

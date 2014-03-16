@@ -17,7 +17,7 @@ public abstract class DataSetReader {
     /** 
      * The files to read from 
      */
-    protected String file;
+    protected final String file;
     
     /**
      * Make a new instance reader

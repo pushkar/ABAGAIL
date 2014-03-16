@@ -9,15 +9,15 @@ public class ValueIteration implements PolicyLearner {
     /**
      * The decay value
      */
-    private double gamma;
+    private final double gamma;
     /**
      * The process
      */
-    private MarkovDecisionProcess process;
+    private final MarkovDecisionProcess process;
     /**
      * The values
      */
-    private double[] values;
+    private final double[] values;
     
     /**
      * Make a new value iteration

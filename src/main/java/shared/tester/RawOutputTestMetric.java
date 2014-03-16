@@ -4,7 +4,7 @@ import shared.Instance;
 
 public class RawOutputTestMetric implements TestMetric {
 
-    StringBuilder builder = new StringBuilder();
+    final StringBuilder builder = new StringBuilder();
     @Override
     public void addResult(Instance expected, Instance actual) {
         builder.append("Expected: ");

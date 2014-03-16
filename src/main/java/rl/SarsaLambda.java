@@ -14,11 +14,11 @@ public class SarsaLambda implements PolicyLearner {
     /**
      * The lambda value
      */
-    private double lambda;
+    private final double lambda;
     /**
      * The decay value
      */
-    private double gamma;
+    private final double gamma;
     /**
      * The alpha value
      */
@@ -26,24 +26,24 @@ public class SarsaLambda implements PolicyLearner {
     /**
      * How quickly to decay alpha
      */
-    private double decay;
+    private final double decay;
     
     /**
      * The exploration strategy
      */
-    private ExplorationStrategy strategy;
+    private final ExplorationStrategy strategy;
     /**
      * The process
      */
-    private MarkovDecisionProcess process;
+    private final MarkovDecisionProcess process;
     /**
      * The q values
      */
-    private double[][] values;
+    private final double[][] values;
     /**
      * The eligibility of each state action
      */
-    private double[][] eligibility;
+    private final double[][] eligibility;
     /**
      * The current state
      */

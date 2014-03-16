@@ -28,17 +28,17 @@ public class NeuralNetworkClassifier extends AbstractConditionalDistribution imp
     /**
      * The transfer function
      */
-    private DifferentiableActivationFunction activationFunction;
+    private final DifferentiableActivationFunction activationFunction;
     
     /**
      * The hidden node count
      */
-    private int hiddenNodeCount;
+    private final int hiddenNodeCount;
 
     /**
      * The training weight update rule
      */
-    private WeightUpdateRule updateRule;
+    private final WeightUpdateRule updateRule;
     
     /**
      * The network

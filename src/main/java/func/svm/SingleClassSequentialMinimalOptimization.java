@@ -37,28 +37,28 @@ public class SingleClassSequentialMinimalOptimization implements Trainer {
     /**
      * The instances
      */
-    private DataSet examples;
+    private final DataSet examples;
     
     /**
      * The kernel function
      */
-    private Kernel kernel;
+    private final Kernel kernel;
     
     /**
      * The slack value, all langrange multipliers are between
      * 0 and 1 / (v * l) where v is examples.size()
      */
-    private double v;
+    private final double v;
     
     /**
      * For convience v * l
      */
-    private double vl;
+    private final double vl;
     
     /**
      * The weights on the support vectors
      */
-    private double[] a;
+    private final double[] a;
     
     /**
      * The threshold subtracted when
@@ -159,8 +159,8 @@ public class SingleClassSequentialMinimalOptimization implements Trainer {
      */
     public SingleClassSupportVectorMachine getSupportVectorMachine() {
         int supportVectorCount = 0;
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != 0) {
+        for (final double anA : a) {
+            if (anA != 0) {
                 supportVectorCount++;
             }
         }
@@ -216,7 +216,7 @@ public class SingleClassSequentialMinimalOptimization implements Trainer {
         }
         // if the second choice hueristic fails we look
         // at all non bound indices, starting from a random point
-        int startI = (int) Math.random() * a.length;
+        int startI = (int) (Math.random() * a.length);
         i = startI;
         do {
             if (!isBound(i) && takeStep(i, j, oj)) {
@@ -226,7 +226,7 @@ public class SingleClassSequentialMinimalOptimization implements Trainer {
         } while (i != startI);
         // if that fails we look at all of the indices, starting from
         // a random point
-        startI = (int) Math.random() * a.length;
+        startI = (int) (Math.random() * a.length);
         i = startI;
         do {
             if (takeStep(i, j, oj)) {
@@ -329,7 +329,7 @@ public class SingleClassSequentialMinimalOptimization implements Trainer {
             return true;
         }
         // use any other non bound alpha
-        int startK = (int) Math.random() * a.length;
+        int startK = (int) (Math.random() * a.length);
         int k = startK;
         do {
             if (!isBound(k)) {

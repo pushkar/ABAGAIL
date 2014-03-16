@@ -23,7 +23,7 @@ public class DecisionStumpClassifier extends AbstractConditionalDistribution imp
     /**
      * The evaluator for deciding on splits
      */
-    private SplitEvaluator splitEvaluator;
+    private final SplitEvaluator splitEvaluator;
     
     /**
      * The stump itself

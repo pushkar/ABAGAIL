@@ -22,34 +22,34 @@ import dist.hmm.StateDistribution;
  */
 public class HMMConditionalMonsterTest {
     /** The sequence count */
-    private static int SEQUENCE_COUNT = 5;
+    private static final int SEQUENCE_COUNT = 5;
     /** The sequence count */
-    private static int SEQUENCE_LENGTH = 100;
+    private static final int SEQUENCE_LENGTH = 100;
 
     /** The state count */
-    private static int STATE_COUNT = 4;
+    private static final int STATE_COUNT = 4;
     
     /** The input range */
-    private static int INPUT_RANGE = 4;
+    private static final int INPUT_RANGE = 4;
     /** The smell left input */
-    private static int SMELL_DAY = 0;
+    private static final int SMELL_DAY = 0;
     /** The no smell input */
-    private static int NO_SMELL_DAY = 1;
+    private static final int NO_SMELL_DAY = 1;
     /** The smell left input */
-    private static int SMELL_NIGHT = 2;
+    private static final int SMELL_NIGHT = 2;
     /** The no smell input */
-    private static int NO_SMELL_NIGHT = 3;
+    private static final int NO_SMELL_NIGHT = 3;
 
     /** The output range */
-    private static int OUTPUT_RANGE = 4;
+    private static final int OUTPUT_RANGE = 4;
     /** The move left output */
-    private static int RUN_AWAY = 0;
+    private static final int RUN_AWAY = 0;
     /** The move right output */
-    private static int RUN_TOWARDS = 1;
+    private static final int RUN_TOWARDS = 1;
     /** The move up output */
-    private static int STAY_STILL = 2;
+    private static final int STAY_STILL = 2;
     /** The move up output */
-    private static int SLEEP = 3;
+    private static final int SLEEP = 3;
 
     
     /**

@@ -9,15 +9,15 @@ public class DiagonalMatrix extends Matrix {
     /**
      * The m value
      */
-    private int m;
+    private final int m;
     /**
      * The n value
      */
-    private int n;
+    private final int n;
     /**
      * The diagonal values
      */
-    private double[] diagonal;
+    private final double[] diagonal;
     
     /**
      * Make a new diagonal matrix

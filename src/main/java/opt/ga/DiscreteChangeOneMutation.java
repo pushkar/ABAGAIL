@@ -13,7 +13,7 @@ public class DiscreteChangeOneMutation implements MutationFunction {
     /**
      * The ranges of the different values
      */
-    private int[] ranges;
+    private final int[] ranges;
     
     /**
      * Make a new discrete change one mutation function

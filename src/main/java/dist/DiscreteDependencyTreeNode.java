@@ -18,11 +18,11 @@ public class DiscreteDependencyTreeNode extends Node {
     /** 
      * The conditional probabilities 
      */
-    private double[][] probabilities;
+    private final double[][] probabilities;
     /**
      * The parent
      */
-    private int parent;
+    private final int parent;
     
     /**
      * Make a dependency tree node

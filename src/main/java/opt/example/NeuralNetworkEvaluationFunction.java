@@ -16,15 +16,15 @@ public class NeuralNetworkEvaluationFunction implements EvaluationFunction {
     /**
      * The network
      */
-    private NeuralNetwork network;
+    private final NeuralNetwork network;
     /**
      * The examples
      */
-    private DataSet examples;
+    private final DataSet examples;
     /**
      * The error measure
      */
-    private ErrorMeasure measure;
+    private final ErrorMeasure measure;
     
     /**
      * Make a new neural network evaluation function

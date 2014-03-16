@@ -153,11 +153,11 @@ public class MaxHeap {
         /**
          * The item itself
          */
-        private Object object;
+        private final Object object;
         /**
          * The priority of the item 
          */
-        private double priority;
+        private final double priority;
         
         /**
          * Create a new queued item

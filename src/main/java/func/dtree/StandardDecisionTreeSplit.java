@@ -12,12 +12,12 @@ public class StandardDecisionTreeSplit extends DecisionTreeSplit {
     /**
      * The attribute being split on
      */
-    private int attribute;
+    private final int attribute;
     
     /**
      * The range of attributes for the split
      */
-    private int attributeRange;
+    private final int attributeRange;
     
     /**
      * Create a new standard decision tree split

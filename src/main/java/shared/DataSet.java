@@ -119,8 +119,8 @@ public class DataSet implements Copyable, Iterable<Instance> {
      */
     public String toString() {
         String result = "Description:\n" + description + "\n";
-        for (int i = 0; i < instances.length; i++) {
-            result += instances[i] + "\n";
+        for (final Instance instance : instances) {
+            result += instance + "\n";
         }
         return result;
     }

@@ -11,7 +11,7 @@ public class SigmoidKernel extends Kernel {
     /**
      * The weight of the dot product
      */
-    private double dotProductWeight;
+    private final double dotProductWeight;
     
     /**
      * The constant added on

@@ -12,7 +12,7 @@ public class MixedDistanceMeasure extends AbstractDistanceMeasure{
     /**
      * The distance measure for each attribute
      */
-    private AttributeType[] types;
+    private final AttributeType[] types;
     
     /**
      * Make a new mixed distance measure

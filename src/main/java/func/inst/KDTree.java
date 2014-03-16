@@ -24,17 +24,17 @@ public class KDTree implements Serializable {
     /** 
      * The head node of the kd tree
      */
-    private KDTreeNode head;
+    private final KDTreeNode head;
 
     /**
      * The dimensionality of the tree (k)
      */
-    private int dimensions;
+    private final int dimensions;
     
     /**
      * The distance measure to use
      */
-    private DistanceMeasure distanceMeasure;
+    private final DistanceMeasure distanceMeasure;
 
     /**
      * Build a kd tree from the given parallel arrays

@@ -17,7 +17,7 @@ public class BackPropagationNetwork extends FeedForwardNetwork {
 	public void backpropagate() {
 		((BackPropagationLayer) getOutputLayer()).backpropagate();
 		for (int i = getHiddenLayerCount() - 1; i >= 0; i--) {
-			((BackPropagationLayer) getHiddenLayer(i)).backpropagate();;
+			((BackPropagationLayer) getHiddenLayer(i)).backpropagate();
 		}
 	}
 
@@ -29,7 +29,7 @@ public class BackPropagationNetwork extends FeedForwardNetwork {
     public void clearError() {
         ((BackPropagationLayer) getOutputLayer()).clearError();
         for (int i = getHiddenLayerCount() - 1; i >= 0; i--) {
-            ((BackPropagationLayer) getHiddenLayer(i)).clearError();;
+            ((BackPropagationLayer) getHiddenLayer(i)).clearError();
         }
     }
     
@@ -40,7 +40,7 @@ public class BackPropagationNetwork extends FeedForwardNetwork {
     public void updateWeights(WeightUpdateRule rule) {
         ((BackPropagationLayer) getOutputLayer()).updateWeights(rule);
         for (int i = getHiddenLayerCount() - 1; i >= 0; i--) {
-            ((BackPropagationLayer) getHiddenLayer(i)).updateWeights(rule);;
+            ((BackPropagationLayer) getHiddenLayer(i)).updateWeights(rule);
         }
     }
     

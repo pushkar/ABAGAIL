@@ -15,12 +15,12 @@ public class GivensRotation {
     /**
      * The cosine of the angle
      */
-    private double cosine;
+    private final double cosine;
     
     /**
      * The sine of the angle
      */
-    private double sine;
+    private final double sine;
     
     /**
      * Create a new givens rotation

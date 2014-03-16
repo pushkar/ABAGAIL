@@ -10,12 +10,12 @@ public class FixedIterationTrainer implements Trainer {
     /**
      * The inner trainer
      */
-    private Trainer trainer;
+    private final Trainer trainer;
     
     /**
      * The number of iterations to train
      */
-    private int iterations;
+    private final int iterations;
     
     /**
      * Make a new fixed iterations trainer

@@ -15,7 +15,7 @@ public class ConditionalStateDistributionWrapper implements StateDistribution {
     /**
      * The conditional distribution being wrapped
      */
-    private ConditionalDistribution cd;
+    private final ConditionalDistribution cd;
     /**
      * Make a new state distribution
      * @param dist the conditional distribution to wrap

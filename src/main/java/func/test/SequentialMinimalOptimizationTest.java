@@ -46,12 +46,12 @@ public class SequentialMinimalOptimizationTest {
         SupportVectorMachine svm = smo.getSupportVectorMachine();
         System.out.println(svm.getSupportVectors().size());
         System.out.println("examples");
-        for (int i = 0; i < instances.length; i++) {
-            System.out.println(svm.margin(instances[i]));
+        for (final Instance instance : instances) {
+            System.out.println(svm.margin(instance));
         }
         System.out.println("tests");
-        for (int i = 0; i < tests.length; i++) {
-            System.out.println(svm.margin(new Instance(tests[i])));
+        for (final double[] test : tests) {
+            System.out.println(svm.margin(new Instance(test)));
         }
     }
 }

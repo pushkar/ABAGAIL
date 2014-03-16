@@ -11,8 +11,8 @@ import util.linalg.Vector;
  */
 public class Comparison {
 
-    private Instance expected;
-    private Instance actual;
+    private final Instance expected;
+    private final Instance actual;
     private double epsilon = 1e-6;
 
     public Comparison(Instance expected, Instance actual) {

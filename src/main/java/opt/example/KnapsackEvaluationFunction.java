@@ -14,17 +14,17 @@ public class KnapsackEvaluationFunction implements EvaluationFunction {
     /**
      * The weights for the things that can be put in the sack
      */
-    private double[] weights;
+    private final double[] weights;
     
     /**
      * The volumes for the things that can be put in the sack
      */
-    private double[] volumes;
+    private final double[] volumes;
     
     /**
      * The maximum volume in the knapsack
      */
-    private double maxVolume;
+    private final double maxVolume;
     
     /**
      * The maximum sum of all items

@@ -24,19 +24,19 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
     /**
      * The population size
      */
-    private int populationSize;
+    private final int populationSize;
     
     /**
      * The number of population to mate
      * each time step
      */
-    private int toMate;
+    private final int toMate;
     
     /**
      * The number of population to mutate
      * each time step
      */
-    private int toMutate;
+    private final int toMutate;
     
     /**
      * The population

@@ -10,7 +10,7 @@ public class KDTreeNode implements Serializable, Comparable {
     /**
      * The key corresponding to this node
      */
-    private Instance instance;
+    private final Instance instance;
     
     /**
      * The dimension along which this node is split

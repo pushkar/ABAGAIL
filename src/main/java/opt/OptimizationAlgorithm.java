@@ -12,7 +12,7 @@ public abstract class OptimizationAlgorithm implements Trainer {
     /**
      * The problem to optimize
      */
-    private OptimizationProblem op;
+    private final OptimizationProblem op;
     
     /**
      * Make a new optimization algorithm

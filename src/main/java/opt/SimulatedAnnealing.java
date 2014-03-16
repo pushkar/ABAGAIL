@@ -29,7 +29,7 @@ public class SimulatedAnnealing extends OptimizationAlgorithm {
     /**
      * The cooling parameter
      */
-    private double cooling;
+    private final double cooling;
     
     /**
      * Make a new simulated annealing hill climbing

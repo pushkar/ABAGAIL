@@ -14,7 +14,7 @@ public class Link implements Serializable {
     /**
      * The random number generator
      */
-    private static Random random = new Random();
+    private static final Random random = new Random();
 	
 	/**
 	 * The weight

@@ -12,7 +12,7 @@ public class RectangularMatrix extends Matrix {
 	/**
 	 * The data for the matrix
 	 */
-	private double[][] data;
+	private final double[][] data;
 	
 	/**
 	 * Create a new zeroed rectangular matrix
@@ -113,17 +113,17 @@ public class RectangularMatrix extends Matrix {
 	 */
 	public static RectangularMatrix diag(Matrix[] matrices) {
 		int m = 0, n = 0;
-		for (int i = 0; i < matrices.length; i++) {
-			m += matrices[i].m();
-			n += matrices[i].n();
-		}
+        for (final Matrix matrice1 : matrices) {
+            m += matrice1.m();
+            n += matrice1.n();
+        }
 		RectangularMatrix result = new RectangularMatrix(m, n);
 		int row = 0, column = 0;
-		for (int i = 0; i < matrices.length; i++) {
-			result.set(row, column, matrices[i]);
-			row += matrices[i].m();
-			column += matrices[i].n();
-		}
+        for (final Matrix matrice : matrices) {
+            result.set(row, column, matrice);
+            row += matrice.m();
+            column += matrice.n();
+        }
 		return result;
 	}
     

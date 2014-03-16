@@ -39,10 +39,10 @@ public class SimpleStateDistribution extends DiscreteDistribution
            probabilities[i] = 0;
         }
         // sum up expectations
-        for (int t = 0; t < expectations.length; t++) {
-            for (int j = 0; j < expectations[t].length; j++) {
-                probabilities[j] += expectations[t][j];
-                sum += expectations[t][j];
+        for (final double[] expectation : expectations) {
+            for (int j = 0; j < expectation.length; j++) {
+                probabilities[j] += expectation[j];
+                sum += expectation[j];
             }
         }
         // probability = expected / sum of expected

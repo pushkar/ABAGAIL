@@ -23,7 +23,7 @@ public class AttributeType {
     /**
      * The type of the attribute
      */
-    private int type;
+    private final int type;
     
     /**
      * Make a new attribute type
@@ -32,14 +32,24 @@ public class AttributeType {
     private AttributeType(int t) {
         type = t;
     }
-    
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
+
+    @Override
     public boolean equals(Object o) {
-        return ((AttributeType) o).type == type;
+        if (this == o) {
+            return true;
+        }
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        final AttributeType that = (AttributeType) o;
+        return type == that.type;
     }
-    
+
+    @Override
+    public int hashCode() {
+        return type;
+    }
+
     /**
      * @see java.lang.Object#toString()
      */

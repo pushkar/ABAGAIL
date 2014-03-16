@@ -15,7 +15,7 @@ public class FeedForwardNode extends Neuron {
 	/**
 	 * The transfer function
 	 */
-	private ActivationFunction activationFunction;
+	private final ActivationFunction activationFunction;
     
     /**
      * The weighted input sum

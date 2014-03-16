@@ -23,17 +23,17 @@ public class PrincipalComponentAnalysis implements ReversibleFilter {
     /**
      * The projection matrix
      */
-    private Matrix projection;
+    private final Matrix projection;
     
     /**
      * The eigen value matrix
      */
-    private Matrix eigenValues;
+    private final Matrix eigenValues;
     
     /**
      * The mean vector
      */
-    private Vector mean;
+    private final Vector mean;
     
     /**
      * Make a new PCA filter

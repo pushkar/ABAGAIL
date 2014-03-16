@@ -11,7 +11,7 @@ public class CholeskyFactorization {
 	/**
 	 * The lower triangular matrix
 	 */
-	private LowerTriangularMatrix l;
+	private final LowerTriangularMatrix l;
 	
 	/**
 	 * The transpose of the matrix

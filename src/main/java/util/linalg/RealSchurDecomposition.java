@@ -22,12 +22,12 @@ public class RealSchurDecomposition {
 	/**
 	 * The orthonormal matrix of eigenvectors.
 	 */
-	private RectangularMatrix u;
+	private final RectangularMatrix u;
 	
 	/**
 	 * The quasi upper triangular matrix
 	 */
-	private RectangularMatrix t;
+	private final RectangularMatrix t;
 
 	/**
 	 * Create a new decomposition of the

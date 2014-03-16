@@ -10,12 +10,12 @@ public class StandardUpdateRule extends WeightUpdateRule {
     /**
      * The learning rate to use
      */
-    private double learningRate;
+    private final double learningRate;
     
     /**
      * The momentum to use
      */
-    private double momentum;
+    private final double momentum;
 
     /**
      * Create a new standard momentum update rule

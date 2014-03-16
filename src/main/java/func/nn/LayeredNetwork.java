@@ -25,7 +25,7 @@ public abstract class LayeredNetwork extends NeuralNetwork {
 	/**
 	 * The list of middle layers
 	 */
-	private List hiddenLayers;
+	private final List hiddenLayers;
     
     /**
      * The cached list of links

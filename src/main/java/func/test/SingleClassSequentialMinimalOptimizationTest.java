@@ -38,8 +38,8 @@ public class SingleClassSequentialMinimalOptimizationTest {
             }
         }
         double avgP = 0;
-        for (int i = 0; i < instances.length; i++) {
-            avgP += mga.p(instances[i]);
+        for (final Instance instance1 : instances) {
+            avgP += mga.p(instance1);
         }
         System.out.println("Average p : " + avgP / instances.length);
         PolynomialKernel pk = new PolynomialKernel(2, true);
@@ -56,8 +56,8 @@ public class SingleClassSequentialMinimalOptimizationTest {
         System.out.println("Num svs " + svm.getSupportVectors().size());
         instances = svm.getSupportVectors().getInstances();
         avgP = 0;
-        for (int i = 0; i < instances.length; i++) {
-            avgP += mga.p(instances[i]);
+        for (final Instance instance : instances) {
+            avgP += mga.p(instance);
         }
         System.out.println("SV Average p: " + avgP / instances.length);
         return;

@@ -31,8 +31,8 @@ public class AdaBoostTest {
         AdaBoostClassifier ds = new AdaBoostClassifier(20, DecisionStumpClassifier.class);
         ds.estimate(set);
         System.out.println(ds);
-        for (int i = 0; i < tests.length; i++) {
-            System.out.println(ds.value(tests[i]));
+        for (final Instance test : tests) {
+            System.out.println(ds.value(test));
         }
     }
 }

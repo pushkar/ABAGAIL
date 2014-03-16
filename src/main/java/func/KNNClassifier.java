@@ -24,7 +24,7 @@ public class KNNClassifier extends AbstractConditionalDistribution implements Fu
     /**
      * The range limit for the neighbors
      */
-    private double range;
+    private final double range;
     
     /**
      * The number of neighbors
@@ -118,19 +118,20 @@ public class KNNClassifier extends AbstractConditionalDistribution implements Fu
         } else {
             results = tree.knn(data, k);
         }
-        for (int i = 0; i < results.length; i++) {
-            Instance neighbor = (Instance) results[i];
+        for (final Object result : results) {
+            Instance neighbor = (Instance) result;
             if (weightByDistance) {
                 distribution[neighbor.getLabel().getDiscrete()] +=
-                     neighbor.getWeight()/distanceMeasure.value(data, neighbor);
+                        neighbor.getWeight() /
+                                distanceMeasure.value(data, neighbor);
             } else {
                 distribution[neighbor.getLabel().getDiscrete()] +=
-                     neighbor.getWeight();
+                        neighbor.getWeight();
             }
         }
         double sum = 0;
-        for (int i = 0; i < distribution.length; i++) {
-            sum += distribution[i];
+        for (final double aDistribution : distribution) {
+            sum += aDistribution;
         }
         if (Double.isInfinite(sum)) {
             sum = 0;

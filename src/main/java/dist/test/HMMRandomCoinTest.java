@@ -48,8 +48,8 @@ public class HMMRandomCoinTest {
         };
         System.out.println(model + "\n");
         System.out.println("Observation Sequences: ");
-        for (int i = 0; i < sequences.length; i++) {
-            System.out.println(sequences[i]);
+        for (final DataSet sequence1 : sequences) {
+            System.out.println(sequence1);
         }
         System.out.println();
         ForwardBackwardProbabilityCalculator fbc = new ForwardBackwardProbabilityCalculator(model, sequences[0]);
@@ -59,8 +59,8 @@ public class HMMRandomCoinTest {
         StateSequenceCalculator vc = new StateSequenceCalculator(model, sequences[0]);
         int[] states = vc.calculateStateSequence();
         System.out.println("Most likely state sequence of first sequence: ");
-        for (int i = 0; i < states.length; i++) {
-            System.out.print(states[i] + " ");
+        for (final int state : states) {
+            System.out.print(state + " ");
         }
         System.out.println();
         System.out.println();

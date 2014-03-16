@@ -16,11 +16,11 @@ public class GenericGeneticAlgorithmProblem extends GenericOptimizationProblem i
     /**
      * The cross over function
      */
-    private CrossoverFunction crossover;
+    private final CrossoverFunction crossover;
     /**
      * The mutation function
      */
-    private MutationFunction mutation;
+    private final MutationFunction mutation;
 
     /**
      * Make a new generic genetic algorithm problem

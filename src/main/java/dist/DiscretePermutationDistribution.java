@@ -14,7 +14,7 @@ public class DiscretePermutationDistribution extends AbstractDistribution {
     /**
      * The size of the data
      */
-    private int n;
+    private final int n;
     
     /**
      * The probability

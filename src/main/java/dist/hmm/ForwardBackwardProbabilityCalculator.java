@@ -39,12 +39,12 @@ public class ForwardBackwardProbabilityCalculator {
     /**
      * The model used to calculate the probabilities
      */
-    private HiddenMarkovModel model;
+    private final HiddenMarkovModel model;
     
     /**
      * The observation sequence used to calculate probabilities
      */
-    private DataSet observationSequence;
+    private final DataSet observationSequence;
     
     /**
      * Create a new probability calculator

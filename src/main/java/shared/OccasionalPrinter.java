@@ -9,11 +9,11 @@ public class OccasionalPrinter implements Trainer {
     /**
      * The trainer being trained
      */
-    private Trainer trainer;
+    private final Trainer trainer;
     /**
      * How many iterations to go between print
      */
-    private int iterationsPerPrint;
+    private final int iterationsPerPrint;
     /**
      * The current iteration
      */

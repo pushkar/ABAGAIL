@@ -10,7 +10,7 @@ public class QuickpropUpdateRule extends WeightUpdateRule {
     /**
      * The learning rate
      */
-    private double learningRate;
+    private final double learningRate;
 
     /**
      * Make a new quickprop update rule

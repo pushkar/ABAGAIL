@@ -10,7 +10,7 @@ public class DenseVector extends Vector {
     /**
      * The data
      */
-    private double[] data;
+    private final double[] data;
     
     /**
      * Make a new dense vector

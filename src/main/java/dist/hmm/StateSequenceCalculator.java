@@ -15,12 +15,12 @@ public class StateSequenceCalculator {
     /**
      * The hidden markov model being used
      */
-    private HiddenMarkovModel model;
+    private final HiddenMarkovModel model;
     
     /**
      * The observation sequence being used
      */
-    private DataSet observations;
+    private final DataSet observations;
 
     /**
      * The [t][i] entry of this matrix represents

@@ -14,17 +14,17 @@ public class NearestNeighborQueue {
      * The queue based on distance, that is
      * the items farthest from the target are the first to go
      */
-    private MaxHeap queue;
+    private final MaxHeap queue;
     
     /**
      * The number of items we are searching for
      */
-    private int k;
+    private final int k;
     
     /**
      * The maximum distance for range searches
      */
-    private double maxDistance;
+    private final double maxDistance;
     
     /**
      * Make a new search results object

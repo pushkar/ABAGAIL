@@ -31,16 +31,16 @@ public class EMClusterer extends AbstractConditionalDistribution implements Func
     /**
      * The number of clusters
      */
-    private int k;
+    private final int k;
     /**
      * The threshold
      */
-    private double tolerance;
+    private final double tolerance;
     
     /**
      * The max iterations
      */
-    private int maxIterations;
+    private final int maxIterations;
     
     /**
      * How many iterations it took

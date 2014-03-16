@@ -9,7 +9,7 @@ public class BasicUpdateRule extends WeightUpdateRule {
     /**
      * The learning rate to use
      */
-    private double learningRate;
+    private final double learningRate;
 
 
     /**

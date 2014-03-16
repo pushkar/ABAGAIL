@@ -18,7 +18,7 @@ public class HiddenMarkovModelReestimator implements Trainer {
     /**
      * The array of observation sequences
      */
-    private DataSet[] observationSequences;
+    private final DataSet[] observationSequences;
     
     /**
      * The hidden markov model itself
@@ -30,13 +30,13 @@ public class HiddenMarkovModelReestimator implements Trainer {
      * transitions between i and j at time t given
      * observation sequence k
      */
-    private double[][][][] transitionExpectations;
+    private final double[][][][] transitionExpectations;
     
     /**
      * The [k][t][i] value is the expected number of
      * times in state i at time t given sequence k
      */
-    private double[][][] stateExpectations;
+    private final double[][][] stateExpectations;
     
     /**
      * The output observations
@@ -83,16 +83,16 @@ public class HiddenMarkovModelReestimator implements Trainer {
      */
     public void initializeOutputObservations() {
 		int totalTime = 0;
-		for (int k = 0; k < observationSequences.length; k++) {
-			totalTime += observationSequences[k].size();
-		}
+        for (final DataSet observationSequence1 : observationSequences) {
+            totalTime += observationSequence1.size();
+        }
 		Instance[] outputObservationsInstances = new Instance[totalTime];
 		int j = 0;
-		for (int k = 0; k < observationSequences.length; k++) {
-            Instance[] cur = observationSequences[k].getInstances();
-			System.arraycopy(cur, 0, outputObservationsInstances, j, cur.length);
-			j += cur.length;
-		}
+        for (final DataSet observationSequence : observationSequences) {
+            Instance[] cur = observationSequence.getInstances();
+            System.arraycopy(cur, 0, outputObservationsInstances, j, cur.length);
+            j += cur.length;
+        }
         outputObservations = new DataSet(outputObservationsInstances,
             observationSequences[0].getDescription());
     }
@@ -113,17 +113,18 @@ public class HiddenMarkovModelReestimator implements Trainer {
      * Initialize the transition observations array
      */
     public void initializeTransitionObservations() {
-		int totalTime = 0;	
-		for (int k = 0; k < observationSequences.length; k++) {
-			totalTime += observationSequences[k].size() - 1;
-		}
+		int totalTime = 0;
+        for (final DataSet observationSequence1 : observationSequences) {
+            totalTime += observationSequence1.size() - 1;
+        }
 		Instance[] transitionObservationsInstances = new Instance[totalTime];
 		int j = 0;
-		for (int k = 0; k < observationSequences.length; k++) {
-            Instance[] cur = observationSequences[k].getInstances();
-			System.arraycopy(cur, 1, transitionObservationsInstances, j, cur.length - 1);
-			j += cur.length - 1;
-		}
+        for (final DataSet observationSequence : observationSequences) {
+            Instance[] cur = observationSequence.getInstances();
+            System.arraycopy(cur, 1, transitionObservationsInstances, j,
+                    cur.length - 1);
+            j += cur.length - 1;
+        }
         transitionObservations = new DataSet(transitionObservationsInstances,
             observationSequences[0].getDescription());
     }
@@ -211,9 +212,7 @@ public class HiddenMarkovModelReestimator implements Trainer {
         double[][] initialStateProbabilities = new double[observationSequences.length]
              [model.getStateCount()];
         for (int k = 0; k < observationSequences.length; k++) {
-            for (int i = 0; i < model.getStateCount(); i++) {
-                initialStateProbabilities[k][i] = stateExpectations[k][0][i];
-            }
+            System.arraycopy(stateExpectations[k][0], 0, initialStateProbabilities[k], 0, model.getStateCount());
         }
         model.estimateIntialStateDistribution(initialStateProbabilities, initialObservations);
     }

@@ -26,8 +26,8 @@ public class ConfusionMatrixTestMetric implements TestMetric {
      *
      */
     private class MatrixEntry {
-        private Instance expected;
-        private Instance actual;
+        private final Instance expected;
+        private final Instance actual;
         
         public MatrixEntry(Instance expected, Instance actual) {
             this.expected = expected;
@@ -66,9 +66,9 @@ public class ConfusionMatrixTestMetric implements TestMetric {
 
     private Instance[] labels;
     private String[]   labelStrs;
-    private Instance nullLabel = new Instance(-1);
+    private final Instance nullLabel = new Instance(-1);
     
-    private Map<MatrixEntry, Integer> matrix = new HashMap<MatrixEntry, Integer>();
+    private final Map<MatrixEntry, Integer> matrix = new HashMap<>();
 
     /**
      * Construct the test metric with double valued labels.

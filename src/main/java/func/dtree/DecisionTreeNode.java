@@ -10,17 +10,17 @@ public class DecisionTreeNode {
     /**
      * The split used on this node for a non leaf node, or null for a leaf
      */
-    private DecisionTreeSplit split;
+    private final DecisionTreeSplit split;
     
     /**
      * The statistics for the split for a non leaf node, or null for a leaf
      */
-    private DecisionTreeSplitStatistics stats;
+    private final DecisionTreeSplitStatistics stats;
 
     /**
      * The child nodes for a non leaf node, or null for a leaf
      */
-    private DecisionTreeNode[] nodes;
+    private final DecisionTreeNode[] nodes;
     
     /**
      * Create a new non leaf node
@@ -40,8 +40,8 @@ public class DecisionTreeNode {
      * @return true if they are
      */
     public boolean isLeaf() {
-        for (int i = 0; i < nodes.length; i++) {
-            if (nodes[i] != null) {
+        for (final DecisionTreeNode node : nodes) {
+            if (node != null) {
                 return false;
             }
         }
@@ -98,8 +98,8 @@ public class DecisionTreeNode {
                     probabilities = stats.getConditionalClassProbabilities(i);
                 }
                 ret += indentation;
-                for (int j = 0; j < probabilities.length; j++) {
-                    ret += probabilities[j] + " ";
+                for (final double probability : probabilities) {
+                    ret += probability + " ";
                 }
                 ret += "\n";
             }

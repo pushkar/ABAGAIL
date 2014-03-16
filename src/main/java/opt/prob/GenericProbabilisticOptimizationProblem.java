@@ -14,7 +14,7 @@ public class GenericProbabilisticOptimizationProblem extends GenericOptimization
     /**
      * The distribution
      */
-    private Distribution dist;
+    private final Distribution dist;
 
     /**
      * Make a new generic probabilisitic optimiziation problem

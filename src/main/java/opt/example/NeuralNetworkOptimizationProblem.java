@@ -27,23 +27,23 @@ public class NeuralNetworkOptimizationProblem implements HillClimbingProblem, Ge
     /**
      * The evaluation function
      */
-    private EvaluationFunction eval;
+    private final EvaluationFunction eval;
     /**
      * The cross over function
      */
-    private CrossoverFunction crossover;
+    private final CrossoverFunction crossover;
     /**
      * The neighbor function
      */
-    private NeighborFunction neighbor;
+    private final NeighborFunction neighbor;
     /**
      * The mutation function
      */
-    private MutationFunction mutate;
+    private final MutationFunction mutate;
     /**
      * The distribution
      */
-    private Distribution dist;
+    private final Distribution dist;
     
     /**
      * Make a new neural network optimization

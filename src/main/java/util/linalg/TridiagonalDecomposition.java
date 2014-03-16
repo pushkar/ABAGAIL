@@ -12,12 +12,12 @@ public class TridiagonalDecomposition {
 	/**
 	 * The tridiagonal matrix t
 	 */
-	private RectangularMatrix t;
+	private final RectangularMatrix t;
 	
 	/**
 	 * The orthonormal matrix
 	 */
-	private RectangularMatrix u;
+	private final RectangularMatrix u;
 
 	/**
 	 * Create a new tridiagonal decomposition

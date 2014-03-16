@@ -13,28 +13,28 @@ public class DecisionTreeSplitStatistics {
     /**
      * The instance counts for each of the branches
      */
-    private int[] instanceCounts;
+    private final int[] instanceCounts;
     
     /**
      * The class probabilities
      * that is classProbabilities[i] is 
      * the P(class = i)
      */
-    private double[] classProbabilities;
+    private final double[] classProbabilities;
     
     /**
      * The conditional probabilities
      * that is conditionalClassProbabilities[i][j] is
      * the P(class = j | instance is in branch i)
      */
-    private double[][] conditionalClassProbabilities;
+    private final double[][] conditionalClassProbabilities;
     
     /**
      * The branch probabilities
      * that is branchProbabilities[i] is
      * the P(instance is in branch i)
      */
-    private double[] branchProbabilities;
+    private final double[] branchProbabilities;
     
     /**
      * Calculate statistics from the given split and instances

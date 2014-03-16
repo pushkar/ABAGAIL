@@ -13,7 +13,7 @@ public class DiscreteDependencyTreeTest {
     /**
      * The test data
      */
-    private static Instance[] data = new Instance[] {
+    private static final Instance[] data = new Instance[] {
         new Instance(new double[] { 0, 4, 4 , 4}),
         new Instance(new double[] { 4, 0, 1 , 0}),
         new Instance(new double[] { 4, 1, 0 , 1}),
@@ -35,8 +35,8 @@ public class DiscreteDependencyTreeTest {
         System.out.println("Most likely");
         System.out.println(ddtd.mode(null));
         System.out.println("Probabilities of training data");
-        for (int i = 0; i < data.length; i++) {
-            System.out.println(ddtd.p(data[i]));
+        for (final Instance aData : data) {
+            System.out.println(ddtd.p(aData));
         }
     }
 

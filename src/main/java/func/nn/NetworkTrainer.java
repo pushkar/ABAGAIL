@@ -15,17 +15,17 @@ public abstract class NetworkTrainer implements Trainer {
     /**
      * The patterns that are being trained on
      */
-    private DataSet patterns;
+    private final DataSet patterns;
     
     /**
      * The network being trained
      */
-    private NeuralNetwork network;
+    private final NeuralNetwork network;
     
     /**
      * The error measure to use in training
      */
-    private ErrorMeasure errorMeasure;
+    private final ErrorMeasure errorMeasure;
     
     /**
      * Make a new network trainer

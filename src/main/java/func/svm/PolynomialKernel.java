@@ -11,7 +11,7 @@ public class PolynomialKernel extends Kernel {
     /**
      * The weight of the dot product
      */
-    private double dotProductWeight;
+    private final double dotProductWeight;
     
     /**
      * The constant added on
@@ -21,7 +21,7 @@ public class PolynomialKernel extends Kernel {
     /**
      * The exponent in the polynomial
      */
-    private int exponent;
+    private final int exponent;
     
     /**
      * Make a new polynomial kernel

@@ -20,23 +20,26 @@ import java.text.*;
  * @version 1.0
  */
 public class AbaloneTest {
-    private static Instance[] instances = initializeInstances();
+    private static final Instance[] instances = initializeInstances();
 
-    private static int inputLayer = 7, hiddenLayer = 5, outputLayer = 1, trainingIterations = 1000;
-    private static BackPropagationNetworkFactory factory = new BackPropagationNetworkFactory();
+    private static final int inputLayer = 7;
+    private static final int hiddenLayer = 5;
+    private static final int outputLayer = 1;
+    private static final int trainingIterations = 1000;
+    private static final BackPropagationNetworkFactory factory = new BackPropagationNetworkFactory();
     
-    private static ErrorMeasure measure = new SumOfSquaresError();
+    private static final ErrorMeasure measure = new SumOfSquaresError();
 
-    private static DataSet set = new DataSet(instances);
+    private static final DataSet set = new DataSet(instances);
 
-    private static BackPropagationNetwork networks[] = new BackPropagationNetwork[3];
-    private static NeuralNetworkOptimizationProblem[] nnop = new NeuralNetworkOptimizationProblem[3];
+    private static final BackPropagationNetwork[] networks = new BackPropagationNetwork[3];
+    private static final NeuralNetworkOptimizationProblem[] nnop = new NeuralNetworkOptimizationProblem[3];
 
-    private static OptimizationAlgorithm[] oa = new OptimizationAlgorithm[3];
-    private static String[] oaNames = {"RHC", "SA", "GA"};
+    private static final OptimizationAlgorithm[] oa = new OptimizationAlgorithm[3];
+    private static final String[] oaNames = {"RHC", "SA", "GA"};
     private static String results = "";
 
-    private static DecimalFormat df = new DecimalFormat("0.000");
+    private static final DecimalFormat df = new DecimalFormat("0.000");
 
     public static void main(String[] args) {
         for(int i = 0; i < oa.length; i++) {
@@ -61,14 +64,15 @@ public class AbaloneTest {
 
             double predicted, actual;
             start = System.nanoTime();
-            for(int j = 0; j < instances.length; j++) {
-                networks[i].setInputValues(instances[j].getData());
+            for (final Instance instance : instances) {
+                networks[i].setInputValues(instance.getData());
                 networks[i].run();
 
-                predicted = Double.parseDouble(instances[j].getLabel().toString());
+                predicted = Double.parseDouble(instance.getLabel().toString());
                 actual = Double.parseDouble(networks[i].getOutputValues().toString());
 
-                double trash = Math.abs(predicted - actual) < 0.5 ? correct++ : incorrect++;
+                double trash = Math.abs(predicted - actual) < 0.5 ? correct++ :
+                        incorrect++;
 
             }
             end = System.nanoTime();
@@ -91,11 +95,11 @@ public class AbaloneTest {
             oa.train();
 
             double error = 0;
-            for(int j = 0; j < instances.length; j++) {
-                network.setInputValues(instances[j].getData());
+            for (final Instance instance : instances) {
+                network.setInputValues(instance.getData());
                 network.run();
 
-                Instance output = instances[j].getLabel(), example = new Instance(network.getOutputValues());
+                Instance output = instance.getLabel(), example = new Instance(network.getOutputValues());
                 example.setLabel(new Instance(Double.parseDouble(network.getOutputValues().toString())));
                 error += measure.value(output, example);
             }

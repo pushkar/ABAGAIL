@@ -33,7 +33,7 @@ public class DiscreteDependencyTree extends AbstractDistribution {
     /**
      * The m value
      */
-    private double m;
+    private final double m;
     
     /**
      * Description the data set
@@ -196,10 +196,10 @@ public class DiscreteDependencyTree extends AbstractDistribution {
                 // and the entropy of x_j
                 mutualI[i][j] += entropies[j];
                 // subtract the joint entropy
-                for (int k = 0; k < joints.length; k++) {
-                    for (int l = 0; l < joints[k].length; l++) {
-                        if (joints[k][l] != 0) {
-                            mutualI[i][j] += joints[k][l] * Math.log(joints[k][l]);
+                for (final double[] joint : joints) {
+                    for (int l = 0; l < joint.length; l++) {
+                        if (joint[l] != 0) {
+                            mutualI[i][j] += joint[l] * Math.log(joint[l]);
                         }
                     }
                 }

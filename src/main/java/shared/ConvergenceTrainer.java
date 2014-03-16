@@ -14,12 +14,12 @@ public class ConvergenceTrainer implements Trainer {
     /**
      * The trainer
      */
-    private Trainer trainer;
+    private final Trainer trainer;
 
     /**
      * The threshold
      */
-    private double threshold;
+    private final double threshold;
     
     /**
      * The number of iterations trained
@@ -29,7 +29,7 @@ public class ConvergenceTrainer implements Trainer {
     /**
      * The maximum number of iterations to use
      */
-    private int maxIterations;
+    private final int maxIterations;
 
     /**
      * Create a new convergence trainer

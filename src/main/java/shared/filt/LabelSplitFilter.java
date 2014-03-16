@@ -15,7 +15,7 @@ public class LabelSplitFilter implements DataSetFilter {
     /**
      * The size of the data
      */
-    private int labelCount;
+    private final int labelCount;
     
     /**
      * Make a new label data split filter

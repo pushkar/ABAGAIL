@@ -13,12 +13,12 @@ public class Neuron implements Serializable {
 	/**
 	 * The list of in links
 	 */
-	private List inLinks;
+	private final List inLinks;
 	
 	/**
 	 * The list of out links
 	 */
-	private List outLinks;
+	private final List outLinks;
 
 	/**
 	 * The value of the node

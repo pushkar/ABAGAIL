@@ -15,7 +15,7 @@ public class NeuralNetworkWeightDistribution extends AbstractDistribution {
     /** 
      * The weight count
      */ 
-    private int weightCount;
+    private final int weightCount;
     
     /**
      * Make a new neural network weight distribution

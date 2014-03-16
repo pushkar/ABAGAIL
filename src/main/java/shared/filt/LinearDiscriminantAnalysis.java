@@ -23,11 +23,11 @@ public class LinearDiscriminantAnalysis implements ReversibleFilter {
     /**
      * The projection matrix
      */
-    private Matrix projection;
+    private final Matrix projection;
     /**
      * The mean
      */
-    private Vector mean;
+    private final Vector mean;
     
     /**
      * Make a new PCA filter

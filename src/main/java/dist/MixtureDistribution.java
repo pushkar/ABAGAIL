@@ -18,12 +18,12 @@ public class MixtureDistribution extends AbstractDistribution implements Copyabl
     /**
      * The knowledge of appropriate distributions
      */
-    private Distribution[] components;
+    private final Distribution[] components;
     
     /**
      * The confidence in the  distributions
      */
-    private DiscreteDistribution componentDistribution;
+    private final DiscreteDistribution componentDistribution;
     
     /**
      * Create a new knowledge based output distribution
@@ -140,8 +140,8 @@ public class MixtureDistribution extends AbstractDistribution implements Copyabl
      */
     public String toString() {
         String result = componentDistribution.toString() + "\n";
-        for (int i = 0; i < components.length; i++) {
-            result += components[i] + "\n";
+        for (final Distribution component : components) {
+            result += component + "\n";
         }
         return result + "\n";
     }

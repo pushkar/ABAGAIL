@@ -270,21 +270,22 @@ public abstract class Vector implements Serializable, Copyable {
 		return new DenseVector(copy);
 	}
 
-    /**
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     public boolean equals(Object o) {
-       Vector v = (Vector) o;
-       if (v.size() != size()) {
-           return false;
-       }
-       for (int i = 0; i < v.size(); i++) {
+        if(o == this) {
+            return true;
+        }
+        Vector v = (Vector) o;
+        if (v.size() != size()) {
+            return false;
+        }
+        for (int i = 0; i < v.size(); i++) {
             if (get(i) != v.get(i)) {
                 return false;
             }
-       }
-       return true;
+        }
+        return true;
     }
+
     
     /**
      * @see java.lang.Object#toString()

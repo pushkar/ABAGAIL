@@ -10,7 +10,7 @@ public class ChiSquarePruningCriteria extends PruningCriteria {
      * A value of 0, 1, 2, 3, 4
      * representing a confidence of .1, .05, .025, .01, .001.
      */
-    private int confidence;
+    private final int confidence;
     
     /**
      * Create a new chi square pruning criteria

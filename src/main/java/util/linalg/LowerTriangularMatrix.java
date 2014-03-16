@@ -12,17 +12,17 @@ public class LowerTriangularMatrix extends Matrix {
 	/**
 	 * The number of rows in the matrix
 	 */
-	private int m;
+	private final int m;
 	
 	/**
 	 * The number of columns in the matrix
 	 */
-	private int n;
+	private final int n;
 
 	/**
 	 * The data of the matrix
 	 */
-	private double[][] data;
+	private final double[][] data;
 
 	/**
 	 * Create a new square zero matrix that is
@@ -164,9 +164,7 @@ public class LowerTriangularMatrix extends Matrix {
 	public Copyable copy() {
 		LowerTriangularMatrix result = new LowerTriangularMatrix(m(), n());
 		for (int i = 0; i < data.length; i++) {
-			for (int j = 0; j < data[i].length; j++) {
-				result.data[i][j] = data[i][j];		
-			}
+            System.arraycopy(data[i], 0, result.data[i], 0, data[i].length);
 		}
 		return result;
 	}

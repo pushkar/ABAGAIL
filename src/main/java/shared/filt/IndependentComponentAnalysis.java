@@ -20,16 +20,16 @@ public class IndependentComponentAnalysis implements ReversibleFilter {
     /**
      * The projection matrix
      */
-    private Matrix projection;
+    private final Matrix projection;
     /**
      * The reverse projection
      */
-    private Matrix reverseProjection;
+    private final Matrix reverseProjection;
     
     /**
      * The pca preprocessing filter
      */
-    private PrincipalComponentAnalysis pca;
+    private final PrincipalComponentAnalysis pca;
 
     /**
      * Make a new ICA filter

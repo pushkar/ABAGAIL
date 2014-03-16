@@ -19,17 +19,17 @@ public class RPROPUpdateRule extends WeightUpdateRule {
 	/**
 	 * The initial learning rate
 	 */
-	private double initialLearningRate;
+	private final double initialLearningRate;
 
 	/**
 	 * The max learning rate
 	 */
-	private double maxLearningRate;
+	private final double maxLearningRate;
 	
 	/**
 	 * The min learning rate
 	 */
-	private double minLearningRate;
+	private final double minLearningRate;
 	
 	/**
 	 * Make a new rprop update rule

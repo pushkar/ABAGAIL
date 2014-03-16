@@ -17,12 +17,12 @@ public class DataSetLabelBinarySeperator {
     
 	public static void seperateLabels(DataSet set) {
 		int numberOfLabels = 0;
-		ArrayList<Integer> labels = new ArrayList<Integer>();
+		ArrayList<Integer> labels = new ArrayList<>();
 		//count up the number of distinct labels
 		for(int i = 0; i < set.size(); i++){
 			if(!labels.contains(new Integer(set.getInstances()[i].getLabel().getDiscrete()))){
 				numberOfLabels++;
-				labels.add(new Integer(set.getInstances()[i].getLabel().getDiscrete()));
+				labels.add(set.getInstances()[i].getLabel().getDiscrete());
 			}
 		}
 		double[] values = new double[numberOfLabels];

@@ -18,7 +18,7 @@ public class DiscreteDependencyTreeRootNode extends Node {
     /**
      * The unconditional probabilities
      */
-    private double[] probabilities;
+    private final double[] probabilities;
     
     /**
      * Build a dependency tree root out of the given node

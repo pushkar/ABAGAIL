@@ -37,23 +37,23 @@ public class SequentialMinimalOptimization implements Trainer {
     /**
      * The instances
      */
-    private DataSet examples;
+    private final DataSet examples;
     
     /**
      * The kernel function
      */
-    private Kernel kernel;
+    private final Kernel kernel;
     
     /**
      * The slack value, all alpha weights
      * must be between 0 and c inclusive
      */
-    private double c;
+    private final double c;
     
     /**
      * The weights on the support vectors
      */
-    private double[] a;
+    private final double[] a;
     
     /**
      * The threshold subtracted when
@@ -66,7 +66,7 @@ public class SequentialMinimalOptimization implements Trainer {
      * - the expected output for non bound examples
      * (examples whose a value is not 0 or c)
      */
-    private double[] e;
+    private final double[] e;
     
     /**
      * The weight vector (for linear kernels)
@@ -148,8 +148,8 @@ public class SequentialMinimalOptimization implements Trainer {
      */
     public SupportVectorMachine getSupportVectorMachine() {
         int supportVectorCount = 0;
-        for (int i = 0; i < a.length; i++) {
-            if (a[i] != 0) {
+        for (final double anA : a) {
+            if (anA != 0) {
                 supportVectorCount++;
             }
         }
@@ -220,7 +220,7 @@ public class SequentialMinimalOptimization implements Trainer {
         }
         // if the second choice hueristic fails we look
         // at all non bound indices, starting from a random point
-        int startI = (int) Math.random() * a.length;
+        int startI = (int) (Math.random() * a.length);
         int i = startI;
         do {
             if (!isBound(i) && takeStep(i, j, ej)) {
@@ -230,7 +230,7 @@ public class SequentialMinimalOptimization implements Trainer {
         } while (i != startI);
         // if that fails we look at all of the indices, starting from
         // a random point
-        startI = (int) Math.random() * a.length;
+        startI = (int) (Math.random() * a.length);
         i = startI;
         do {
             if (takeStep(i, j, ej)) {

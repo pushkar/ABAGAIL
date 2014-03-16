@@ -17,7 +17,7 @@ public class StochasticBackPropagationTrainer extends NetworkTrainer {
     /**
      * The weight update rule to use
      */
-    private WeightUpdateRule rule;
+    private final WeightUpdateRule rule;
     
     /**
      * Make a new back propagation trainer

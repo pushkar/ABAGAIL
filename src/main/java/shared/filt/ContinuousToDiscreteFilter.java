@@ -14,7 +14,7 @@ public class ContinuousToDiscreteFilter implements DataSetFilter {
     /**
      * The number of bins
      */
-    private int numberOfBins;
+    private final int numberOfBins;
     
     /**
      * Make a new continuous to discrete filter

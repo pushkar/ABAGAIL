@@ -20,10 +20,11 @@ public class InformationGainSplitEvaluator extends SplitEvaluator {
      */
     private double entropy(double[] classProbabilities) {
         double entropy = 0;
-        for (int i = 0; i < classProbabilities.length; i++) {
-            if (classProbabilities[i] != 0)
-                entropy -= classProbabilities[i] 
-                   * Math.log(classProbabilities[i]) / LOG2;
+        for (final double classProbability : classProbabilities) {
+            if (classProbability != 0) {
+                entropy -= classProbability
+                        * Math.log(classProbability) / LOG2;
+            }
         }
         return entropy;
     }

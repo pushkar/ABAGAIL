@@ -13,22 +13,22 @@ public class SupportVectorMachine {
     /**
      * The support vectors
      */
-    private DataSet supportVectors;
+    private final DataSet supportVectors;
 
     /**
      * The weights for the support vectors
      */
-    private double[] a;
+    private final double[] a;
     
     /**
      * The kernel function
      */
-    private Kernel kernel;
+    private final Kernel kernel;
     
     /**
      * The threshold (which is subtracted)
      */
-    private double b;
+    private final double b;
     
     /**
      * Create a new support vector machine

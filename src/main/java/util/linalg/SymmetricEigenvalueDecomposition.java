@@ -93,7 +93,7 @@ public class SymmetricEigenvalueDecomposition {
         boolean swapped = true;
         // we need to cast into a rectangle
         // so we can swap rows
-        RectangularMatrix u = (RectangularMatrix) this.u;
+        RectangularMatrix u = this.u;
         for (int i = 0; i < u.m() - 1 && swapped; i++) {
              swapped = false;
              for (int j = 0; j < u.m() - 1; j++) {

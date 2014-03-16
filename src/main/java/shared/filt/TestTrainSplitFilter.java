@@ -5,7 +5,7 @@ import shared.Instance;
 
 public class TestTrainSplitFilter implements DataSetFilter {
 
-    private double pctTrain;
+    private final double pctTrain;
     private DataSet trainingSet;
     private DataSet testingSet;
 

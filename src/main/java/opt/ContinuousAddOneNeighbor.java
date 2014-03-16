@@ -13,7 +13,7 @@ public class ContinuousAddOneNeighbor implements NeighborFunction {
     /**
      * The amount to add to the value
      */
-    private double amount;
+    private final double amount;
     
     /**
      * Continuous add one neighbor

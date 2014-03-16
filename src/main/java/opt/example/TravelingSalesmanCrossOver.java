@@ -16,7 +16,7 @@ public class TravelingSalesmanCrossOver implements CrossoverFunction {
     /**
      * The evaluation function
      */
-    private TravelingSalesmanEvaluationFunction eval;
+    private final TravelingSalesmanEvaluationFunction eval;
     
     /**
      * Make a new traveling salesman cross over

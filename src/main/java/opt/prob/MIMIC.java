@@ -20,17 +20,17 @@ public class MIMIC extends OptimizationAlgorithm {
     /**
      * The current distribution
      */
-    private Distribution distribution;
+    private final Distribution distribution;
     
     /**
      * The number of samples to generate
      */
-    private int samples;
+    private final int samples;
     
     /**
      * The number of samples to keep
      */
-    private int tokeep;
+    private final int tokeep;
 
     /**
      * Make a new mimic

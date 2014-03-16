@@ -11,7 +11,7 @@ public class EpsilonGreedyStrategy implements ExplorationStrategy {
     /**
      * The epsilon value
      */
-    private double epsilon;
+    private final double epsilon;
     
     /**
      * Make a epsilon greedy strategy

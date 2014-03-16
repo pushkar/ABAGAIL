@@ -13,12 +13,12 @@ public class GenericOptimizationProblem implements OptimizationProblem {
     /**
      * The evaluation function
      */
-    private EvaluationFunction eval;
+    private final EvaluationFunction eval;
     
     /**
      * The intial distribution
      */
-    private Distribution initial;
+    private final Distribution initial;
 
     
     /**

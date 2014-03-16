@@ -16,15 +16,15 @@ import java.util.List;
  */
 public class CSVWriter implements Writer {
 
-    private String fileName;
-    private List<String> fields;
-    private List<String> buffer;
+    private final String fileName;
+    private final List<String> fields;
+    private final List<String> buffer;
     private FileWriter fileWriter;
 
     public CSVWriter(String fileName, String[] fields) {
         this.fileName = fileName;
         this.fields   = Arrays.asList(fields);
-        this.buffer   = new ArrayList<String>();
+        this.buffer   = new ArrayList<>();
     }
 
     @Override

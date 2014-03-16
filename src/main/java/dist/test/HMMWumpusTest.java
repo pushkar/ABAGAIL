@@ -19,31 +19,31 @@ import dist.hmm.StateSequenceCalculator;
  */
 public class HMMWumpusTest {
     /** The state count */
-    private static int STATE_COUNT = 2;
+    private static final int STATE_COUNT = 2;
     
     /** The input range */
-    private static int INPUT_RANGE = 5;
+    private static final int INPUT_RANGE = 5;
     /** The smell left input */
-    private static int SMELL_LEFT = 0;
+    private static final int SMELL_LEFT = 0;
     /** The smell right input */
-    private static int SMELL_RIGHT = 1;
+    private static final int SMELL_RIGHT = 1;
     /** The smell up input */
-    private static int SMELL_UP = 2;
+    private static final int SMELL_UP = 2;
     /** The smell down input */
-    private static int SMELL_DOWN = 3;
+    private static final int SMELL_DOWN = 3;
     /** The no smell input */
-    private static int NO_SMELL = 4;
+    private static final int NO_SMELL = 4;
     
     /** The output range */
-    private static int OUTPUT_RANGE = 4;
+    private static final int OUTPUT_RANGE = 4;
     /** The move left output */
-    private static int MOVE_LEFT = 0;
+    private static final int MOVE_LEFT = 0;
     /** The move right output */
-    private static int MOVE_RIGHT = 1;
+    private static final int MOVE_RIGHT = 1;
     /** The move up output */
-    private static int MOVE_UP = 2;
+    private static final int MOVE_UP = 2;
     /** The move down output */
-    private static int MOVE_DOWN = 3;
+    private static final int MOVE_DOWN = 3;
     
     /**
      * The main method
@@ -74,8 +74,8 @@ public class HMMWumpusTest {
         };
         System.out.println(model + "\n");
         System.out.println("Observation Sequences: ");
-        for (int i = 0; i < sequences.length; i++) {
-            System.out.println(sequences[i]);
+        for (final DataSet sequence1 : sequences) {
+            System.out.println(sequence1);
         }
         System.out.println();
         ForwardBackwardProbabilityCalculator fbc = new ForwardBackwardProbabilityCalculator(model, sequences[0]);
@@ -85,8 +85,8 @@ public class HMMWumpusTest {
         StateSequenceCalculator vc =new StateSequenceCalculator(model, sequences[0]);
         int[] states = vc.calculateStateSequence();
         System.out.println("Most likely state sequence of first sequence: ");
-        for (int i = 0; i < states.length; i++) {
-            System.out.print(states[i] + " ");
+        for (final int state : states) {
+            System.out.print(state + " ");
         }
         System.out.println();
         System.out.println();

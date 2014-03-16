@@ -13,7 +13,7 @@ public class GenericHillClimbingProblem extends GenericOptimizationProblem imple
     /**
      * The neighbor function
      */
-    private NeighborFunction neigh;
+    private final NeighborFunction neigh;
 
     /**
      * Make a new hill climbing problem

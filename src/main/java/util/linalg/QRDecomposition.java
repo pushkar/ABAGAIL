@@ -13,7 +13,7 @@ public class QRDecomposition {
     /**
      * The matrix of reflections, q
      */
-    private RectangularMatrix q;
+    private final RectangularMatrix q;
     
     /**
      * The upper triangular r

@@ -40,19 +40,19 @@ public class MazeMarkovDecisionProcess implements MarkovDecisionProcess {
     /**
      * The maze itself
      */
-    private char[][] maze;
+    private final char[][] maze;
     /**
      * The probability of motion failing
      */
-    private double motionFailureProbability;
+    private final double motionFailureProbability;
     /**
      * The goal state
      */
-    private int goal;
+    private final int goal;
     /**
      * The initial state
      */
-    private int initial;
+    private final int initial;
     
     /**
      * Make a new maze markov decision process

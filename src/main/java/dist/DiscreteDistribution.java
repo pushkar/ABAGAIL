@@ -211,9 +211,7 @@ public class DiscreteDistribution extends AbstractDistribution implements Serial
      */
     public Copyable copy() {
         double[] copyProbabilities = new double[probabilities.length];
-        for (int i = 0; i < copyProbabilities.length; i++) {
-            copyProbabilities[i] = probabilities[i];
-        }
+        System.arraycopy(probabilities, 0, copyProbabilities, 0, copyProbabilities.length);
         DiscreteDistribution copy = new DiscreteDistribution(copyProbabilities);
         copy.setM(m);
         copy.setPrior(prior);

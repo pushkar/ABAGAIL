@@ -14,7 +14,7 @@ public class DiscreteChangeOneNeighbor implements NeighborFunction {
     /**
      * The ranges of the different values
      */
-    private int[] ranges;
+    private final int[] ranges;
     
     /**
      * Make a new change one neighbor function

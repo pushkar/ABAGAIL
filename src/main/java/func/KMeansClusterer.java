@@ -23,12 +23,12 @@ public class KMeansClusterer extends AbstractConditionalDistribution implements 
     /**
      * The number of clusters
      */
-    private int k;
+    private final int k;
     
     /**
      * The distance measure
      */
-    private DistanceMeasure distanceMeasure;
+    private final DistanceMeasure distanceMeasure;
     
     /**
      * Make a new k means clustere
@@ -57,8 +57,8 @@ public class KMeansClusterer extends AbstractConditionalDistribution implements 
                 1/distanceMeasure.value(instance, clusterCenters[i]);   
         }
         double sum = 0;
-        for (int i = 0; i < distribution.length; i++) {
-            sum += distribution[i];
+        for (final double aDistribution : distribution) {
+            sum += aDistribution;
         }
         if (Double.isInfinite(sum)) {
             sum = 0;
@@ -154,8 +154,8 @@ public class KMeansClusterer extends AbstractConditionalDistribution implements 
      */
     public String toString() {
         String result = "k = " + k + "\n";
-        for (int i = 0; i < clusterCenters.length; i++) {
-            result += clusterCenters[i].toString() + "\n";
+        for (final Instance clusterCenter : clusterCenters) {
+            result += clusterCenter.toString() + "\n";
         }
         return result;
     }
