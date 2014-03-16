@@ -1,8 +1,8 @@
 <!-- Build file for ABAGAIL (c) Andrew Guillory 2005 --><project default = "all">
 	<target name="init">
-		<property name="jdocs.dir" value="docs"/>
-		<property name="bin.dir" value="bin"/>
-		<property name="src.dir" value="src"/>
+		<property name="jdocs.dir" value="target/docs"/>
+		<property name="bin.dir" value="target/classes"/>
+		<property name="src.dir" value="src/main/java"/>
 	</target>
 
 	<target name="prepare" depends="init">
@@ -11,14 +11,14 @@
 	</target>
 
 	<target name = "compile" depends="prepare">
-		<mkdir dir="bin"/>
-		<javac srcdir= "src" destdir = "bin"/>
+		<mkdir dir="target"/>
+		<javac srcdir= "src/main/java" destdir = "target/classes"/>
 	</target>
 	
 	<target name = "jar" depends = "compile">
-		<manifest file = "manifest.mf"/>
-		<delete file = "ABAGAIL.jar"/>
-		<jar basedir = "bin/" destfile = "ABAGAIL.jar" manifest = "manifest.mf"/>
+		<manifest file = "target/manifest.mf"/>
+		<delete file = "target/ABAGAIL.jar"/>
+		<jar basedir = "target/" destfile = "target/ABAGAIL.jar" manifest = "target/manifest.mf"/>
 	</target>
 
 	<target name="clean">

@@ -1,9 +1,1 @@
-*.class
-.DS_Store
-bin/*
-ABAGAIL.jar
-# Package Files #
-*.jar
-*.war
-*.ear
-manifest.mf
+target
