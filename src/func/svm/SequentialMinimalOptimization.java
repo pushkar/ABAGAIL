@@ -220,7 +220,7 @@ public class SequentialMinimalOptimization implements Trainer {
         }
         // if the second choice hueristic fails we look
         // at all non bound indices, starting from a random point
-        int startI = (int) Math.random() * a.length;
+        int startI = (int) (Math.random() * a.length);
         int i = startI;
         do {
             if (!isBound(i) && takeStep(i, j, ej)) {
@@ -230,7 +230,7 @@ public class SequentialMinimalOptimization implements Trainer {
         } while (i != startI);
         // if that fails we look at all of the indices, starting from
         // a random point
-        startI = (int) Math.random() * a.length;
+        startI = (int) (Math.random() * a.length);
         i = startI;
         do {
             if (takeStep(i, j, ej)) {
