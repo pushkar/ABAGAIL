@@ -10,8 +10,7 @@ package shared;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
-public class SumOfSquaresError extends AbstractErrorMeasure
-        implements GradientErrorMeasure {
+public class SumOfSquaresError extends GradientErrorMeasure {
 
     /**
      * @see nn.error.ErrorMeasure#error(double[], nn.Pattern[], int)

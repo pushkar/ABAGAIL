@@ -8,7 +8,7 @@ package shared;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
-public interface GradientErrorMeasure extends ErrorMeasure {
+public abstract class GradientErrorMeasure extends ErrorMeasure {
     
     /**
      * Find the derivatives
