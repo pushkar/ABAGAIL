@@ -1,7 +1,7 @@
 package shared.tester;
 
+import shared.DataSet;
 import shared.Instance;
-import util.linalg.Vector;
 
 /**
  * This interface defines an API for test metrics.  Test metrics are notified by the Tester
@@ -12,7 +12,7 @@ import util.linalg.Vector;
  * @author Jesse Rosalia (https://www.github.com/theJenix)
  * @date 2013-03-05
  */
-public interface TestMetric {
+public abstract class TestMetric {
 
     /**
      * Add a test result to the metric.  The metric will compare the values and
@@ -21,11 +21,29 @@ public interface TestMetric {
      * @param expected The expected value (from the training set)
      * @param actual The value produced by the classifier.
      */
-    public void addResult(Instance expected, Instance actual);
+    public abstract void addResult(Instance expected, Instance actual);
+
+    /**
+     * Bulk add a test results to the metric.  The metric will compare the values and
+     * accumulate what data it needs.
+     * 
+     * @param expected The expected values from the training set.
+     * @param actual The values produced by the classifier.
+     */
+    public void addResult(DataSet expected, DataSet actual) {
+        // Sanity check sizes.
+        if (expected.size() != actual.size()) {
+            throw new RuntimeException("Something is wrong. "
+                    + "Expected data set and actual data set sizes are not the same.");
+        }
+        for (int i = 0; i < expected.size(); i++) {
+            this.addResult(expected.get(i), actual.get(i));
+        }
+    }
 
     /**
      * Print the values collected by this test metric.
      * 
      */
-    public void printResults();
+    public abstract void printResults();
 }

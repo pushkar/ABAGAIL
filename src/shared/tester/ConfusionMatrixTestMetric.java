@@ -16,7 +16,7 @@ import shared.reader.DataSetLabelBinarySeperator;
  * @author Jesse Rosalia <https://github.com/theJenix>
  * @date 2013-03-05
  */
-public class ConfusionMatrixTestMetric implements TestMetric {
+public class ConfusionMatrixTestMetric extends TestMetric {
 
     /**
      * A matrix entry.  This class holds an expected and actual instance

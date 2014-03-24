@@ -1,8 +1,6 @@
 package shared.tester;
 
 import shared.Instance;
-import shared.reader.DataSetLabelBinarySeperator;
-import util.linalg.Vector;
 
 /**
  * A test metric for accuracy.  This metric reports of % correct and % incorrect for a test run.
@@ -10,7 +8,7 @@ import util.linalg.Vector;
  * @author Jesse Rosalia <https://github.com/theJenix>
  * @date 2013-03-05
  */
-public class AccuracyTestMetric implements TestMetric {
+public class AccuracyTestMetric extends TestMetric {
 
     private int count;    
     private int countCorrect;
@@ -32,7 +30,7 @@ public class AccuracyTestMetric implements TestMetric {
     public void printResults() {
         //only report results if there were any results to report.
         if (count > 0) {
-            double pctCorrect   = getPctCorrect();
+            double pctCorrect = getPctCorrect();
             double pctIncorrect = (1 - pctCorrect);
             System.out.println(String.format("Correctly Classified Instances: %.02f%%",   100 * pctCorrect));
             System.out.println(String.format("Incorrectly Classified Instances: %.02f%%", 100 * pctIncorrect));

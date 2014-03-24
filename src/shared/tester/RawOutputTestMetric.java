@@ -2,7 +2,7 @@ package shared.tester;
 
 import shared.Instance;
 
-public class RawOutputTestMetric implements TestMetric {
+public class RawOutputTestMetric extends TestMetric {
 
     StringBuilder builder = new StringBuilder();
     @Override
