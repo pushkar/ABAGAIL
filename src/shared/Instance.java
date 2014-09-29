@@ -151,7 +151,7 @@ public class Instance implements Serializable, Copyable {
      * @return the value
      */
     public int getDiscrete(int i) {
-        return (int) data.get(i);
+        return (int) Math.round(data.get(i));
     }
     
     /**

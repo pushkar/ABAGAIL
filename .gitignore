@@ -7,3 +7,4 @@ ABAGAIL.jar
 *.war
 *.ear
 manifest.mf
+/bin
