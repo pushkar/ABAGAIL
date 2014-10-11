@@ -1,4 +1,5 @@
-<!-- Build file for ABAGAIL (c) Andrew Guillory 2005 --><project default = "all">
+<!-- Build file for ABAGAIL (c) Andrew Guillory 2005 --><project default = "all">
+
 	<target name="init">
 		<property name="jdocs.dir" value="docs"/>
 		<property name="bin.dir" value="bin"/>
@@ -11,25 +12,37 @@
 	</target>
 
 	<target name = "compile" depends="prepare">
-		<mkdir dir="bin"/>
-		<javac srcdir= "src" destdir = "bin"/>
-	</target>
-	
-	<target name = "jar" depends = "compile">
-		<manifest file = "manifest.mf"/>
-		<delete file = "ABAGAIL.jar"/>
-		<jar basedir = "bin/" destfile = "ABAGAIL.jar" manifest = "manifest.mf"/>
-	</target>
-
+		<mkdir dir="bin"/>
+
+		<javac srcdir= "src" destdir = "bin"/>
+
+	</target>
+
+	
+
+	<target name = "jar" depends = "compile">
+
+		<manifest file = "manifest.mf"/>
+
+		<delete file = "ABAGAIL.jar"/>
+
+		<jar basedir = "bin/" destfile = "ABAGAIL.jar" manifest = "manifest.mf"/>
+
+	</target>
+
+
+
 	<target name="clean">
 		<delete dir="${bin.dir}" />
 		<delete dir="${jdocs.dir}" />
 	</target>
 
-	<target name="javadoc" depends="prepare">
+	<target name="javadoc" depends="prepare" additionalparam="subpackages">
 		<javadoc sourcepath="${src.dir}" destdir="${jdocs.dir}" />
 	</target>
 
-	<target name = "all" depends = "compile,jar"/>
-</project>
+	<target name = "all" depends = "compile,jar"/>
+
+</project>
+
 		
