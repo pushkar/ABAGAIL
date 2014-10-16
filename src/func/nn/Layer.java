@@ -84,6 +84,7 @@ public class Layer implements Serializable {
         for (int i = 1; i < getNodeCount(); i++) {
             if (getNode(i).getActivation() > largestValue) {
                 largest = i;
+                largestValue = getNode(largest).getActivation();
             }
         }
         return largest;

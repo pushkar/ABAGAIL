@@ -89,7 +89,7 @@ public class Instance implements Serializable, Copyable {
     }
     
     /**
-     * Make a new discrete input ouptu instance
+     * Make a new discrete input output instance
      * @param i the input
      * @param o the output
      */
