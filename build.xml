@@ -37,7 +37,7 @@
 		<delete dir="${jdocs.dir}" />
 	</target>
 
-	<target name="javadoc" depends="prepare" additionalparam="subpackages">
+	<target name="javadoc" depends="prepare">
 		<javadoc sourcepath="${src.dir}" destdir="${jdocs.dir}" />
 	</target>
 
