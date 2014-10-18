@@ -13,7 +13,7 @@ public class RawOutputTestMetric implements TestMetric {
             if (addComma) {
                 builder.append(",");
             }
-            builder.append(expected.getContinuous(ii));
+            builder.append(expected.get(ii));
             addComma = true;
         }
         builder.append(", Actual: ");
@@ -22,7 +22,7 @@ public class RawOutputTestMetric implements TestMetric {
             if (addComma) {
                 builder.append(",");
             }
-            builder.append(actual.getContinuous(ii));
+            builder.append(actual.get(ii));
             addComma = true;
         }
         

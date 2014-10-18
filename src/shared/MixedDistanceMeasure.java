@@ -29,8 +29,8 @@ public class MixedDistanceMeasure extends AbstractDistanceMeasure{
         double distance = 0;
         for (int i = 0; i < va.size(); i++) {
             if (types[i] == AttributeType.CONTINUOUS) {
-                distance += (va.getContinuous(i) - vb.getContinuous(i)) 
-                     * (va.getContinuous(i) - vb.getContinuous(i));
+                distance += (va.get(i) - vb.get(i))
+                     * (va.get(i) - vb.get(i));
             } else {
                 if (va.getDiscrete(i) != vb.getDiscrete(i)) {
                     distance += 1;

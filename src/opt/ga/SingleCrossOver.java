@@ -19,9 +19,9 @@ public class SingleCrossOver implements CrossoverFunction {
         int point = Distribution.random.nextInt(newData.length + 1);
         for (int i = 0; i < newData.length; i++) {
             if (i >= point) {
-                newData[i] = a.getContinuous(i);
+                newData[i] = a.get(i);
             } else {
-                newData[i] = b.getContinuous(i);
+                newData[i] = b.get(i);
             }
         }
         return new Instance(newData);

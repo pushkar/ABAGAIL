@@ -18,8 +18,8 @@ public class SwapNeighbor implements NeighborFunction {
         Instance cod = (Instance) d.copy();
         int i = Distribution.random.nextInt(cod.getData().size());
         int j = Distribution.random.nextInt(cod.getData().size());
-        double temp = cod.getContinuous(i);
-        cod.getData().set(i, cod.getContinuous(j));
+        double temp = cod.get(i);
+        cod.getData().set(i, cod.get(j));
         cod.getData().set(j, temp);
         return cod;
     }

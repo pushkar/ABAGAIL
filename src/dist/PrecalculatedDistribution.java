@@ -42,7 +42,7 @@ public class PrecalculatedDistribution extends AbstractDistribution implements C
      * @see hmm.distribution.OutputDistribution#probabilityOfObservation(hmm.observation.Observation)
      */
     public double p(Instance inst) {
-        return inst.getContinuous(i);
+        return inst.get(i);
     }
     
 

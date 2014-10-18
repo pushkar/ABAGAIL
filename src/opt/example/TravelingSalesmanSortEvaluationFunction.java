@@ -26,7 +26,7 @@ public class TravelingSalesmanSortEvaluationFunction extends TravelingSalesmanEv
     public double value(Instance d) {
         double[] ddata = new double[d.size()];
         for (int i = 0; i < ddata.length; i++) {
-            ddata[i] = d.getContinuous(i);
+            ddata[i] = d.get(i);
         }
         int[] order = ABAGAILArrays.indices(d.size());
         ABAGAILArrays.quicksort(ddata, order);

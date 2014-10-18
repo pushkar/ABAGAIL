@@ -43,7 +43,7 @@ public class DiscreteToBinaryFilter implements DataSetFilter {
                     data[k + instance.getDiscrete(j)] = 1;
                     k += oldDescription.getDiscreteRange(j);
                 } else {
-                    data[k] = instance.getContinuous(j);
+                    data[k] = instance.get(j);
                     k++;
                 }
             }

@@ -18,9 +18,9 @@ public class UniformCrossOver implements CrossoverFunction {
         double[] newData = new double[a.size()];
         for (int i = 0; i < newData.length; i++) {
             if (Distribution.random.nextBoolean()) {
-                newData[i] = a.getContinuous(i);
+                newData[i] = a.get(i);
             } else {
-                newData[i] = b.getContinuous(i);
+                newData[i] = b.get(i);
             }
         }
         return new Instance(newData);

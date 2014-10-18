@@ -41,7 +41,7 @@ public class KDTreeNode implements Serializable, Comparable {
      * @return the value
      */
     public double getSplitValue() {
-        return instance.getContinuous(dimension);
+        return instance.get(dimension);
     }
     
     /**
@@ -105,7 +105,7 @@ public class KDTreeNode implements Serializable, Comparable {
      */
     public int compareTo(Object o) {
         double value = getSplitValue();
-        double otherValue = ((KDTreeNode) o).getInstance().getContinuous(dimension);
+        double otherValue = ((KDTreeNode) o).getInstance().get(dimension);
         if (value < otherValue) {
             return -1;
         } else if (value > otherValue) {

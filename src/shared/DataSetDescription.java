@@ -271,12 +271,12 @@ public class DataSetDescription implements Serializable {
             min.minEquals(cur.getData());
             for (int j = 0; j < types.length; j++) {
                 if (types[j] == AttributeType.BINARY
-                        && cur.getContinuous(j) != 1 && cur.getContinuous(j) != 0) {
+                        && cur.get(j) != 1 && cur.get(j) != 0) {
                             
                     types[j] = AttributeType.DISCRETE;
                 }
                 if (types[j] == AttributeType.DISCRETE
-                        && cur.getDiscrete(j) != cur.getContinuous(j)) {
+                        && cur.getDiscrete(j) != cur.get(j)) {
                     types[j] = AttributeType.CONTINUOUS;      
                 }
             }
