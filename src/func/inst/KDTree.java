@@ -156,8 +156,8 @@ public class KDTree implements Serializable {
         for (int i = start; i < end; i++) {
             Instance key = nodes[i].getInstance();
             for (int j = 0; j < dimensions; j++) {
-                min[j] = Math.min(min[j], key.getContinuous(j));
-                max[j] = Math.max(max[j], key.getContinuous(j));
+                min[j] = Math.min(min[j], key.get(j));
+                max[j] = Math.max(max[j], key.get(j));
             }
         }
         // find the widest dimension
@@ -176,11 +176,11 @@ public class KDTree implements Serializable {
         int splitterIndex = -1; 
         for (int i = start; i < end; i++) {
             KDTreeNode node = nodes[i];
-            if (Math.abs(node.getInstance().getContinuous(widestDimension) - median)
+            if (Math.abs(node.getInstance().get(widestDimension) - median)
                 < bestDifference) {
                 splitterIndex = i;
                 bestDifference =
-                    Math.abs(node.getInstance().getContinuous(widestDimension) - median);
+                    Math.abs(node.getInstance().get(widestDimension) - median);
             }
         }
         nodes[splitterIndex].setDimension(widestDimension);
@@ -253,7 +253,7 @@ public class KDTree implements Serializable {
             node.getSplitValue(), node.getDimension());
         HyperRectangle nearHR, farHR;
         KDTreeNode nearNode, farNode;
-        if (target.getContinuous(node.getDimension()) < node.getSplitValue()) {
+        if (target.get(node.getDimension()) < node.getSplitValue()) {
             nearHR = leftHR; nearNode = node.getLeft();
             farHR = rightHR; farNode = node.getRight();
         } else {

@@ -16,8 +16,8 @@ public class SwapMutation implements MutationFunction {
     public void mutate(Instance d) {
         int i = Distribution.random.nextInt(d.size());
         int j = Distribution.random.nextInt(d.size());
-        double temp = d.getContinuous(i);
-        d.getData().set(i, d.getContinuous(j));
+        double temp = d.get(i);
+        d.getData().set(i, d.get(j));
         d.getData().set(j, temp);
     }
 }

@@ -37,7 +37,7 @@ public class ContinuousToDiscreteFilter implements DataSetFilter {
             Instance instance = dataSet.get(i);
             for (int j = 0; j < oldDescription.getAttributeCount(); j++) {
                 if (oldDescription.getAttributeTypes()[j] == AttributeType.CONTINUOUS) {
-                    double cv = instance.getContinuous(j);
+                    double cv = instance.get(j);
                     int dv = (int) ((cv - oldDescription.getMin(j)) 
                         * numberOfBins / oldDescription.getRange(j));
                     instance.getData().set(j, dv);

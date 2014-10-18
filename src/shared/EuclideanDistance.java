@@ -14,8 +14,8 @@ public class EuclideanDistance extends AbstractDistanceMeasure {
     public double value(Instance va, Instance vb) {
         double sum = 0;
         for (int i = 0; i < va.size(); i++) {
-            sum += (va.getContinuous(i) - vb.getContinuous(i)) 
-                 * (va.getContinuous(i) - vb.getContinuous(i));
+            sum += (va.get(i) - vb.get(i))
+                 * (va.get(i) - vb.get(i));
         }
         return sum;
     }

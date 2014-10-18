@@ -5,7 +5,6 @@ import java.util.Arrays;
 
 import shared.DataSet;
 import shared.Instance;
-import shared.tester.Comparison;
 
 /**
  * Separates Discrete Labels into Binary representation for better use in Neural Networks
@@ -61,7 +60,7 @@ public class DataSetLabelBinarySeperator {
         int maxInx = -1;
         double max = 0;
         for (int ii = 0; ii < instance.size(); ii++) {
-            double inst = instance.getContinuous(ii);
+            double inst = instance.get(ii);
             if (inst > max) {
                 maxInx = ii;
                 max    = inst;

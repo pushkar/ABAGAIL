@@ -84,7 +84,7 @@ public class DataSetWriter {
                     }
                 } else {
                     for (int j = 0; j < data.size(); j++) {
-                        pw.print(data.getContinuous(j));
+                        pw.print(data.get(j));
                         if (j + 1 < data.size() || data.getLabel() != null) {
                             pw.print(", ");
                         }

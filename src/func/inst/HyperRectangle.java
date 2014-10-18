@@ -108,12 +108,12 @@ public class HyperRectangle implements Copyable {
     public Instance pointNearestTo(Instance target) {
         double[] nearest = new double[target.size()];
         for (int i = 0; i < nearest.length; i++) {
-            if (target.getContinuous(i) <= min.get(i)) {
+            if (target.get(i) <= min.get(i)) {
                 nearest[i] = min.get(i);
-            } else if (target.getContinuous(i) >= max.get(i)) {
+            } else if (target.get(i) >= max.get(i)) {
                 nearest[i] = max.get(i);
             } else {
-                nearest[i] = target.getContinuous(i);
+                nearest[i] = target.get(i);
             }
         }
         return new Instance(new DenseVector(nearest));

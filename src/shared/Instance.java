@@ -137,11 +137,11 @@ public class Instance implements Serializable, Copyable {
     }
     
     /**
-     * Get the ith continuous value
-     * @param i the value to get
+     * Get the ith value
+     * @param i the index of the value to get
      * @return the value
      */
-    public double getContinuous(int i) {
+    public double get(int i) {
         return data.get(i);
     }
     
@@ -159,7 +159,7 @@ public class Instance implements Serializable, Copyable {
      * @return the value
      */
     public double getContinuous() {
-        return getContinuous(0);
+        return get(0);
     }
     
     /**

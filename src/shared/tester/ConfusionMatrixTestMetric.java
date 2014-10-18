@@ -6,7 +6,6 @@ import java.util.Map;
 import shared.AttributeType;
 import shared.DataSetDescription;
 import shared.Instance;
-import shared.reader.DataSetLabelBinarySeperator;
 
 /**
  * A test metric to generate a confusion matrix.  This metric expects the true labels
@@ -57,8 +56,8 @@ public class ConfusionMatrixTestMetric implements TestMetric {
             for (int ii = 0; ii < expected.size(); ii++) {
                 //scale the expected value, to provide separation between corresponding pairs
                 // (e.g. a, b should be different from b, a)
-                hashCode += 0x10000 * expected.getContinuous(ii);
-                hashCode += actual.getContinuous(ii);
+                hashCode += 0x10000 * expected.get(ii);
+                hashCode += actual.get(ii);
             }
             return hashCode;
         }

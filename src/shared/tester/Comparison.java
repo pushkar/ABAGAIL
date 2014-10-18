@@ -1,7 +1,6 @@
 package shared.tester;
 
 import shared.Instance;
-import util.linalg.Vector;
 
 /**
  * An generic utility for comparing values in Instance objects
@@ -55,7 +54,7 @@ public class Comparison {
     public boolean isCorrect(int index) {
         //compare the continuous values, down to 1e-6.  This accounts for any weird floating point issues, and some
         // issues when classifying discrete or boolean functions.
-        return Math.abs(expected.getContinuous(index) - actual.getContinuous(index)) < epsilon;
+        return Math.abs(expected.get(index) - actual.get(index)) < epsilon;
     }
     
     /**
