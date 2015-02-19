@@ -30,9 +30,9 @@ public class LUDecompositionTest {
         double[][] a = {
             { 1, 2, 3 },
             { 4, 5, 6 },
-            { 7, 8, 0 }            
+            { 7, 8, 0 }
         };
-        Matrix m = new RectangularMatrix(a);    
+        Matrix m = new RectangularMatrix(a);
         LUDecomposition lu = new LUDecomposition(m);
         System.out.println(m);
         System.out.println(lu.getL());
