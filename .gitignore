@@ -8,7 +8,8 @@ ABAGAIL.jar
 *.ear
 manifest.mf
 /bin
-.iml
+*.iml
 *.html
 /out
 *.idea
+
