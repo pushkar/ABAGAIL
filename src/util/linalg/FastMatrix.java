@@ -2,6 +2,8 @@ package util.linalg;
 
 import dist.Distribution;
 
+import java.util.Arrays;
+
 /**
  * A general optimized rectangular matrix class
  * @author Joshua Morton joshua.morton@gatech.edu
@@ -65,6 +67,32 @@ public class FastMatrix extends Matrix {
                 this.data[i * this.width + j] = m.get(i,j);
             }
         }
+    }
+
+    @Override
+    public Matrix transpose() {
+        double[] arr = new double[this.width * this.height];
+        for (int i = 0; i < this.data.length; i++) {
+            int y = i / this.width;
+            int x = i - y * this.width;
+            arr[x*this.width + y] = this.data[i];
+        }
+        return new FastMatrix(this.width, this.height, arr);
+    }
+
+    @Override
+    public Vector getColumn(int index) {
+        double[] result = new double[this.height];
+        for (int i = 0; i < result.length; i++) {
+            result[i] = this.data[this.width*i + index];
+        }
+        return new DenseVector(result);
+    }
+
+    @Override
+    public Vector getRow(int index) {
+        double[] result = Arrays.copyOfRange(this.data, index * this.width, (index + 1) * this.width);
+        return new DenseVector(result);
     }
 
     /**

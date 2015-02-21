@@ -10,7 +10,7 @@ import util.linalg.*;
 public class MatrixSpeedTest {
 
     public static void main(String[] args) {
-        Matrix f = new RectangularMatrix(500,500);
+        Matrix f = new FastMatrix(500,500);
         for (int i = 0; i < 500; i++) {
             for (int j = 0; j < 500; j++) {
                 f.set(i, j, i+j+1);
