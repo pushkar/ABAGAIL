@@ -1,9 +1,6 @@
 package util.test;
 
-import util.linalg.DenseVector;
-import util.linalg.FastMatrix;
-import util.linalg.Matrix;
-import util.linalg.Vector;
+import util.linalg.*;
 
 /**
  * Created by Josh on 2/21/2015.
@@ -13,7 +10,7 @@ public class FastMatrixTest {
 
     public static void main(String[] args) {
         int passed = 0;
-        System.out.println("Square Matrix Transpose test:");
+        System.out.println("Square Matrix Transpose :");
         if(squareTransposeTest()) {
             passed++;
             System.out.println("\tPassed!");
@@ -21,8 +18,32 @@ public class FastMatrixTest {
             System.out.println("\tFailed");
         }
 
-        System.out.println("Get Row Test:");
+        System.out.println("Get Row:");
         if(getRowTest()) {
+            passed++;
+            System.out.println("\tPassed!");
+        } else {
+            System.out.println("\tFailed");
+        }
+
+        System.out.println("Multiplication by Rectangular Matrix:");
+        if(fastRectMultiply()) {
+            passed++;
+            System.out.println("\tPassed!");
+        } else {
+            System.out.println("\tFailed");
+        }
+
+        System.out.println("Multiplication by Fast Matrix:");
+        if(fastFastMultiply()) {
+            passed++;
+            System.out.println("\tPassed!");
+        } else {
+            System.out.println("\tFailed");
+        }
+
+        System.out.println("Fast Matrix Multiplies into Odd shapes:");
+        if(fastFastUnusualMultiply()) {
             passed++;
             System.out.println("\tPassed!");
         } else {
@@ -59,5 +80,47 @@ public class FastMatrixTest {
         double[] test = {4,5,6};
         DenseVector comp = new DenseVector(test);
         return center.equals(comp);
+    }
+
+    private static boolean fastRectMultiply() {
+        counter++;
+        double[] arr = {1,2,3,4,5,6,7,8};
+        double[][] arr2 = {{1,2},{3,4},{5,6},{7,8}};
+        Matrix first = new FastMatrix(2, 4, arr);
+        Matrix second = new RectangularMatrix(arr2);
+        Matrix t = first.times(second);
+        if (t.get(0,0) == 50 && t.get(0,1) == 60 && t.get(1,0) == 114 && t.get(1,1) == 140) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean fastFastMultiply() {
+        counter++;
+        double[] arr = {1,2,3,4,5,6,7,8};
+        Matrix first = new FastMatrix(2, 4, arr);
+        Matrix second = new FastMatrix(4, 2, arr);
+        Matrix t = first.times(second);
+        if (t.get(0,0) == 50 && t.get(0,1) == 60 && t.get(1,0) == 114 && t.get(1,1) == 140) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    private static boolean fastFastUnusualMultiply() {
+        counter++;
+        double[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
+        double[] arr2 = {1, 2, 3, 4, 5, 6};
+        Matrix first = new FastMatrix(3, 3, arr);
+        Matrix second = new FastMatrix(3, 2, arr2);
+        Matrix t = first.times(second);
+        if (t.get(0, 0) == 22 && t.get(0, 1) == 28 && t.get(1, 0) == 49 && t.get(1, 1) == 64 && t.get(2, 0) == 76 &&
+                t.get(2, 1) == 100) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

@@ -95,6 +95,22 @@ public class FastMatrix extends Matrix {
         return new DenseVector(result);
     }
 
+
+    public Matrix times(FastMatrix other) {
+        if (this.width != other.height) {
+            throw new IllegalArgumentException("Matrix sizes do not match");
+        }
+            FastMatrix result = new FastMatrix(this.height, other.width);
+            for (int row = 0; row < result.width; row++) {
+                for (int column = 0; column < result.height; column++) {
+                    for (int i = 0; i < this.width; i++) {
+                        result.set(row, column, result.get(row, column) + this.get(row,i) * other.get(i, column));
+                    }
+                }
+            }
+        return result;
+    }
+
     /**
      * set a single value in the matrix
      * @param i row
