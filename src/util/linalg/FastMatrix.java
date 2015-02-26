@@ -100,15 +100,39 @@ public class FastMatrix extends Matrix {
         if (this.width != other.height) {
             throw new IllegalArgumentException("Matrix sizes do not match");
         }
-            FastMatrix result = new FastMatrix(this.height, other.width);
-            for (int row = 0; row < result.width; row++) {
-                for (int column = 0; column < result.height; column++) {
-                    for (int i = 0; i < this.width; i++) {
-                        result.set(row, column, result.get(row, column) + this.get(row,i) * other.get(i, column));
-                    }
-                }
+        
+        // this (A) is mxn, other (B) is nxk, result (C) is mxk
+        
+        final int m = this.height;
+        final int n = this.width; // = other.height
+        final int k = other.width;
+        
+        final double[] A = this.data; // double[m * n]
+        final double[] B = other.data; // double[n * k]
+        final double[] Bt = new double[k * n];
+        final double[] C = new double[m * k];
+        
+        // make transposed copy of "other" matrix to properly align with cache
+        // TODO: more efficient transpose algorithm using blocking
+        for (int i = 0; i < k; i++) {
+            for (int j = 0; j < n; j++) {
+                Bt[i * n + j] = B[j * k + i];
             }
-        return result;
+        }
+        
+        // TODO: blocked matrix multiply based on expected L1D cache size (32KB)
+        // TODO: vectorization hinting by SSE-aligning strides
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < k; j++) {
+                double c = 0.0;
+                for (int l = 0; l < n; l++) {
+                    c += A[i * n + l] * Bt[j * n + l];
+                }
+                C[i * k + j] = c;
+            }
+        }
+        
+        return new FastMatrix(m, k, C);
     }
 
     /**
