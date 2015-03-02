@@ -59,7 +59,7 @@ public class CrossValidationTestMetric implements TestMetric {
         NumberFormat percentFormatter = new DecimalFormat("##.##%");
 
         return "Correctly classified: " + percentFormatter.format(this.finalAvg) + "\n" +
-               "Incorrect classified: " + percentFormatter.format(1 - this.finalAvg);
+               "Incorrectly classified: " + percentFormatter.format(1 - this.finalAvg);
     }
 
     @Override
