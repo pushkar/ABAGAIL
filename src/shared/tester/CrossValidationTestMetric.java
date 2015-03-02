@@ -7,7 +7,7 @@ import java.text.NumberFormat;
 import java.text.DecimalFormat;
 
 /**
- * CrossValidationTestMetric is a test metric that suppots k-fold
+ * CrossValidationTestMetric is a test metric that supports k-fold
  * cross validation.
  * @author Daniel Cohen dcohen@gatech.edu
  * @version 1.0
