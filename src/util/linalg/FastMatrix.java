@@ -1,7 +1,5 @@
 package util.linalg;
 
-import dist.Distribution;
-
 import java.util.Arrays;
 
 /**
@@ -17,6 +15,10 @@ public class FastMatrix extends Matrix {
     private double[] data;
     private int width; //n
     private int height; //m
+    private int stride; //this is a value divisible by 32, for cache reasons
+                        //and possibly because of Strassen's algorithm, but that's unlikely
+                        //and also because of block multiplies
+    private int vertStride; //same thing, but vertically
     
     /**
      * Initialize the array to zeroes
@@ -26,7 +28,15 @@ public class FastMatrix extends Matrix {
     public FastMatrix(int m, int n) {
         this.height = m;
         this.width = n;
-        this.data = new double[m * n];
+        //these two calculations are ugly, but appear often.  Translation:
+        //if (m is divisible by 32) {
+        //  return m
+        //} else {
+        //  return the smallest integer greater than m and divisible by 32
+        //}
+        this.vertStride = m % 32 == 0 ? m : ((m / 32) + 1) * 32;
+        this.stride = n % 32 == 0 ? n : ((n / 32) + 1) * 32;
+        this.data = new double[this.stride * this.vertStride];
     }
 
     /**
@@ -36,19 +46,51 @@ public class FastMatrix extends Matrix {
     public FastMatrix(double[][] mat) {
         this.height = mat.length;
         this.width = mat[0].length;
-        this.data = new double[this.width * this.height];
+        this.vertStride = this.height % 32 == 0 ? this.height : ((this.height / 32) + 1) * 32;
+        this.stride = this.width % 32 == 0 ? this.width : ((this.width / 32) + 1) * 32;
+        this.data = new double[this.stride * this.vertStride];
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; j++) {
-                this.data[i * this.width + j] = mat[i][j];
+                this.data[i * this.stride + j] = mat[i][j];
             }
         }
     }
 
+    /**
+     * private constructor for use when strides are known
+     * @param m height
+     * @param n width
+     * @param s stride
+     * @param vs vertical stride
+     * @param mat backing array
+     */
+    private FastMatrix(int m, int n, int s, int vs, double[] mat) {
+        this.width = n;
+        this.height = m;
+        this.stride = s;
+        this.vertStride = vs;
+        this.data = mat;
+    }
+
+    /**
+     * a constructor for when you already have a fastmat backing array
+     * @param m height
+     * @param n width
+     * @param mat the backing array to the old matrix
+     */
     public FastMatrix(int m, int n, double[] mat) {
         this.height = m;
         this.width = n;
-        if (mat.length == m*n) {
+        this.vertStride = this.height % 32 == 0 ? this.height : ((this.height / 32) + 1) * 32;
+        this.stride = this.width % 32 == 0 ? this.width : ((this.width / 32) + 1) * 32;
+        if (mat.length == this.vertStride * this.stride) {
             this.data = mat;
+        } else if (mat.length == (this.width * this.height)) {
+            double[] backing = new double[this.stride * this.vertStride];
+            for (int i = 0; i < this.height; i++) {
+                System.arraycopy(mat, i * this.width, backing, i * this.stride, this.width);
+                this.data = backing;
+            }
         } else {
             throw new IllegalArgumentException("Array does not match size");
         }
@@ -61,37 +103,39 @@ public class FastMatrix extends Matrix {
     public FastMatrix(Matrix m) {
         this.height = m.m();
         this.width = m.n();
-        this.data = new double[this.width * this.height];
+        this.vertStride = this.height % 32 == 0 ? this.height : ((this.height / 32) + 1) * 32;
+        this.stride = this.width % 32 == 0 ? this.width : ((this.width / 32) + 1) * 32;
+        this.data = new double[this.stride * this.vertStride];
         for (int i = 0; i < this.height; i++) {
             for (int j = 0; j < this.width; i++) {
-                this.data[i * this.width + j] = m.get(i,j);
+                this.data[i * this.stride + j] = m.get(i,j);
             }
         }
     }
 
     @Override
-    public Matrix transpose() {
-        double[] arr = new double[this.width * this.height];
-        for (int i = 0; i < this.data.length; i++) {
-            int y = i / this.width;
-            int x = i - y * this.width;
-            arr[x*this.width + y] = this.data[i];
+    public FastMatrix transpose() {
+        double[] arr = new double[this.stride * this.vertStride];
+        for (int i = 0; i < this.width * this.vertStride; i++) {
+            int y = i / this.stride;
+            int x = i - y * this.stride;
+            arr[x*this.stride + y] = this.data[i];
         }
-        return new FastMatrix(this.width, this.height, arr);
+        return new FastMatrix(this.width, this.height, this.stride, this.vertStride, arr);
     }
 
     @Override
     public Vector getColumn(int index) {
         double[] result = new double[this.height];
         for (int i = 0; i < result.length; i++) {
-            result[i] = this.data[this.width*i + index];
+            result[i] = this.data[this.stride*i + index];
         }
         return new DenseVector(result);
     }
 
     @Override
     public Vector getRow(int index) {
-        double[] result = Arrays.copyOfRange(this.data, index * this.width, (index + 1) * this.width);
+        double[] result = Arrays.copyOfRange(this.data, index * this.stride, index * this.stride + this.width);
         return new DenseVector(result);
     }
 
@@ -106,19 +150,17 @@ public class FastMatrix extends Matrix {
         final int m = this.height;
         final int n = this.width; // = other.height
         final int k = other.width;
+        final int vs = this.vertStride;
+        final int s = this.stride;
+        final int os = other.stride;
         
         final double[] A = this.data; // double[m * n]
-        final double[] B = other.data; // double[n * k]
-        final double[] Bt = new double[k * n];
-        final double[] C = new double[m * k];
+        final double[] Bt = other.transpose().data;
+        final double[] C = new double[vs * os];
         
         // make transposed copy of "other" matrix to properly align with cache
         // TODO: more efficient transpose algorithm using blocking
-        for (int i = 0; i < k; i++) {
-            for (int j = 0; j < n; j++) {
-                Bt[i * n + j] = B[j * k + i];
-            }
-        }
+
         
         // TODO: blocked matrix multiply based on expected L1D cache size (32KB)
         // TODO: vectorization hinting by SSE-aligning strides
@@ -126,13 +168,13 @@ public class FastMatrix extends Matrix {
             for (int j = 0; j < k; j++) {
                 double c = 0.0;
                 for (int l = 0; l < n; l++) {
-                    c += A[i * n + l] * Bt[j * n + l];
+                    c += A[i * s + l] * Bt[j * s + l];
                 }
-                C[i * k + j] = c;
+                C[i * os + j] = c;
             }
         }
         
-        return new FastMatrix(m, k, C);
+        return new FastMatrix(m, k, vs, os, C);
     }
 
     /**
@@ -142,11 +184,11 @@ public class FastMatrix extends Matrix {
      * @param d the new value
      */
     public void set(int i, int j, double d) {
-        this.data[i * this.width + j] = d;
+        this.data[i * this.stride + j] = d;
     }
 
     public double get(int i, int j) {
-        return this.data[i * this.width + j];
+        return this.data[i * this.stride + j];
     }
 
     public int m() {
