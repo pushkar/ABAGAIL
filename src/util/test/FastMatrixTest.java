@@ -3,7 +3,9 @@ package util.test;
 import util.linalg.*;
 
 /**
- * Created by Josh on 2/21/2015.
+ * Created by Josh Morton on 2/21/2015.
+ *
+ * why we aren't using a testing package I don't know, but whatever
  */
 public class FastMatrixTest {
     static int counter = 0;
@@ -42,7 +44,7 @@ public class FastMatrixTest {
             System.out.println("\tFailed");
         }
 
-        System.out.println("Fast Matrix Multiplies into Odd shapes:");
+        System.out.println("Fast Matrix Multiplies into odd shapes:");
         if(fastFastUnusualMultiply()) {
             passed++;
             System.out.println("\tPassed!");
@@ -55,6 +57,10 @@ public class FastMatrixTest {
         }
     }
 
+    /**
+     * checks that a m.transpose() correctly returns a transposed matrix
+     * @return whether or not the test passes
+     */
     private static boolean squareTransposeTest() {
         counter++;
         double[] arr = {1,2,3,4,5,6,7,8,9};
@@ -72,6 +78,10 @@ public class FastMatrixTest {
         return true;
     }
 
+    /**
+     * checks m.getRow()
+     * @return
+     */
     private static boolean getRowTest() {
         counter++;
         double[] arr = {1,2,3,4,5,6,7,8,9};
@@ -82,6 +92,10 @@ public class FastMatrixTest {
         return center.equals(comp);
     }
 
+    /**
+     * makes sure that a matrix matrix multiply works correctly on a fastMatrix by a rectangular Matrix
+     * @return
+     */
     private static boolean fastRectMultiply() {
         counter++;
         double[] arr = {1,2,3,4,5,6,7,8};
@@ -96,6 +110,10 @@ public class FastMatrixTest {
         }
     }
 
+    /**
+     * checks that the override fastMat by fastMat multiply also works
+     * @return
+     */
     private static boolean fastFastMultiply() {
         counter++;
         double[] arr = {1,2,3,4,5,6,7,8};
@@ -109,6 +127,10 @@ public class FastMatrixTest {
         }
     }
 
+    /**
+     * multiplies two matrices that result in a different shape, to make sure that all sizing works
+     * @return
+     */
     private static boolean fastFastUnusualMultiply() {
         counter++;
         double[] arr = {1, 2, 3, 4, 5, 6, 7, 8, 9};
