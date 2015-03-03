@@ -13,7 +13,7 @@ public class CrossValidationTest {
         kFoldSplitFilter split = new kFoldSplitFilter(10);
 
         // Create a metric to evaluate the results of the cross validation
-        CrossValidationTestMetric metric = new CrossValdiationTestMetric(dataSet.size(), 10);
+        CrossValidationTestMetric metric = new CrossValidationTestMetric(dataSet.size(), 10);
 
         // Loop through each fold
         for (DataSet set: split.getFolds()) {
@@ -31,7 +31,7 @@ public class CrossValidationTest {
                 metric.nextValidationFold();
             }
             // Tell the metric we're moving onto the next training fold (i.e. training on the next fold)
-            metrix.nextFold();
+            metric.nextFold();
         }
 
         // Output the results to screen
