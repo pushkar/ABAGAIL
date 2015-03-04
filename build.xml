@@ -14,7 +14,7 @@
 	<target name = "compile" depends="prepare">
 		<mkdir dir="bin"/>
 
-		<javac srcdir= "src" destdir = "bin"/>
+		<javac debug="true" srcdir= "src" destdir = "bin" debuglevel="lines,vars,source" includeAntRuntime="false" />
 
 	</target>
 
@@ -37,8 +37,8 @@
 		<delete dir="${jdocs.dir}" />
 	</target>
 
-	<target name="javadoc" depends="prepare" additionalparam="subpackages">
-		<javadoc sourcepath="${src.dir}" destdir="${jdocs.dir}" />
+	<target name="javadoc" depends="prepare">
+		<javadoc sourcepath="${src.dir}" destdir="${jdocs.dir}" additionalparam="subpackages"/>
 	</target>
 
 	<target name = "all" depends = "compile,jar"/>

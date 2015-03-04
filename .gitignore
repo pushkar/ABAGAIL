@@ -12,3 +12,4 @@ manifest.mf
 *.html
 /out
 *.idea
+*.java~
