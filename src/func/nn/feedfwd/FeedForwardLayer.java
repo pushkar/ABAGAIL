@@ -1,6 +1,7 @@
 package func.nn.feedfwd;
 
 import func.nn.Layer;
+import java.util.List;
 
 /**
  * A feed forward layer in a neural network
@@ -9,13 +10,18 @@ import func.nn.Layer;
  */
 public class FeedForwardLayer extends Layer {
 
-    /** 
+    /**
      * Feed foward all of the nodes in this layer.
      */
     public void feedforward() {
-        for (int i = 0; i < getNodeCount(); i++) {
-            ((FeedForwardNode) getNode(i)).feedforward();
-        }
+        // Implement the stream stuff so this all happens
+        // in parallel.
+        List nodes = getNodes();
+        nodes.parallelStream()
+             .forEach((node) -> {
+                FeedForwardNode ff_node = (FeedForwardNode)node;
+                ff_node.feedforward();
+        });
     }
 
 }

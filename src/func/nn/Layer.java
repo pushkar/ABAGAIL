@@ -17,7 +17,7 @@ public class Layer implements Serializable {
 	/**
 	 * The list of nodes in this layer
 	 */
-	private List nodes;
+	private List<Neuron> nodes;
 
 	/**
 	 * Make a new empty layer
@@ -42,7 +42,16 @@ public class Layer implements Serializable {
 	public Neuron getNode(int i) {
 		return (Neuron) nodes.get(i);
 	}
-	
+
+	/**
+	 * Get the node i
+	 * @param i the node to get
+	 * @return the node
+	 */
+	public List<Neuron> getNodes() {
+		return nodes;
+	}
+
 	/**
 	 * Add a node
 	 * @param node the node to add
