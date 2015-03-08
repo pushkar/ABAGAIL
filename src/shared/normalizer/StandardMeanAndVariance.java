@@ -12,13 +12,39 @@ import java.util.Arrays;
  * Date: 3/7/15
  * Time: 12:43 PM
  */
+
+/**
+ *
+ */
 public class StandardMeanAndVariance implements Normalizer {
 
     // private DataSet dataSet;
     private double[] means;
     private double[] stds;
 
+    /**
+     * This is there to create a normalizer in case the data is not present there
+     * #fit() has to be called before use.
+     */
+    public StandardMeanAndVariance() {
+
+    }
+
+    /**
+     * Calls fit() so that
+     * @param dataSet used to fit the normalizer
+     */
+    public StandardMeanAndVariance(DataSet dataSet) {
+        fit(dataSet);
+    }
+
     @Override
+    /**
+     *  {@inheritDoc}
+     *
+     *  calculates x = (x - mean)/std across the features
+     *
+     */
     public DataSet transform(DataSet dataSet) {
         if ( means == null || stds == null) {
             throw new IllegalStateException("Call Normalizer.fit() before calling transform");
@@ -39,6 +65,13 @@ public class StandardMeanAndVariance implements Normalizer {
     }
 
     @Override
+    /**
+     *
+     * Calculates the mean and standard deviation of the parameter
+     * and stores them for future transformation
+     *
+     * @param dataSet
+     */
     public Normalizer fit(DataSet dataSet) {
 
         if ( dataSet.size() == 0 ) {

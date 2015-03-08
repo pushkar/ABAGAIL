@@ -8,6 +8,11 @@ import shared.DataSet;
  * Date: 3/7/15
  * Time: 12:48 PM
  */
+
+/**
+ * This class does nothing but implement the interface.
+ * This is usually returned when no data is present.
+ */
 public class NoOpNormalizer implements Normalizer {
 
     @Override
