@@ -7,6 +7,7 @@ import shared.tester.CrossValidationTestMetric;
 
 public class CrossValidationTest {
     public static void main(String[] args) {
+        /*
         // Load in a dataset using a DataSetReader or by generating it by hand
 
         // Split the data into k-folds (assuming 10 here)
@@ -36,5 +37,6 @@ public class CrossValidationTest {
 
         // Output the results to screen
         metric.printResults();
+        */
     }
 }
