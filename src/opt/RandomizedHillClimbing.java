@@ -24,7 +24,7 @@ public class RandomizedHillClimbing extends OptimizationAlgorithm {
     private double bestVal;
 
     // Max number of iterations to go without finding a better max
-    private int SINCE_NEW_MAX = 10;
+    private int SINCE_NEW_MAX = 2;
 
     // Keep track of iterations since we found a new max
     private int sinceNewCount = 0;
@@ -54,7 +54,7 @@ public class RandomizedHillClimbing extends OptimizationAlgorithm {
 
         Instance neigh = hcp.neighbor(cur);
         double neighVal = hcp.value(neigh);
-        if (neighVal > curVal) {
+        if (neighVal >= curVal) {
             curVal = neighVal;
             cur = neigh;
             sinceNewCount = 0;

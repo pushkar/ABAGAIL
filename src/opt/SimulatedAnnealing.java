@@ -26,7 +26,7 @@ public class SimulatedAnnealing extends OptimizationAlgorithm {
     private double bestVal;
 
     // Max number of iterations to go without finding a better max
-    private int SINCE_NEW_MAX = 10;
+    private int SINCE_NEW_MAX = 2;
 
     // Keep track of iterations since we found a new max
     private int sinceNewCount = 0;
