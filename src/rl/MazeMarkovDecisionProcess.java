@@ -21,10 +21,10 @@ public class MazeMarkovDecisionProcess implements MarkovDecisionProcess {
     public static final int ACTIONS = 4;    
     /** The move up action */
     public static final int MOVE_UP = 0;
-    /** The move down action */
-    public static final int MOVE_DOWN = 1;
     /** The move left action */
-    public static final int MOVE_LEFT = 2;
+    public static final int MOVE_LEFT = 1;
+    /** The move down action */
+    public static final int MOVE_DOWN = 2;
     /** The move right action */
     public static final int MOVE_RIGHT = 3;
    
@@ -40,7 +40,7 @@ public class MazeMarkovDecisionProcess implements MarkovDecisionProcess {
     /**
      * The maze itself
      */
-    private char[][] maze;
+    protected char[][] maze;
     /**
      * The probability of motion failing
      */
@@ -52,7 +52,7 @@ public class MazeMarkovDecisionProcess implements MarkovDecisionProcess {
     /**
      * The initial state
      */
-    private int initial;
+    protected int initial;
     
     /**
      * Make a new maze markov decision process
