@@ -11,20 +11,20 @@ import dist.DiscreteDistribution;
  * @version 1.0
  */
 public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
-	
+    
     /** 
      * The probability of moving towards the direction of 
      * 90 degree * index, counterclockwise
      * TRANSITION_MODEL[4] = motion failure probability 
      */
-	private static final double[] TRANSITION_MODEL = {0.8, 0.1, 0, 0.1, 0};
-	
-	/** The reward for success */
-	private static final double SREWARD = 1;
+    private static final double[] TRANSITION_MODEL = {0.8, 0.1, 0, 0.1, 0};
+    
+    /** The reward for success */
+    private static final double SREWARD = 1;
     /** The reward for failure */
-	private static final double FREWARD = -2;
+    private static final double FREWARD = -2;
     /** The reward for any step */
-	private static final double STEPREWARD = -0.04;
+    private static final double STEPREWARD = -0.04;
 
     /** The character representing the success */
     public static final char SUCCESS = 'x';
@@ -50,10 +50,10 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
      * @param transitionModel the transition model of a given 
      */
     public NonDeterministicMazeMDP(char[][] maze, int xSuccess, int ySuccess, 
-    		int xFailure, int yFailure, int xInitial, int yInitial, 
-    		double[] transitionModel) {
-    	super(maze, xSuccess, ySuccess, xInitial, yInitial, 
-    			transitionModel.length > ACTIONS ? transitionModel[ACTIONS] : 0);
+            int xFailure, int yFailure, int xInitial, int yInitial, 
+            double[] transitionModel) {
+        super(maze, xSuccess, ySuccess, xInitial, yInitial, 
+                transitionModel.length > ACTIONS ? transitionModel[ACTIONS] : 0);
         this.maze = maze;
         this.success = stateFor(xSuccess, ySuccess);
         this.failure = stateFor(xFailure, yFailure);
@@ -72,7 +72,7 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
         } else if (transitionProbability(state, success, action) > 0) {
             return transitionProbability(state, success, action) * SREWARD;
         } else {
-        	return STEPREWARD;
+            return STEPREWARD;
         }
     }
 
@@ -81,22 +81,22 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
      */
     public double transitionProbability(int i, int j, int a) {
         // This part isn't necessary but can speed up the code in most cases. 
-    	int startX = xFor(i), startY = yFor(i);
+        int startX = xFor(i), startY = yFor(i);
         int endX = xFor(j), endY = yFor(j);
         if (startX != endX && startY != endY) {
-        	return 0;
+            return 0;
         }
         
         double prob = 0;
         for (int rotation = 0; rotation < ACTIONS; rotation++) {
-        	int realAction = (a + rotation) % 4;
-        	if (move(i, a) == j) {
-        		prob += transitionModel.getProbabilities()[realAction];
-        	}
+            int realAction = (a + rotation) % 4;
+            if (move(i, a) == j) {
+                prob += transitionModel.getProbabilities()[realAction];
+            }
         }
         if (i == j) {
-        	double[] tm = transitionModel.getProbabilities();
-        	prob += tm.length > ACTIONS ? tm[ACTIONS] : 0;
+            double[] tm = transitionModel.getProbabilities();
+            prob += tm.length > ACTIONS ? tm[ACTIONS] : 0;
         }
         return prob;
     }
@@ -105,11 +105,11 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
      * @see rl.MarkovDecisionProcess#sampleState(int, int)
      */
     public int sampleState(int i, int a) {
-    	int rotation = transitionModel.sample().getDiscrete();
-    	if (rotation == ACTIONS) {
-    		return i;
-    	}
-    	int realAction = (a + rotation) % ACTIONS;
+        int rotation = transitionModel.sample().getDiscrete();
+        if (rotation == ACTIONS) {
+            return i;
+        }
+        int realAction = (a + rotation) % ACTIONS;
         return move(i, realAction);
     }
     
@@ -120,7 +120,7 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
      * @return the next state
      */
     public int move(int i, int a) {
-    	int dx, dy, startX = xFor(i), startY = yFor(i);
+        int dx, dy, startX = xFor(i), startY = yFor(i);
         switch(a) {
             case MOVE_UP:
                 dx = 0; dy = -1;
@@ -135,7 +135,7 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
                 dx = 1; dy = 0;
                 break;
             default:
-            	dx = 0; dy = 0;
+                dx = 0; dy = 0;
                 break;
         }
         if (startX + dx >= getWidth() || startX + dx < 0 ||
@@ -153,7 +153,7 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
     public boolean isTerminalState(int state) {
         return state == success || state == failure;
     }
-	
+    
     /**
      * Load a maze from a text file
      * @param fileName the file to read from
@@ -182,12 +182,12 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
                     initialY = i;
                     maze[i][j] = EMPTY;
                 } else if (c == SUCCESS) {
-                	successX = j;
-                	successY = i;
+                    successX = j;
+                    successY = i;
                     maze[i][j] = EMPTY;
                 } else if (c == FAILURE) {
-                	failureX = j;
-                	failureY = i;
+                    failureX = j;
+                    failureY = i;
                     maze[i][j] = EMPTY;
                 } else if (c == OBSTACLE) {
                     maze[i][j] = OBSTACLE;
