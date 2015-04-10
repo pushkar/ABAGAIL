@@ -109,8 +109,9 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
         }
         // mutate
         for (int i = 0; i < toMutate; i++) {
-            ga.mutate(newPopulation[random.nextInt(newPopulation.length)]);
-            newValues[i] = -1;
+        	int j = random.nextInt(newPopulation.length);
+            ga.mutate(newPopulation[j]);
+            newValues[j] = -1;
         }
         // calculate the new values
         for (int i = 0; i < newValues.length; i++) {
