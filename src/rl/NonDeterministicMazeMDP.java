@@ -22,7 +22,7 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
     /** The reward for success */
     private static final double SREWARD = 1;
     /** The reward for failure */
-    private static final double FREWARD = -2;
+    private static final double FREWARD = -1;
     /** The reward for any step */
     private static final double STEPREWARD = -0.04;
 
@@ -89,9 +89,9 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
         
         double prob = 0;
         for (int rotation = 0; rotation < ACTIONS; rotation++) {
-            int realAction = (a + rotation) % 4;
-            if (move(i, a) == j) {
-                prob += transitionModel.getProbabilities()[realAction];
+            int realAction = (a + rotation) % ACTIONS;
+            if (move(i, realAction) == j) {
+                prob += transitionModel.getProbabilities()[rotation];
             }
         }
         if (i == j) {
