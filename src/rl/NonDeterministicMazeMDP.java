@@ -69,10 +69,10 @@ public class NonDeterministicMazeMDP extends MazeMarkovDecisionProcess {
             return SREWARD;
         } else if (state == failure) {
             return FREWARD;
-        } else if (transitionProbability(state, success, action) > 0) {
-            return transitionProbability(state, success, action) * SREWARD;
         } else {
-            return STEPREWARD;
+            return transitionProbability(state, success, action) * SREWARD + 
+                    transitionProbability(state, failure, action) * FREWARD + 
+                    STEPREWARD;
         }
     }
 
