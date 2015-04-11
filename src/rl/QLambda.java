@@ -91,9 +91,9 @@ public class QLambda implements PolicyLearner {
      * @see shared.Trainer#train()
      */
     public double train() {
-        double reward = process.reward(state, action);
-        totalReward += reward;
         int nextState = process.sampleState(state, action);
+        double reward = process.reward(nextState, action);
+        totalReward += reward;
         int nextAction = strategy.action(values[nextState]);
         GreedyStrategy greedy = new GreedyStrategy();
         int nextBestAction = greedy.action(values[nextState]);
