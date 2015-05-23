@@ -46,23 +46,26 @@ public class ValueIteration implements PolicyLearner {
         double difference = 0;
         // loop through all the states
         for (int i = 0; i < stateCount; i++) {
-            // find the maximum action
-            double maxActionVal = -Double.MAX_VALUE;
-            int maxAction = 0;
-            for (int a = 0; a < actionCount; a++) {
-                double actionVal = 0;
-                for (int j = 0; j < stateCount; j++) {
-                    actionVal += process.transitionProbability(i, j, a) * values[j];
+            // utility never changes in terminal states
+            if (!process.isTerminalState(i)) {
+                // find the maximum action
+                double maxActionVal = -Double.MAX_VALUE;
+                int maxAction = 0;
+                for (int a = 0; a < actionCount; a++) {
+                    double actionVal = 0;
+                    for (int j = 0; j < stateCount; j++) {
+                        actionVal += process.transitionProbability(i, j, a) * values[j];
+                    }
+                    actionVal = process.reward(i, a) + gamma * actionVal;
+                    if (actionVal > maxActionVal) {
+                        maxActionVal = actionVal;
+                        maxAction = a;
+                    }
                 }
-                actionVal = process.reward(i, a) + gamma * actionVal;
-                if (actionVal > maxActionVal) {
-                    maxActionVal = actionVal;
-                    maxAction = a;
-                }
+                // check if we're done
+                difference = Math.max(Math.abs(values[i] - maxActionVal), difference);
+                values[i] = maxActionVal;
             }
-            // check if we're done
-            difference = Math.max(Math.abs(values[i] - maxActionVal), difference);
-            values[i] = maxActionVal;
         }
         return difference;
     }

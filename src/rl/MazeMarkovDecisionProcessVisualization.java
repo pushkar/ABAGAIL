@@ -69,6 +69,8 @@ public class MazeMarkovDecisionProcessVisualization {
             for (int x = 0; x < mmdp.getWidth(); x++) {
                 if (mmdp.isObstacle(x, y)) {
                     ret += MazeMarkovDecisionProcess.OBSTACLE;
+                } else if (mmdp.isTerminalState(mmdp.stateFor(x, y))) {
+                	ret += MazeMarkovDecisionProcess.GOAL;
                 } else {
                     int a = p.getAction(mmdp.stateFor(x,y));
                     switch(a) {

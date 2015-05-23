@@ -47,6 +47,11 @@ public class PolicyIteration implements PolicyLearner {
             valuesChanged = false;
             // loop through all the states
             for (int i = 0; i < stateCount; i++) {
+                // utility = reward if in terminal state
+                if (process.isTerminalState(i)) {
+                    values[i] = process.reward(i, 0);
+                    continue;
+                }
                 // calculate the new value
                 int action = policy.getAction(i);
                 double actionVal = 0;
