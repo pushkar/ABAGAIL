@@ -12,60 +12,61 @@ import shared.Instance;
 public class KnapsackEvaluationFunction implements EvaluationFunction {
     
     /**
-     * The weights for the things that can be put in the sack
+     * The values for the things that can be put in the knapsack
+     */
+    private double[] values;
+    
+    /**
+     * The weights for the things that can be put in the knapsack
      */
     private double[] weights;
     
     /**
-     * The volumes for the things that can be put in the sack
+     * The maximum weight that the knapsack can take
      */
-    private double[] volumes;
+    private double maxWeight;
     
     /**
-     * The maximum volume in the knapsack
+     * The weight of all the items
      */
-    private double maxVolume;
-    
-    /**
-     * The maximum sum of all items
-     */
-    private double maxVolumeSum;
+    private double allItemsWeight;
     
     /**
      * Make a new knapsack evaluation function
-     * @param w the set of values
-     * @param v the set of volumes
-     * @param maxV the maximum volumes
-     * @param maxC the maximum counts
+     * @param values the set of values
+     * @param weights the set of weights
+     * @param maximumValue the maximum value
+     * @param copiesPerElement the number of copies per element
      */
-    public KnapsackEvaluationFunction(double[] w, double[] v, double maxV,
-            int[] maxC) {
-        weights = w;
-        volumes = v;
-        maxVolume = maxV;
-        for (int i = 0; i < v.length; i++) {
-            maxVolumeSum += maxC[i] * v[i];
+    public KnapsackEvaluationFunction(double[] values,
+            double[] weights,
+            double maximumValue,
+            int[] copiesPerElement) {
+        this.values = values;
+        this.weights = weights;
+        maxWeight = maximumValue;
+        for (int i = 0; i < weights.length; i++) {
+            allItemsWeight += copiesPerElement[i] * weights[i];
         }
     }
 
     /**
-     * @see opt.EvaluationFunction#value(opt.OptimizationData)
+     * Find the value of the knapsack with the given items.
      */
     public double value(Instance d) {
-        Vector data = d.getData();
-        double volume = 0;
+        Vector entriesInKnapsack = d.getData();
+        double weight = 0;
         double value = 0;
-        for (int i = 0; i < data.size(); i++) {
-            volume += volumes[i] * data.get(i);
-            value += weights[i] * data.get(i);
+        for (int i = 0; i < entriesInKnapsack.size(); i++) {
+            weight += weights[i] * entriesInKnapsack.get(i);
+            value += values[i] * entriesInKnapsack.get(i);
         }
-        if (volume > maxVolume) {
-            double smallNumber = 1E-10;
-            return smallNumber*(maxVolumeSum - volume);
-        } else {
+        if (weight < maxWeight) {
             return value;
+        } else {
+            double smallNumber = 1E-10;
+            return smallNumber*(allItemsWeight - weight);
         }
-        
     }
 
 }
