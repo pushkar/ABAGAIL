@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/Hodapp87/ABAGAIL.svg?branch=master)](https://travis-ci.org/Hodapp87/ABAGAIL)
+
 ABAGAIL
 =======
 
