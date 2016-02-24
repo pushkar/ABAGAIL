@@ -68,10 +68,27 @@ We suggest you create your main classes in the `exp` package. You might want
 to create sub packages for your other classes. For example:
 
 ```
-A
-B
-C
+src
++-- main
+    +-- java
+        +-- exp
+            +-- MyFirstExperiment.java    <-- contains main() method
+            +-- MySecondExperiment.java   <-- contains main() method
+            |
+            +-- mymodels
+            |   +-- ModelClassOne.java
+            |   +-- ModelClassTwo.java
+            |   :
+            |
+            +-- myutils
+                +-- UtilityClassOne.java
+                :
 ```
+
+And don't forget to write unit tests under the `src/test/java/exp/...` branch!
+
+
+## Finally
 
 Have fun building ABAGAIL Experiments!
  
