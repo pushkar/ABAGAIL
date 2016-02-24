@@ -26,6 +26,21 @@ target directory:
 
 If the build is successful, it means all the unit tests passed.
 
+### Important
+
+You need to be **connected to the Internet** when you build, so that Maven can
+pull in any required dependencies from the _Maven Central Repository_. That
+is, library _jar_ files such as _JUnit_, _Guava_, _Apache-Commons_, etc.
+
+Note that these files are stored in a local repository on your system:
+
+ * `~/.m2/repository/*`
+ 
+Maven only fetches them from the internet if it cannot find the library
+in this local repo.
+
+Check the Apache website for [more information on Maven][3].
+
 
 ## Running the Code
 
@@ -94,3 +109,4 @@ Have fun building ABAGAIL Experiments!
  
 [1]: https://maven.apache.org/download.cgi
 [2]: http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html
+[3]: https://maven.apache.org
