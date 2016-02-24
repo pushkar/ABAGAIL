@@ -38,13 +38,23 @@ import shared.FixedIterationTrainer;
  * @version 1.0
  */
 public class MaxKColoringTest {
-    /** The n value */
-    private static final int N = 50; // number of vertices
-    private static final int L =4; // L adjacent nodes per vertex
-    private static final int K = 8; // K possible colors
+
+    /** Parameters */
+    private static final int N = 50;    // N vertices
+    private static final int L = 4;     // L adjacent nodes per vertex
+    private static final int K = 8;     // K possible colors
+
+    private static final String LINE = "============================";
+    private static final String TIME = "Time : ";
+
+    private static long now() {
+        return System.currentTimeMillis();
+    }
+
     /**
-     * The test main
-     * @param args ignored
+     * The main entry point.
+     *
+     * @param args command line arguments -- ignored
      */
     public static void main(String[] args) {
         Random random = new Random(N*L);
@@ -52,16 +62,20 @@ public class MaxKColoringTest {
         Vertex[] vertices = new Vertex[N];
         for (int i = 0; i < N; i++) {
             Vertex vertex = new Vertex();
-            vertices[i] = vertex;	
+            vertices[i] = vertex;    
             vertex.setAdjMatrixSize(L);
             for(int j = 0; j <L; j++ ){
-            	 vertex.getAadjacencyColorMatrix().add(random.nextInt(N*L));
+                 vertex.getAadjacencyColorMatrix().add(random.nextInt(N*L));
             }
         }
-        /*for (int i = 0; i < N; i++) {
+
+        /*
+        for (int i = 0; i < N; i++) {
             Vertex vertex = vertices[i];
             System.out.println(Arrays.toString(vertex.getAadjacencyColorMatrix().toArray()));
-        }*/
+        }
+        */
+
         // for rhc, sa, and ga we use a permutation based encoding
         MaxKColorFitnessFunction ef = new MaxKColorFitnessFunction(vertices);
         Distribution odd = new DiscretePermutationDistribution(K);
@@ -74,43 +88,43 @@ public class MaxKColoringTest {
         Distribution df = new DiscreteDependencyTree(.1); 
         ProbabilisticOptimizationProblem pop = new GenericProbabilisticOptimizationProblem(ef, odd, df);
         
-        long starttime = System.currentTimeMillis();
+        long starttime = now();
         RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);      
         FixedIterationTrainer fit = new FixedIterationTrainer(rhc, 20000);
         fit.train();
-        System.out.println("RHC: " + ef.value(rhc.getOptimal()));
+        println("RHC: " + ef.value(rhc.getOptimal()));
         System.out.println(ef.foundConflict());
-        System.out.println("Time : "+ (System.currentTimeMillis() - starttime));
+        System.out.println(TIME + (now() - starttime));
         
-        System.out.println("============================");
+        System.out.println(LINE);
         
-        starttime = System.currentTimeMillis();
+        starttime = now();
         SimulatedAnnealing sa = new SimulatedAnnealing(1E12, .1, hcp);
         fit = new FixedIterationTrainer(sa, 20000);
         fit.train();
         System.out.println("SA: " + ef.value(sa.getOptimal()));
         System.out.println(ef.foundConflict());
-        System.out.println("Time : "+ (System.currentTimeMillis() - starttime));
+        System.out.println(TIME + (now() - starttime));
         
-        System.out.println("============================");
+        System.out.println(LINE);
         
-        starttime = System.currentTimeMillis();
+        starttime = now();
         StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 10, 60, gap);
         fit = new FixedIterationTrainer(ga, 50);
         fit.train();
         System.out.println("GA: " + ef.value(ga.getOptimal()));
         System.out.println(ef.foundConflict());
-        System.out.println("Time : "+ (System.currentTimeMillis() - starttime));
+        System.out.println(TIME + (now() - starttime));
         
-        System.out.println("============================");
+        System.out.println(LINE);
         
-        starttime = System.currentTimeMillis();
+        starttime = now();
         MIMIC mimic = new MIMIC(200, 100, pop);
         fit = new FixedIterationTrainer(mimic, 5);
         fit.train();
-        System.out.println("MIMIC: " + ef.value(mimic.getOptimal()));  
+        System.out.println("MIMIC: " + ef.value(mimic.getOptimal()));
         System.out.println(ef.foundConflict());
-        System.out.println("Time : "+ (System.currentTimeMillis() - starttime));
+        System.out.println("Time : "+ (now() - starttime));
         
     }
 }
