@@ -14,15 +14,4 @@ script:
  - ant all
  - if [ "$BUILD_DOCS" == "true" ]; then
       ant javadoc;
-      git config --global user.email "chodapp3@gatech.edu"
-      git config --global user.name "Chris Hodapp"
-      git add docs;
-      git commit -m "Automatic Travis commit from build ${TRAVIS_BUILD_NUMBER}";
-      git push;
    fi
-
-# TODO:
-    # Add in JUnit tests.
-    # Are any code coverage tools good to have here for Javadoc & JUnit?
-    # Get Javadoc warnings into some sort of page?
-    # I should put the git email & name in an environment variable
