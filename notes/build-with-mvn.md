@@ -62,6 +62,17 @@ browser with:
   * `open target/site/apidocs/index.html`
 
 
+## Create Some Experiments
+
+We suggest you create your main classes in the `exp` package. You might want
+to create sub packages for your other classes. For example:
+
+```
+A
+B
+C
+```
+
 Have fun building ABAGAIL Experiments!
  
 [1]: https://maven.apache.org/download.cgi
