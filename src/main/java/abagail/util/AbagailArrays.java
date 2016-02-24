@@ -231,18 +231,19 @@ public class AbagailArrays {
      * @return the ith smallest number
      */
     public static double randomizedSelect(double[] a, int s, int e, int i) {
-        if (s == e - 1) {
-            return a[s];
+        while (s < e - 1) {
+            int splitI = randomPartition(a, s, e);
+            int orderOfSplit = splitI - s + 1;
+            if (orderOfSplit == i) {
+                return a[splitI];
+            } else if (i < orderOfSplit) {
+                e = splitI;
+                continue;
+            }
+            s = splitI + 1;
+            i -= orderOfSplit;
         }
-        int splitI = randomPartition(a, s, e);
-        int orderOfSplit = splitI - s + 1;
-        if (orderOfSplit == i) {
-            return a[splitI];
-        } else if (i < orderOfSplit) {
-            return randomizedSelect(a, s, splitI, i);
-        } else {
-            return randomizedSelect(a, splitI + 1, e, i - orderOfSplit);
-        }
+        return a[s];
     }
 
     /**
