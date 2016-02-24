@@ -2,6 +2,7 @@ package abagail.util;
 
 import org.junit.Test;
 
+import static abagail.util.StringUtils.print;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -10,12 +11,6 @@ import static org.junit.Assert.assertEquals;
 public class TimeUtilTest {
 
     private String result;
-
-
-    private void print(String fmt, Object... params) {
-        System.out.println(String.format(fmt, params));
-    }
-
 
     @Test
     public void zero() {
@@ -51,5 +46,4 @@ public class TimeUtilTest {
         print("1h2m3s: %s", result);
         assertEquals("not 62m3s", "62:03", result);
     }
-
 }

@@ -5,6 +5,8 @@ package util;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
+/* NOTE: migrated to src/main/java/abagail/util/MaxHeap.java */
+@Deprecated
 public class MaxHeap {
 
     /**

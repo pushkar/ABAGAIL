@@ -1,16 +1,12 @@
 package exp;
 
+import static abagail.util.StringUtils.print;
 import static abagail.util.TimeUtil.formatTime;
 
 /**
  * A skeleton main class for your experiment.
  */
 public class SampleExperiment {
-
-    // TODO: move this method to a utility class
-    private static void print(String fmt, Object... params) {
-        System.out.println(String.format(fmt, params));
-    }
 
     private static void printArgs(String[] args) {
         if (args.length == 0) {

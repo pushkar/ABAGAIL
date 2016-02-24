@@ -7,6 +7,9 @@ package abagail.util;
  */
 public class TimeUtil {
 
+    // not to be instantiated
+    private TimeUtil() { }
+
     /**
      * Formats the given number of milliseconds in minutes and seconds.
      *
