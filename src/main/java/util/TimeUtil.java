@@ -3,8 +3,7 @@ package util;
 /**
  * A utility for preparing and presenting run time metrics.
  *
- * @author Jesse Rosalia <https://github.com/theJenix>
- * @date 2013-03-07
+ * @author Jesse Rosalia - https://github.com/theJenix - 2013-03-07
  */
 public class TimeUtil {
 

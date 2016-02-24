@@ -9,16 +9,11 @@ import static org.junit.Assert.assertEquals;
  */
 public class TimeUtilTest {
 
-    // TODO: use a system environment variable, instead of hard-coding
-    //  e.g. -DtestPrintOn=true
-    private static final boolean PRINT_ON = true;
-
     private String result;
 
+
     private void print(String fmt, Object... params) {
-        if (PRINT_ON) {
-            System.out.println(String.format(fmt, params));
-        }
+        System.out.println(String.format(fmt, params));
     }
 
 
