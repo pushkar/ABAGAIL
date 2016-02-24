@@ -1,4 +1,4 @@
 /**
  * General purpose utilities.
  */
-package util;
+package abagail.util;

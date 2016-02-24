@@ -1,4 +1,4 @@
-package util;
+package abagail.util;
 
 /**
  * A utility for preparing and presenting run time metrics.

@@ -1,4 +1,4 @@
-package util;
+package abagail.util;
 
 import org.junit.Test;
 

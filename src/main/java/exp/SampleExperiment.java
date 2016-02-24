@@ -1,6 +1,6 @@
 package exp;
 
-import static util.TimeUtil.formatTime;
+import static abagail.util.TimeUtil.formatTime;
 
 /**
  * A skeleton main class for your experiment.
@@ -12,17 +12,27 @@ public class SampleExperiment {
         System.out.println(String.format(fmt, params));
     }
 
+    private static void printArgs(String[] args) {
+        if (args.length == 0) {
+            print("  (no command line args)");
+        } else {
+            int i = 1;
+            for (String arg: args) {
+                print("  arg %d: \"%s\"", i++, arg);
+            }
+        }
+    }
+
     /**
      * Main entry point.
      *
-     * @param args command line arguments -- ignored
+     * @param args command line arguments
      */
     public static void main(String[] args) {
         print("Hello");
-        print("Do you have a minute? [%s]", formatTime(60_000));
+        printArgs(args);
 
-        // write the remainder of your code here..
-        //  (and in other classes, of course)
+        print("Do you have a minute? [%s]", formatTime(60_000));
 
         print("All Done!");
     }
