@@ -8,6 +8,8 @@ import java.util.List;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
+/* NOTE: Migrated to src/main/java/abagail/util/graph/Node.java */
+@Deprecated
 public class Node {
     /**
      * The list of edges

@@ -5,6 +5,8 @@ package util.graph;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
+/* NOTE: Migrated to src/main/java/abagail/util/graph/DfsTree.java */
+@Deprecated
 public class DFSTree implements GraphTransformation {
     /**
      * Whether or not a node has been visited
