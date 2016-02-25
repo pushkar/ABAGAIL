@@ -4,6 +4,7 @@
 		<property name="jdocs.dir" value="docs"/>
 		<property name="bin.dir" value="bin"/>
 		<property name="src.dir" value="src"/>
+		<property name="test.path" value="test.RunTests"/>
 	</target>
 
 	<target name="prepare" depends="init">
@@ -18,7 +19,6 @@
 
 	</target>
 
-	
 
 	<target name = "jar" depends = "compile">
 
@@ -31,18 +31,28 @@
 	</target>
 
 
-
 	<target name="clean">
 		<delete dir="${bin.dir}" />
 		<delete dir="${jdocs.dir}" />
 	</target>
 
-	<target name="javadoc" depends="prepare" additionalparam="subpackages">
-		<javadoc sourcepath="${src.dir}" destdir="${jdocs.dir}" />
+	<target name="test" depends="jar">
+		<java classname="test.RunTests">
+			<arg value="-h"/>
+			<classpath>
+				<pathelement location="bin" />
+				<pathelement path="${test.path}"/>
+			</classpath>
+		</java>
+	</target>
+
+	<target name="javadoc" depends="prepare">
+		<javadoc sourcepath="${src.dir}" destdir="${jdocs.dir}" additionalparam="subpackages"/>
 	</target>
 
 	<target name = "all" depends = "compile,jar"/>
 
 </project>
+
 
 		

@@ -1,5 +1,7 @@
 *.class
 .DS_Store
+*.idea
+*.iml
 bin/*
 ABAGAIL.jar
 # Package Files #
