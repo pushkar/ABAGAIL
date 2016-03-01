@@ -20,3 +20,6 @@ jython continuouspeaks.py
 echo "Running knapsack"
 jython knapsack.py
 
+# abalone test
+echo "Running abalone test"
+jython abalone_test.py
