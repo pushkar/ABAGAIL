@@ -88,19 +88,8 @@ public class AbaloneTest {
         System.out.println("\nError results for " + oaName + "\n---------------------------");
 
         for(int i = 0; i < trainingIterations; i++) {
-            oa.train();
-
-            double error = 0;
-            for(int j = 0; j < instances.length; j++) {
-                network.setInputValues(instances[j].getData());
-                network.run();
-
-                Instance output = instances[j].getLabel(), example = new Instance(network.getOutputValues());
-                example.setLabel(new Instance(Double.parseDouble(network.getOutputValues().toString())));
-                error += measure.value(output, example);
-            }
-
-            System.out.println(df.format(error));
+            double fitness = oa.train();
+            System.out.println(df.format(1/fitness));
         }
     }
 
