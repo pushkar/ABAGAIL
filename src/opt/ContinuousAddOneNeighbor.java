@@ -34,8 +34,11 @@ public class ContinuousAddOneNeighbor implements NeighborFunction {
      * @see opt.NeighborFunction#neighbor(opt.OptimizationData)
      */
     public Instance neighbor(Instance d) {
+        //randomly choose a dimension
         int i = Distribution.random.nextInt(d.size());
+        //make a copy of the original instance
         Instance cod = (Instance) d.copy();
+        //randomly add [-0.5amount, 0.5amount) to the value at dimension i
         cod.getData().set(i, cod.getContinuous(i)+ Distribution.random.nextDouble() * amount - amount / 2);
         return cod;
     }
