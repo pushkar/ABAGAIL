@@ -187,7 +187,7 @@ def train(oa, network, oa_name, trains, tests, measure, training_iterations):
             0:{
                 'time',
                 'training_error',
-                'validation_error',
+                'test_error',
             },
             ...
         ],
