@@ -26,8 +26,9 @@ input_layer = 23
 hidden_layer = 20
 output_layer = 1
 
-tune_iterations = 1000
-trainining_time = 600000
+"""time in seconds"""
+tune_time = 1
+training_time = 1
 
 oa_names = ['RHC', 'SA', 'GA']
 log = {
@@ -118,7 +119,7 @@ def find_parameters(trains, tests, dataset):
             oa = load_oa(oa_name, param, nnop)
             """train the oa"""
             training_log = train(oa, network, oa_name, trains, tests, measure,
-                tune_iterations)
+                training_time=tune_time)
             training_log['parameters'] = param
             test_error=training_log['training'][-1]['test_error']
             """book keeping to find the best configuration"""
@@ -222,8 +223,9 @@ def train(oa, network, oa_name, trains, tests, measure, training_iterations=None
         test_error /= len(tests)
 
         delta = datetime.today() - start_time
+        delta = delta.days * 3600 * 24 + delta.seconds + delta.microseconds / 1000000.0
         log['training'].append({
-            'time': delta.microseconds,
+            'time': delta,
             'training_error': training_error,
             'test_error': test_error,
             })
@@ -231,9 +233,14 @@ def train(oa, network, oa_name, trains, tests, measure, training_iterations=None
         for i in xrange(training_iterations):
             train_one_iteration()
     elif training_time:
-        delta = datetime.today() - start_time
-        while delta.microseconds < training_time:
+        while True:
+            delta = datetime.today() - start_time
+            delta = delta.days * 3600 * 24 + delta.seconds + delta.microseconds / 1000000.0
             train_one_iteration()
+            if delta > training_time:
+                break
+    else:
+        raise "must specify at least one of training_iterations/training_time"
 
     """test the final network"""
     optimal_instance = oa.getOptimal()

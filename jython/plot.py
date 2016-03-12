@@ -108,12 +108,12 @@ def main(log):
         fig = plt.figure(num=None, figsize=(21,9), dpi=300)
         ax = plt.subplot(111)
         for config in log['find_parameters'][oa_name]:
-            x = range(800,len(config['training']))
-            y = [iteration['test_error'] for iteration in config['training'][800:]]
+            x = [iteration['time'] for iteration in config['training'][len(config['training'])/5*4:]]
+            y = [iteration['test_error'] for iteration in config['training'][len(config['training'])/5*4:]]
             ax.plot(x, y, label=str(config['parameters']))
-        plt.xlabel('iterations')
+        plt.xlabel('time in seconds')
         plt.ylabel('test error')
-        plt.title('configurations of {}'.format(oa_name))
+        plt.title('partial configurations of {}'.format(oa_name))
         box = ax.get_position()
         ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
         fontP = FontProperties()
@@ -127,10 +127,10 @@ def main(log):
         fig = plt.figure(num=None, figsize=(21,9), dpi=300)
         ax = plt.subplot(111)
         for config in log['find_parameters'][oa_name]:
-            x = range(len(config['training']))
+            x = [iteration['time'] for iteration in config['training']]
             y = [iteration['test_error'] for iteration in config['training']]
             ax.plot(x, y, label=str(config['parameters']))
-        plt.xlabel('iterations')
+        plt.xlabel('time in seconds')
         plt.ylabel('test error')
         plt.title('configurations of {}'.format(oa_name))
         box = ax.get_position()
@@ -142,7 +142,7 @@ def main(log):
         plt.clf()
 
     for oa_name in oa_names:
-        x = [iteration['time']/1000.0 for iteration in log['train_time'][oa_name]['training']]
+        x = [iteration['time'] for iteration in log['train_time'][oa_name]['training']]
         y1 = [iteration['training_error'] for iteration in log['train_time'][oa_name]['training']]
         y2 = [iteration['test_error'] for iteration in log['train_time'][oa_name]['training']]
         plt.plot(x, y1, label='{} {}'.format(oa_name, 'training'))
@@ -151,8 +151,8 @@ def main(log):
     plt.ylabel('error')
     plt.title('comparison of train/val error against time')
     plt.legend()
-    plt.text("parameters: SA{} GA{}".format(log['train_time']['SA']['parameters'],log['train_time']['GA']['parameters']))
-    plt.savefig('credit-g-train-iteration.png'.format(oa_name))
+    plt.text(.1,.1,"parameters: SA{} GA{}".format(log['train_time']['SA']['parameters'],log['train_time']['GA']['parameters']))
+    plt.savefig('credit-g-train-time.png'.format(oa_name))
     plt.clf()
 
 if __name__ == "__main__":
