@@ -8,7 +8,7 @@ TRIALNAME=$1
 echo running $TRIALNAME
 
 jython harproblem.py $LOGFILE
-#python plot.py $LOGFILE 
+python plot.py $LOGFILE 
 
 mkdir logs/$TRIALNAME
 mv credit-g* logs/$TRIALNAME

@@ -1,5 +1,6 @@
 import json
 import matplotlib.pyplot as plt
+from matplotlib.font_manager import FontProperties
 import sys
 
 oa_names = ['RHC', 'SA', 'GA']
@@ -63,12 +64,12 @@ def main(log):
                         'correct_classifications'
                         'incorrect_classifications'
                     }
-                    'parameter': {<parameters>}
+                    'parameters': {<parameters>}
                 }
             'SA',
             'GA',
         },
-        'train_iteration':{
+        'train_time':{
             'RHC': {
                 'training': [
                     0:{
@@ -82,6 +83,7 @@ def main(log):
                     'correct_classifications'
                     'incorrect_classifications'
                 }
+                'parameters': {<parameters>}
             }
             'SA': {
             }
@@ -100,31 +102,58 @@ def main(log):
     task 2:
         plot the train/val error against time
     """
+
+    """x starting from 800"""
     for oa_name in oa_names:
+        fig = plt.figure(num=None, figsize=(21,9), dpi=300)
+        ax = plt.subplot(111)
         for config in log['find_parameters'][oa_name]:
-            x = [iteration['time'] for iteration in config['training']]
-            y = [iteration['test_error'] for iteration in config['training']]
-            plt.plot(x, y, label=str(config['parameter']))
-        plt.xlabel('time in seconds')
+            x = range(800,len(config['training']))
+            y = [iteration['test_error'] for iteration in config['training'][800:]]
+            ax.plot(x, y, label=str(config['parameters']))
+        plt.xlabel('iterations')
         plt.ylabel('test error')
         plt.title('configurations of {}'.format(oa_name))
-        plt.legend()
+        box = ax.get_position()
+        ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+        fontP = FontProperties()
+        fontP.set_size('small')
+        ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=fontP)
+        plt.savefig('credit-g-find-parameters-partial-{}.png'.format(oa_name))
+        plt.clf()
+
+    """whole x-axis"""
+    for oa_name in oa_names:
+        fig = plt.figure(num=None, figsize=(21,9), dpi=300)
+        ax = plt.subplot(111)
+        for config in log['find_parameters'][oa_name]:
+            x = range(len(config['training']))
+            y = [iteration['test_error'] for iteration in config['training']]
+            ax.plot(x, y, label=str(config['parameters']))
+        plt.xlabel('iterations')
+        plt.ylabel('test error')
+        plt.title('configurations of {}'.format(oa_name))
+        box = ax.get_position()
+        ax.set_position([box.x0, box.y0, box.width * 0.8, box.height])
+        fontP = FontProperties()
+        fontP.set_size('small')
+        ax.legend(loc='center left', bbox_to_anchor=(1, 0.5), prop=fontP)
         plt.savefig('credit-g-find-parameters-{}.png'.format(oa_name))
         plt.clf()
 
     for oa_name in oa_names:
-        for config in log['train_iteration'][oa_name]:
-            x = [iteration['time'] for iteration in log['train_iteration'][oa_name]['training']]
-            y1 = [iteration['training_error'] for iteration in log['train_iteration'][oa_name]['training']]
-            y2 = [iteration['test_error'] for iteration in log['train_iteration'][oa_name]['training']]
-            plt.plot(x, y1, label='{} {}'.format(oa_name, 'training')))
-            plt.plot(x, y2, label='{} {}'.format(oa_name, 'validation')))
-        plt.xlabel('time in seconds')
-        plt.ylabel('error')
-        plt.title('comparison of train/val error against time'
-        plt.legend()
-        plt.savefig('credit-g-train-iteration.png'.format(oa_name))
-        plt.clf()
+        x = [iteration['time']/1000.0 for iteration in log['train_time'][oa_name]['training']]
+        y1 = [iteration['training_error'] for iteration in log['train_time'][oa_name]['training']]
+        y2 = [iteration['test_error'] for iteration in log['train_time'][oa_name]['training']]
+        plt.plot(x, y1, label='{} {}'.format(oa_name, 'training'))
+        plt.plot(x, y2, label='{} {}'.format(oa_name, 'validation'))
+    plt.xlabel('time in seconds')
+    plt.ylabel('error')
+    plt.title('comparison of train/val error against time')
+    plt.legend()
+    plt.text("parameters: SA{} GA{}".format(log['train_time']['SA']['parameters'],log['train_time']['GA']['parameters']))
+    plt.savefig('credit-g-train-iteration.png'.format(oa_name))
+    plt.clf()
 
 if __name__ == "__main__":
     json_file = sys.argv[1]

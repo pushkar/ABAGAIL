@@ -27,12 +27,12 @@ hidden_layer = 20
 output_layer = 1
 
 tune_iterations = 1000
-training_iterations = 5000
+trainining_time = 600000
 
 oa_names = ['RHC', 'SA', 'GA']
 log = {
     'find_parameters': {},
-    'train_iteration': {}
+    'train_time': {}
     }
 
 comb_parameters={'RHC':[0]}
@@ -130,7 +130,7 @@ def find_parameters(trains, tests, dataset):
         print "the best parameter for {} is {}".format(oa_name, comb_parameters[oa_name][best_parameters[oa_name]])
 
 """find train/val vs iterations"""
-def train_iteration(trains, tests, dataset):
+def train_time(trains, tests, dataset):
     factory = BackPropagationNetworkFactory()
     """the measure"""
     measure = SumOfSquaresError()
@@ -141,9 +141,10 @@ def train_iteration(trains, tests, dataset):
         oa = load_oa(oa_name, comb_parameters[oa_name][best_parameters[oa_name]],
             nnop)
         training_log = train(oa, network, oa_name, trains, tests, measure,
-            training_iterations)
+            training_time = training_time)
+        training_log['parameters'] = comb_parameters[oa_name][best_parameters[oa_name]]
         """just remember the log"""
-        log['train_iteration'][oa_name]=training_log
+        log['train_time'][oa_name]=training_log
 
 
 """
@@ -179,7 +180,8 @@ def initialize_instances():
 train the oa for number of iterations
 output a string of (time, train_err, test_err) indexed by iteration
 """
-def train(oa, network, oa_name, trains, tests, measure, training_iterations):
+def train(oa, network, oa_name, trains, tests, measure, training_iterations=None,
+        training_time=None):
     """
     scheme for log:
     log = {
@@ -197,7 +199,7 @@ def train(oa, network, oa_name, trains, tests, measure, training_iterations):
         }
     }
     """
-    log={'training':[x for x in xrange(training_iterations)]}
+    log={'training':[]}
     print 'training ', oa_name
     """
     Train the given optimization algorithm
@@ -206,7 +208,7 @@ def train(oa, network, oa_name, trains, tests, measure, training_iterations):
     """record start time"""
     start_time = datetime.today()
     """train the algorithm"""
-    for i in xrange(training_iterations):
+    def train_one_iteration():
         """calculate training error"""
         fitness = oa.train()
         training_error = 1 / fitness / len(trains)
@@ -220,11 +222,18 @@ def train(oa, network, oa_name, trains, tests, measure, training_iterations):
         test_error /= len(tests)
 
         delta = datetime.today() - start_time
-        log['training'][i]={
-            'time': delta.seconds,
+        log['training'].append({
+            'time': delta.microseconds,
             'training_error': training_error,
             'test_error': test_error,
-            }
+            })
+    if training_iterations:
+        for i in xrange(training_iterations):
+            train_one_iteration()
+    elif training_time:
+        delta = datetime.today() - start_time
+        while delta.microseconds < training_time:
+            train_one_iteration()
 
     """test the final network"""
     optimal_instance = oa.getOptimal()
@@ -281,7 +290,7 @@ def main():
     """find the best configuration of networks"""
     find_parameters(trains, tests, dataset)
     """find relationship between train/val with the best configurations"""
-    train_iteration(trains, tests, dataset)
+    train_time(trains, tests, dataset)
 
     json_file = sys.argv[1]
     with open(json_file, 'w') as f:
