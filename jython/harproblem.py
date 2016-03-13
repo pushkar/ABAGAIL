@@ -27,8 +27,8 @@ hidden_layer = 20
 output_layer = 1
 
 """time in seconds"""
-tune_time = 20
-training_time = 120
+tune_time = 60
+training_time = 300
 
 oa_names = ['RHC', 'SA', 'GA']
 log = {
@@ -59,15 +59,15 @@ the plan for training:
 def generate_comb_parameters():
     def comb_sa():
         result = []
-        for t in (1000, 10000, 100000, 1000000, 10000000, 100000000):
+        for t in (100000, 1000000, 10000000, 100000000):
             for cooling in (0.5, 0.6, 0.7, 0.8, 0.9, 0.95):
                 result.append({'t':t, 'cooling':cooling})
         return result
 
     def comb_ga():
         result = []
-        for population in (100, 120, 140, 160, 180, 200):
-            for mutate in (0.02, 0.04, 0.06, 0.08, 0.1):
+        for population in (60, 80, 100, 120, 140, 160, 180, 200):
+            for mutate in (0.06, 0.08, 0.1, .12, .14, .16, .18, .20):
                 result.append({
                     'population':population,
                     'mate':population/2,
