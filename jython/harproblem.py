@@ -28,7 +28,7 @@ output_layer = 1
 
 """time in seconds"""
 tune_time = 20
-training_time = 20
+training_time = 120
 
 oa_names = ['RHC', 'SA', 'GA']
 log = {
@@ -121,7 +121,9 @@ def find_parameters(trains, tests, dataset):
             training_log = train(oa, network, measure, oa_name, trains, tests,
                 training_time=tune_time, trainer_returns_fitness=True)
             training_log['parameters'] = param
-            test_error=training_log['training'][-1]['test_error']
+            """average over the last 20 iterations"""
+            last_errors=[x['test_error'] for x in training_log['training'][-20:]]
+            test_error = sum(last_errors)/len(last_errors)
             """book keeping to find the best configuration"""
             if best_error[oa_name] < 0 or best_error[oa_name] > test_error:
                 best_error[oa_name] = test_error
