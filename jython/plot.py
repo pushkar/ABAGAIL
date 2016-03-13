@@ -127,12 +127,14 @@ def main(log):
 
     """whole x-axis"""
     for oa_name in log['find_parameters']:
+        colors = cm.rainbow([float(x)/len(log['find_parameters'][oa_name])
+                for x in range(len(log['find_parameters'][oa_name]))])
         fig = plt.figure(num=None, figsize=(21,9), dpi=300)
         ax = plt.subplot(111)
-        for config in log['find_parameters'][oa_name]:
+        for config, color in zip(log['find_parameters'][oa_name], colors):
             x = [iteration['time'] for iteration in config['training']]
             y = [iteration['test_error'] for iteration in config['training']]
-            ax.plot(x, y, label=json.dumps(config['parameters']))
+            ax.scatter(x, y, label=json.dumps(config['parameters']), color=color)
         plt.xlabel('time in seconds')
         plt.ylabel('test error')
         plt.title('configurations of {}'.format(oa_name))
