@@ -1,5 +1,6 @@
 import json
 import matplotlib.pyplot as plt
+import matplotlib.cm as cm
 from matplotlib.font_manager import FontProperties
 import sys
 
@@ -103,14 +104,16 @@ def main(log):
         plot the train/val error against time
     """
 
-    """x starting from 800"""
-    for oa_name in oa_names:
+    """x starting from 80%"""
+    for oa_name in log['find_parameters']:
+        colors = cm.rainbow([float(x)/len(log['find_parameters'][oa_name])
+                for x in range(len(log['find_parameters'][oa_name]))])
         fig = plt.figure(num=None, figsize=(21,9), dpi=300)
         ax = plt.subplot(111)
-        for config in log['find_parameters'][oa_name]:
+        for config, color in zip(log['find_parameters'][oa_name], colors):
             x = [iteration['time'] for iteration in config['training'][len(config['training'])/5*4:]]
             y = [iteration['test_error'] for iteration in config['training'][len(config['training'])/5*4:]]
-            ax.plot(x, y, label=str(config['parameters']))
+            ax.scatter(x, y, label=json.dumps(config['parameters']), color=color)
         plt.xlabel('time in seconds')
         plt.ylabel('test error')
         plt.title('partial configurations of {}'.format(oa_name))
@@ -123,13 +126,13 @@ def main(log):
         plt.clf()
 
     """whole x-axis"""
-    for oa_name in oa_names:
+    for oa_name in log['find_parameters']:
         fig = plt.figure(num=None, figsize=(21,9), dpi=300)
         ax = plt.subplot(111)
         for config in log['find_parameters'][oa_name]:
             x = [iteration['time'] for iteration in config['training']]
             y = [iteration['test_error'] for iteration in config['training']]
-            ax.plot(x, y, label=str(config['parameters']))
+            ax.plot(x, y, label=json.dumps(config['parameters']))
         plt.xlabel('time in seconds')
         plt.ylabel('test error')
         plt.title('configurations of {}'.format(oa_name))
@@ -141,17 +144,20 @@ def main(log):
         plt.savefig('credit-g-find-parameters-{}.png'.format(oa_name))
         plt.clf()
 
-    for oa_name in oa_names:
+    config_text = ''
+    for oa_name in log['train_time']:
         x = [iteration['time'] for iteration in log['train_time'][oa_name]['training']]
         y1 = [iteration['training_error'] for iteration in log['train_time'][oa_name]['training']]
         y2 = [iteration['test_error'] for iteration in log['train_time'][oa_name]['training']]
         plt.plot(x, y1, label='{} {}'.format(oa_name, 'training'))
         plt.plot(x, y2, label='{} {}'.format(oa_name, 'validation'))
-    plt.xlabel('time in seconds')
+        if 'parameters' in log['train_time'][oa_name]:
+            param=oa_name+json.dumps(log['train_time'][oa_name]['parameters'])
+            config_text=config_text+param
+    plt.xlabel('time in seconds. '+config_text)
     plt.ylabel('error')
     plt.title('comparison of train/val error against time')
     plt.legend()
-    plt.text(.1,.1,"parameters: SA{} GA{}".format(log['train_time']['SA']['parameters'],log['train_time']['GA']['parameters']))
     plt.savefig('credit-g-train-time.png'.format(oa_name))
     plt.clf()
 

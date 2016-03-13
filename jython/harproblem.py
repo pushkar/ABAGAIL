@@ -27,8 +27,8 @@ hidden_layer = 20
 output_layer = 1
 
 """time in seconds"""
-tune_time = 1
-training_time = 1
+tune_time = 20
+training_time = 20
 
 oa_names = ['RHC', 'SA', 'GA']
 log = {
@@ -36,11 +36,11 @@ log = {
     'train_time': {}
     }
 
-comb_parameters={'RHC':[0]}
+comb_parameters={}
 
 """store the index into the combination array"""
-best_parameters={ 'RHC':-1,'SA':-1, 'GA':-1, }
-best_error={ 'RHC':-1,'SA':-1, 'GA':-1, }
+best_parameters={ 'SA':-1, 'GA':-1, }
+best_error={ 'SA':-1, 'GA':-1, }
 
 """
 the plan for training:
@@ -107,7 +107,7 @@ def find_parameters(trains, tests, dataset):
     factory = BackPropagationNetworkFactory()
     """the measure"""
     measure = SumOfSquaresError()
-    for oa_name in oa_names:
+    for oa_name in comb_parameters:
         """reserve space in log"""
         log['find_parameters'][oa_name]=[x for x in comb_parameters[oa_name]]
 
@@ -118,8 +118,8 @@ def find_parameters(trains, tests, dataset):
             nnop = NeuralNetworkOptimizationProblem(dataset, network, measure)
             oa = load_oa(oa_name, param, nnop)
             """train the oa"""
-            training_log = train(oa, network, oa_name, trains, tests, measure,
-                training_time=tune_time)
+            training_log = train(oa, network, measure, oa_name, trains, tests,
+                training_time=tune_time, trainer_returns_fitness=True)
             training_log['parameters'] = param
             test_error=training_log['training'][-1]['test_error']
             """book keeping to find the best configuration"""
@@ -139,15 +139,35 @@ def train_time(trains, tests, dataset):
         network = factory.createClassificationNetwork([input_layer,
             hidden_layer, output_layer])
         nnop = NeuralNetworkOptimizationProblem(dataset, network, measure)
-        oa = load_oa(oa_name, comb_parameters[oa_name][best_parameters[oa_name]],
-            nnop)
-        training_log = train(oa, network, oa_name, trains, tests, measure,
-            training_time = training_time)
-        training_log['parameters'] = comb_parameters[oa_name][best_parameters[oa_name]]
+        if oa_name in comb_parameters:
+            oa = load_oa(oa_name, comb_parameters[oa_name][best_parameters[oa_name]],
+                nnop)
+        else:
+            oa = load_oa(oa_name, None, nnop)
+        training_log = train(oa, network, measure, oa_name, trains, tests,
+            training_time = training_time, trainer_returns_fitness=True)
+        if oa_name in comb_parameters:
+            training_log['parameters'] = comb_parameters[oa_name][best_parameters[oa_name]]
         """just remember the log"""
         log['train_time'][oa_name]=training_log
 
+"""train the neuralnetwork"""
+def train_nn(trains, tests, dataset):
+    """
+    1. initialize the neurwlnetwork
+    2. train
+    3. evaluate the network
+    """
+    factory = BackPropagationNetworkFactory()
+    network = factory.createClassificationNetwork([input_layer, hidden_layer,
+        output_layer])
+    measure = SumOfSquaresError()
+    trainer = BatchBackPropagationTrainer(dataset, network, measure,
+        RPROPUpdateRule())
 
+    training_log=train(trainer, network, measure, 'NN', trains, tests,
+        training_time=training_time)
+    log['train_time']['NN']=training_log
 """
 1. open the file
 2. return training instances and test instances
@@ -179,10 +199,10 @@ def initialize_instances():
 
 """
 train the oa for number of iterations
-output a string of (time, train_err, test_err) indexed by iteration
+return a log dictionary whose scheme is specified below
 """
-def train(oa, network, oa_name, trains, tests, measure, training_iterations=None,
-        training_time=None):
+def train(trainer, network, measure, oa_name, trains, tests, training_iterations=None,
+        training_time=None, trainer_returns_fitness=False):
     """
     scheme for log:
     log = {
@@ -211,22 +231,23 @@ def train(oa, network, oa_name, trains, tests, measure, training_iterations=None
     """train the algorithm"""
     def train_one_iteration():
         """calculate training error"""
-        fitness = oa.train()
-        training_error = 1 / fitness / len(trains)
+        fitness = trainer.train()
+        """
+        the returned fitness is not normalized by NeuralNetworkEvaluationFunction
+        but the error returned from BatchBackPropagationTrainer is
+        """
+        training_error = 1 / fitness / len(trains) if trainer_returns_fitness else fitness
+        #print training_error
         """calculate test error"""
-        test_error = 0.0
-        for test in tests:
-            network.setInputValues(test.getData())
-            network.run()
-            output_label = Instance(network.getOutputValues())
-            test_error += measure.value(output_label, test)
-        test_error /= len(tests)
+        correct, incorrect, test_error = evaluate_network(network, tests, measure)
 
         delta = datetime.today() - start_time
         delta = delta.days * 3600 * 24 + delta.seconds + delta.microseconds / 1000000.0
         log['training'].append({
             'time': delta,
             'training_error': training_error,
+            'correct': correct,
+            'incorrect': incorrect,
             'test_error': test_error,
             })
     if training_iterations:
@@ -242,28 +263,30 @@ def train(oa, network, oa_name, trains, tests, measure, training_iterations=None
     else:
         raise "must specify at least one of training_iterations/training_time"
 
-    """test the final network"""
-    optimal_instance = oa.getOptimal()
-    network.setWeights(optimal_instance.getData())
-    correct, incorrect = evaluate_network(network, tests)
-    log['result']={
-        'correct classifications': correct,
-        'incorrect classifications': incorrect
-        }
-    print "result of {}: correct {} incorrect {}".format(oa_name, correct,
-            incorrect)
+    """
+    find the best performance point
+    """
+    best_error = -1
+    for record in log['training']:
+        if best_error == -1 or best_error > record['test_error']:
+            log['result']=record
+            best_error = record['test_error']
+    print "result of {}: {}".format(oa_name, log['result'])
     return log
 
 """
 Given a network and list of instances, the ouput of the network is evaluated and
 a decimal error value is returned
 """
-def evaluate_network(network, instances):
+def evaluate_network(network, instances, measure):
     correct = 0
     incorrect = 0
+    test_error = 0.0
     for instance in instances:
         network.setInputValues(instance.getData())
         network.run()
+        output_label = Instance(network.getOutputValues())
+        test_error += measure.value(output_label, instance)
 
         """multiclass"""
         #actual = instance.getLabel().getData().argMax()
@@ -280,7 +303,8 @@ def evaluate_network(network, instances):
             correct += 1
         else:
             incorrect += 1
-    return (correct, incorrect)
+    test_error /= len(instances)
+    return (correct, incorrect, test_error)
 
 def main():
     """
@@ -298,6 +322,8 @@ def main():
     find_parameters(trains, tests, dataset)
     """find relationship between train/val with the best configurations"""
     train_time(trains, tests, dataset)
+    """train the backprop net"""
+    train_nn(trains, tests, dataset)
 
     json_file = sys.argv[1]
     with open(json_file, 'w') as f:
