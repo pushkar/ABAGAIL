@@ -19,6 +19,7 @@ import shared.Instance;
  * of dimensions in <code>d</code>, otherwise, <code>max(max0, max1)</code>.
  * </ul>
  * @see <a href="https://www.ri.cmu.edu/pub_files/pub3/baluja_shumeet_1998_1/baluja_shumeet_1998_1.pdf">Pool-Wise Crossover In Genetic Algorithms: An Information-Theoretic View(Shumeet Baluja & Scott Davies)</a>
+ * @see opt.test.ContinuousPeaksTest
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */

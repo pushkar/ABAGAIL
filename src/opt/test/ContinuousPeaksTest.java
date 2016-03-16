@@ -27,7 +27,16 @@ import opt.prob.ProbabilisticOptimizationProblem;
 import shared.FixedIterationTrainer;
 
 /**
- * 
+ * Test the {@link ContinuousPeaksEvaluationFunction Continuous Peaks} function
+ * with the following optimization methods:
+ * <p><ul>
+ * <li>Hill climbing (via {@link RandomizedHillClimbing}
+ * <li>Simulated annealing (via {@link SimulatedAnnealing})
+ * <li>A genetic algorithm (via {@link StandardGeneticAlgorithm})
+ * <li>MIMIC (via {@link MIMIC})
+ * </ul><p>
+ * This contains a <code>main</code> function which runs each algorithm and
+ * outputs the maximum value it could reach for the Continuous Peaks function.
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
@@ -50,21 +59,25 @@ public class ContinuousPeaksTest {
         GeneticAlgorithmProblem gap = new GenericGeneticAlgorithmProblem(ef, odd, mf, cf);
         ProbabilisticOptimizationProblem pop = new GenericProbabilisticOptimizationProblem(ef, odd, df);
         
+        System.out.print("RHC: ");
         RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);      
         FixedIterationTrainer fit = new FixedIterationTrainer(rhc, 200000);
         fit.train();
         System.out.println(ef.value(rhc.getOptimal()));
         
+        System.out.print("SA: ");
         SimulatedAnnealing sa = new SimulatedAnnealing(1E11, .95, hcp);
         fit = new FixedIterationTrainer(sa, 200000);
         fit.train();
         System.out.println(ef.value(sa.getOptimal()));
         
+        System.out.print("GA: ");
         StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 10, gap);
         fit = new FixedIterationTrainer(ga, 1000);
         fit.train();
         System.out.println(ef.value(ga.getOptimal()));
         
+        System.out.print("MIMIC: ");
         MIMIC mimic = new MIMIC(200, 20, pop);
         fit = new FixedIterationTrainer(mimic, 1000);
         fit.train();
