@@ -38,7 +38,7 @@ public class GivensRotation {
      * produces a column vector [..., r, ..., 0]t = Gt * V that has zero
      * in the jth position and some value r in the ith position.
      * @param a the entry in the ith dimension
-     * @parma b the entry in the jth dimension
+     * @param b the entry in the jth dimension
      */    
     public GivensRotation(double a, double b) {
         if (b == 0) {

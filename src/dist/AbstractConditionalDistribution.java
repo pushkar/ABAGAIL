@@ -29,7 +29,7 @@ public abstract class AbstractConditionalDistribution extends AbstractDistributi
     
     /**
      * Probability of an instance
-     * @parma i the instance
+     * @param i the instance
      * @return the probability
      */
     public double p(Instance i) {
