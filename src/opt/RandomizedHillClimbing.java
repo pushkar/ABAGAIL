@@ -3,7 +3,10 @@ package opt;
 import shared.Instance;
 
 /**
- * A randomized hill climbing algorithm
+ * An implementation of randomized hill climbing.  The starting value is
+ * randomized, and hill climbing proceeds from there, updating the maximum
+ * value to a neighbor at each iteration if that neighbor produces a higher
+ * value.
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
@@ -20,7 +23,9 @@ public class RandomizedHillClimbing extends OptimizationAlgorithm {
     private double curVal;
     
     /**
-     * Make a new randomized hill climbing
+     * Make a new instance of randomized hill climbing for the given
+     * {@link opt.HillClimbingProblem}, and initialize the starting value to be
+     * random.
      */
     public RandomizedHillClimbing(HillClimbingProblem hcp) {
         super(hcp);
@@ -29,6 +34,8 @@ public class RandomizedHillClimbing extends OptimizationAlgorithm {
     }
 
     /**
+     * Run one iteration of hill climbing.  The optimal value may move to
+     * a neighbor (depending on its value and the current value).
      * @see shared.Trainer#train()
      */
     public double train() {
@@ -43,7 +50,8 @@ public class RandomizedHillClimbing extends OptimizationAlgorithm {
     }
 
     /**
-     * @see opt.OptimizationAlgorithm#getOptimalData()
+     * @return Current value of the given {@link opt.HillClimbingProblem}
+     * @see opt.OptimizationAlgorithm#getOptimal()
      */
     public Instance getOptimal() {
         return cur;

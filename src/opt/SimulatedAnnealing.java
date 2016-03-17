@@ -5,14 +5,17 @@ import dist.Distribution;
 import shared.Instance;
 
 /**
- * A simulated annealing hill climbing algorithm
+ * A simulated annealing implementation, maximizing a 
+ * {@link opt.HillClimbingProblem}.  This uses an exponential cooling scheme,
+ * and so is parametrized over starting temperature and cooling constant.
+ * Temperature is multiplied by that cooling constant at every iteration.
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
 public class SimulatedAnnealing extends OptimizationAlgorithm {
     
     /**
-     * The current optimiation data
+     * The current optimization data
      */
     private Instance cur;
     
@@ -32,10 +35,12 @@ public class SimulatedAnnealing extends OptimizationAlgorithm {
     private double cooling;
     
     /**
-     * Make a new simulated annealing hill climbing
-     * @param t the starting temperature
-     * @param cooling the cooling exponent
-     * @param hcp the problem to solve
+     * Make a new simulated annealing instance. Specify starting temperature,
+     * cooling ratio, and a {@link opt.HillClimbingProblem}.
+     * 
+     * @param t The starting temperature (greater than 0)
+     * @param cooling The cooling constant (between 0 and 1, exclusive)
+     * @param hcp The optimization problem to maximize
      */
     public SimulatedAnnealing(double t, double cooling, HillClimbingProblem hcp) {
         super(hcp);
@@ -46,7 +51,10 @@ public class SimulatedAnnealing extends OptimizationAlgorithm {
     }
 
     /**
-     * @see shared.Trainer#train()
+     * Run simulated annealing for another iteration.  Temperature will be
+     * multiplied by the cooling constant, and the optimal value may move to
+     * a neighbor (depending on temperature and value).
+     * @see shared.Trainer#train() 
      */
     public double train() {
         HillClimbingProblem p = (HillClimbingProblem) getOptimizationProblem();
@@ -62,7 +70,8 @@ public class SimulatedAnnealing extends OptimizationAlgorithm {
     }
 
     /**
-     * @see opt.OptimizationAlgorithm#getOptimal()
+     * @return Current value of the given {@link opt.HillClimbingProblem}
+     * @see opt.OptimizationAlgorithm#getOptimal() 
      */
     public Instance getOptimal() {
         return cur;
