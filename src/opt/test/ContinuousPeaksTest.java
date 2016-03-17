@@ -37,6 +37,12 @@ import shared.FixedIterationTrainer;
  * </ul><p>
  * This contains a <code>main</code> function which runs each algorithm and
  * outputs the maximum value it could reach for the Continuous Peaks function.
+ * <p>
+ * For the hill-climbing algorithms, it uses {@link DiscreteChangeOneNeighbor}
+ * to define a neighbor as simply randomizing a randomly-chosen binary value in
+ * the input.  For the genetic algorithm, mutation corresponds to the same thing
+ * (via {@link DiscreteChangeOneMutation}) and crossover corresponds to
+ * one-point crossover.
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
