@@ -8,39 +8,46 @@ import java.util.List;
 import util.linalg.Vector;
 
 /**
- * An abstract class representing a network
+ * An abstract class representing a neural network made up of <code> Layer </code> objects containing <code> Neuron </code> objects
+ * connected by <code> Link </code> objects between consecutive layers.
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
 public abstract class NeuralNetwork implements Serializable {
 	
 	/**
-	 * Get the output values
-	 * @return the output values
+	 * Retrieves the output values.
+	 * @return the output values from the output layer of the network
 	 */
 	public abstract Vector getOutputValues();
 	
 	/**
-	 * Set intput values
-	 * @param values the new values
+	 * Sets input values typically into the input layer of the network to be passed between layers to the 
+	 * output layer.
+	 * @param values the new input values
 	 */
 	public abstract void setInputValues(Vector values);
     
     /**
-     * Run the network on the input values and
-     * generate the output values.
+     * Runs the network on the input values by passing them along links between neurons in consecutive layers and
+     * generates the output values.
+     * @see Layer
+     * @see Neuron
+     * @see Link
      */
     public abstract void run();
     
     /**
-     * Get all of the weights in the neural network
+     * Retrieves all of the links in the neural network.
      * @return all of the weights in the network
+     * @see Link
      */
     public abstract List getLinks();
     
     /**
-     * Get link values
-     * @return the link values
+     * Retrieves all of the link weights in the neural network.
+     * @return the link weights
+     * @see Link
      */
     public double[] getWeights() {
         List links = getLinks();
@@ -53,8 +60,11 @@ public abstract class NeuralNetwork implements Serializable {
     }
     
     /**
-     * Set link values
-     * @param weights the link values
+     * Sets the link weights used to multiply values that are passed from their input neuron to their output neuron.
+     * @param weights the link weights
+     * @see Link
+     * @see Neuron
+     * @see NeuralNetwork#setWeights(Vector)
      */
     public void setWeights(double[] weights) {
         List links = getLinks();
@@ -65,8 +75,11 @@ public abstract class NeuralNetwork implements Serializable {
     }
 
     /**
-     * Set the weights of a neural network
+     * Sets the link weights used to multiply values that are passed from their input neurons to their output neurons.
      * @param weights the weight vector
+     * @see Link
+     * @see Neuron
+     * @see NeuralNetwork#setWeights(double[])
      */
     public void setWeights(Vector weights) {
         List links = getLinks();

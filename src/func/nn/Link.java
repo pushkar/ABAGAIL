@@ -6,122 +6,154 @@ import java.io.Serializable;
 import java.util.Random;
 
 /**
- * A link between two nodes in a neural network
+ * A link between two neurons in adjacent layers of a neural network on which values pass from
+ * the input neuron after potentially being multiplied by the given weight of the link to be stored 
+ * with others as a sum in the activation variable of the output neuron.
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
 public class Link implements Serializable {
     /**
-     * The random number generator
+     * The random number generator which is used to initialize the weight of the link
+     * upon the link's creation. Every link after the first link, uses the same random
+     * number generator to save on memory due the static modifier.
      */
     private static Random random = new Random();
 	
 	/**
-	 * The weight
+	 * The weight of the link which can be used to find the weighted value being passed
+	 * from the link's input neuron to the output neuron after multiplication. 
 	 */
 	private double weight;
 	
 	/**
-	 * The in node
+	 * The input <code> Neuron </code> from which the link receives a value to be
+	 * passed to the output Neuron after potentially being multiplied by the weight.
 	 */
 	private Neuron inNode;
 	
 	/**
-	 * The out node
+	 * The output <code> Neuron </code> that receives a value to be stored in its
+	 * activation variable after being passed along this link from the intput Neuron 
+	 * and potentially being multiplied by the link's weight.
 	 */
 	private Neuron outNode;
     
     /**
-     * Create a new linke
-     * initializes the weight to a random value
+     * Creates a new link that connections two consecutive neurons and randomly chooses 
+     * its weight in the range [-1,1) which will likely be used to multiply an activation 
+     * value from the input neuron and passed to the output neuron as values are sent
+     * through the neural network.
+     * @see NeuralNetwork
+     * @see LayeredNetwork
+     * @see Neuron
      */
     public Link() {
         weight = random.nextDouble() * 2 - 1;
     }
 	
 	/**
-	 * Get the in node
-	 * @return the node
+	 * Retrieves the input neuron to this link.
+	 * @return the neuron
+	 * @see Neuron
 	 */
 	public Neuron getInNode() {
 		return inNode;
 	}
     
     /**
-     * Set the in node
-     * @param node the node
+     * Sets the input neuron from which activation values will be received
+     * and processed.
+     * @param node the neuron that will send it values to process
+     * @see Neuron
      */
     public void setInNode(Neuron node) {
         inNode = node;
     }
 
 	/**
-	 * Get the out node
-	 * @return the node
+	 * Retrieves the output neuron of this link.
+	 * @return the neuron
+	 * @see Neuron
 	 */
 	public Neuron getOutNode() {
 		return outNode;
 	}
     
     /**
-     * Set the out node
-     * @param node the node
+     * Sets the output neuron that it sends values to from the input neuron after
+     * processing them potentially by multiplying by this link's weight.
+     * @param node the neuron
+     * @see Neuron
      */
     public void setOutNode(Neuron node) {
         outNode = node;
     }
 	
 	/**
-	 * Get the input value
-	 * @return the value
+	 * Gets the input value received from the input neuron.
+	 * @return a double the activation value of the input neuron
+	 * @see Neuron#getActivation()
 	 */
 	public double getInValue() {
 		return inNode.getActivation();
 	}
 	
 	/**
-	 * Get the output value
-	 * @return the value
+	 * Gets the output value from the output neuron.
+	 * @return a double the activation value of the output neuron
+	 * @see Neuron#getActivation()
 	 */
 	public double getOutValue() {
 		return outNode.getActivation();
 	}
 	
 	/**
-	 * Get the weighted out value
-	 * @return the weighted out value
+	 * Calculates the weighted out value by multiplying this link's weight variable
+	 * by the output neuron's activation variable.
+	 * @return a double the output neuron's activation value times this link's weight
+	 * @see Neuron#getActivation()
+	 * @see Link#weight
 	 */
 	public double getWeightedOutValue() {
 		return outNode.getActivation() * weight;
 	}
 	
 	/**
-	 * Get the weighted in value
-	 * @return the value
+	 * Calculates the weighted in value, likely to be stored in the output neuron's activation value,
+	 * by multiplying this link's weight variable by the input neuron's activation variable.
+	 * @return a double the input neuron's activation value times this link's weight
+	 * @see Neuron#getActivation()
+	 * @see Link#weight
 	 */
 	public double getWeightedInValue() {
 		return inNode.getActivation() * weight;
 	}
 
 	/**
-	 * Get the weight of the link
-	 * @return the weight
+	 * Retrieves the weight of this link.
+	 * @return a double this link's weight
+	 * @see Link#weight
 	 */
 	public double getWeight() {
 		return weight;
 	}
 
 	/**
-	 * Set the weight of the link
-	 * @param d the new weight
+	 * Sets the weight value of the link to be used when passing values from the
+	 * input neuron to the output neuron.
+	 * @param d a double, the new weight
+	 * @see Link#weight
 	 */
 	public void setWeight(double d) {
 		weight = d;
 	}
 
 	/**
-	 * Update the weight
-	 * @param delta the change in weight
+	 * Updates this link's weight based on some delta value likely calculated through
+	 * the means of some backpropogation method or some randomly calculated change.
+	 * @param delta a double, the change in weight
+	 * @see Link#weight
 	 */
 	public void changeWeight(double delta) {
 		weight += delta;

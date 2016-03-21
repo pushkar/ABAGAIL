@@ -6,52 +6,75 @@ import func.nn.Neuron;
 import func.nn.activation.ActivationFunction;
 
 /**
- * A node in a feed forward network
+ * A subclass of <code> Neuron </code> and part of a <code> FeedFowardLayer </code> in a <code> FeedForwardNetwork </code> that
+ * holds onto the sum of weighted values received from neurons in the previous layer, if it exists, along <code> Link </code>
+ * objects and applies an <code> ActivationFunction </code> such as a sigmoid function to calculate its activation value.
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
 public class FeedForwardNode extends Neuron {
 
 	/**
-	 * The transfer function
+	 * The transfer function used to calculate the activation value of this neuron after
+	 * being applied to the weightedInputSum.
+	 * @see Neuron
+	 * @see ActivationFunction
 	 */
 	private ActivationFunction activationFunction;
     
     /**
-     * The weighted input sum
+     * The weighted input sum of the incoming values along links from neurons in the previous layer,
+     * if it exists.
+     * @see Neuron
+     * @see func.nn.Link
      */
     private double weightedInputSum;
 
 	/**
-	 * Make a new feed forward node
-	 * @param transfer the transfer function
+	 * Creates a new feed forward node which is a neuron with an activation function.
+	 * @param transfer the transfer function used to calculate the activation value of this neuron.
+	 * @see Neuron
+	 * @see ActivationFunction
+	 * @see FeedForwardNode#activationFunction
+	 * @see FeedForwardNode#weightedInputSum
 	 */
 	public FeedForwardNode(ActivationFunction transfer) {
 		activationFunction = transfer;
 	}
 	
 	/**
-	 * Get the transfer function
+	 * Retrieves the transfer function used to calculate the activation value after being applied
+	 * to the weightedInputSum value.
 	 * @return the transfer function
+	 * @see FeedForwardNode#activationFunction
+	 * @see FeedForwardNode#weightedInputSum
 	 */
 	public ActivationFunction getActivationFunction() {
 		return activationFunction;
 	}
 
     /**
-     * Get the weighted input sum for this node
+     * Retrieves the weighted input sum for this neuron.
      * @return the weighted input sum
+     * @see Neuron
+     * @see FeedForwardNode#weightedInputSum
      */
     public double getWeightedInputSum() {
         return weightedInputSum;
     }
 
     /**
-     * Feed forward the activation values into this node.
-     * Calculates the sum of the input values and stores
-     * this value into weightedInputSum.
-     * Runs this sum through the activation function
-     * and stores this into the activation for the node.
+     * Feeds forward the activation values from the neurons in the previous layer, if it exists,
+     * into this neuron after multiplying by each link's weight and storing the sum in the weightedInputSum variable.
+     * The method then applies the activation function on this sum before storing the result in the activation variable.
+     * @see Neuron#getInLinks()
+     * @see Neuron#getInLinkCount()
+     * @see Neuron#getInLink(int)
+     * @see func.nn.Link#getWeightedInValue()
+     * @see ActivationFunction
+     * @see ActivationFunction#value(double)
+     * @see FeedForwardNode#setActivation(double)
+     * @see FeedForwardNode#weightedInputSum
      */
 	public void feedforward() {
 		if (getInLinkCount() > 0) {
