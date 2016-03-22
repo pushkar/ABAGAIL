@@ -25,10 +25,33 @@ public class ArffDataSetReader extends DataSetReader {
 	private final String ATTRIBUTE_TAG = "@attribute";
 	private final int SPLIT_LIMIT = 3;
 
-	
+	private boolean lastIsClass = false;
+
+
+	/**
+	 * Make a new data set from the given instances
+	 * @param file the name of the ARFF file to read
+	 */
 	public ArffDataSetReader(String file) {
 		super(file);
+		this.lastIsClass = false;
 	}
+
+	/**
+	 * Make a new data set from the given instances
+	 * @param file the name of the ARFF file to read
+	 * @param lastIsClass whether to treat the last attribute as the class label
+	 */
+	public ArffDataSetReader(String file, boolean lastIsClass) {
+		super(file);
+		this.lastIsClass = lastIsClass;
+	}
+
+	/**
+	 * Read the Dataset from the ARFF file
+	 * @return the Dataset created from the ARFF file
+	 * @throws Exception
+	 */
 
 	@Override
 	public DataSet read() throws Exception {
@@ -86,8 +109,9 @@ public class ArffDataSetReader extends DataSetReader {
 		while (line != null) {
 			if (!line.isEmpty() && line.charAt(0) != '%') {
 				String[] values = pattern.split(line.trim());
-				double[] ins = new double[values.length];
-				for (int i = 0; i < values.length; i++) {
+				int attributeCount = lastIsClass ? values.length - 1 : values.length;
+				double[] ins = new double[attributeCount];
+				for (int i = 0; i < attributeCount; i++) {
 				    //some values are single quoted (especially in datafiles bundled
 				    // with weka)
 					String v = values[i].replaceAll("'", "");
@@ -104,6 +128,9 @@ public class ArffDataSetReader extends DataSetReader {
 					ins[i] = d;
 				}
 				Instance i = new Instance(ins);
+				if (lastIsClass) {
+					i.setLabel(new Instance(Double.parseDouble(values[attributeCount])));
+				}
 				instances.add(i);
 			}
 			line = in.readLine();
