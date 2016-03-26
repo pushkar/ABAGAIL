@@ -35,7 +35,7 @@ public class KDTree implements Serializable {
      * The distance measure to use
      */
     private DistanceMeasure distanceMeasure;
-
+    
     /**
      * Build a kd tree from the given parallel arrays
      * of keys and data
@@ -62,13 +62,24 @@ public class KDTree implements Serializable {
     public KDTree(DataSet keys) {
         this(keys, new EuclideanDistance());
     }
+    
+    /**
+     * Builds a tree from a list of nodes
+     * @param nodes the list of nodes
+     * @param start the starting index
+     * @param end the ending index
+     * @return the head node of the build tree
+     */
+    private KDTreeNode buildTree(KDTreeNode[] nodes, int start, int end) {
+        return buildTree(nodes, start, end, 0);
+    }
 
     /**
      * Build a tree from a list of nodes
      * @param nodes the list of nodes
      * @return the head node of the built tree
      */
-    private KDTreeNode buildTree(KDTreeNode[] nodes, int start, int end) {
+    private KDTreeNode buildTree(KDTreeNode[] nodes, int start, int end, int depth) {
         if (start >= end) {
             // if we're done return null
             return null;
@@ -77,13 +88,15 @@ public class KDTree implements Serializable {
             return nodes[start];
         }
         // choose splitter
-        int splitterIndex = chooseSplitterRandom(nodes, start, end);
+        //int splitterIndex = chooseSplitterRandom(nodes, start, end);
+        int splitterIndex = chooseApproxBestSplitter(nodes, start, end, depth);
+        
         KDTreeNode splitter = nodes[splitterIndex];
-        //  patition based on splitter
+        //  partition based on splitter
         splitterIndex = partition(nodes, start, end, splitterIndex);
         // recursively build tree
-        splitter.setLeft(buildTree(nodes, start, splitterIndex));
-        splitter.setRight(buildTree(nodes, splitterIndex + 1, end));
+        splitter.setLeft(buildTree(nodes, start, splitterIndex, depth+1));
+        splitter.setRight(buildTree(nodes, splitterIndex + 1, end, depth+1));
         return splitter;
     }
     
@@ -135,6 +148,37 @@ public class KDTree implements Serializable {
       int dimension = random.nextInt(dimensions);
       nodes[splitter].setDimension(dimension);
       return splitter;
+    }
+    
+    /**
+     * Choose an approximate best splitter
+     * Picks the median element from 10 randomly picked elements in nodes
+     * @param nodes the nodes to choose from
+     * @param start the starting index
+     * @param end the ending index
+     * @param depth the tree depth that the splitter will be placed at
+     * @return the index of the splitter
+     */
+    private int chooseApproxBestSplitter(KDTreeNode[] nodes, int start, int end, int depth){
+        int SAMPLE_SIZE = 5;
+        int dimension = depth % dimensions;
+        int splitter;
+        if (end-start <= SAMPLE_SIZE){
+            for (int n = start; n < end; n++){
+                nodes[n].setDimension(dimension);
+            }
+            Arrays.sort(nodes, start, end);
+            splitter = (end-start) / 2 + start;
+        } else {
+            Integer[] indexes = new Integer[SAMPLE_SIZE];
+            for (int j = 0; j < SAMPLE_SIZE; j++){
+                indexes[j] = random.nextInt(end - start) + start;
+                nodes[indexes[j]].setDimension(dimension);
+            }
+            Arrays.sort(indexes, (a,b) -> nodes[a].compareTo(nodes[b]));
+            splitter = indexes[SAMPLE_SIZE / 2];
+        }
+        return splitter;
     }
     
 
@@ -269,4 +313,5 @@ public class KDTree implements Serializable {
             knn(farNode, target, farHR, results);
         }
     }
+    
 }
