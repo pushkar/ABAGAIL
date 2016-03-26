@@ -18,7 +18,7 @@ import shared.Instance;
 public class KNNClassifierAbaloneTest {
 
     public static void main(String[] args){
-        Instance[] instances = initializeInstances();
+        Instance[] instances = initializeAbaloneInstances();
         Instance[] training = new Instance[3000];
         Instance[] testing = new Instance[1601];
         for (int i = 0; i < training.length; i++){
@@ -45,41 +45,6 @@ public class KNNClassifierAbaloneTest {
         }
         
         
-    }
-    
-    private static Instance[] initializeInstances() {
-
-        double[][][] attributes = new double[4601][][];
-
-        try {
-            BufferedReader br = new BufferedReader(new FileReader(new File("src/opt/test/spam.txt.csv")));
-
-            for(int i = 0; i < attributes.length; i++) {
-                Scanner scan = new Scanner(br.readLine());
-                scan.useDelimiter(",");
-
-                attributes[i] = new double[2][];
-                attributes[i][0] = new double[57]; // 57 attributes
-                attributes[i][1] = new double[1];
-
-                for(int j = 0; j < 57; j++)
-                    attributes[i][0][j] = Double.parseDouble(scan.next());
-
-                attributes[i][1][0] = Double.parseDouble(scan.next());
-            }
-        }
-        catch(Exception e) {
-            e.printStackTrace();
-        }
-
-        Instance[] instances = new Instance[attributes.length];
-
-        for(int i = 0; i < instances.length; i++) {
-            instances[i] = new Instance(attributes[i][0]);
-            instances[i].setLabel(new Instance(attributes[i][1][0]));
-        }
-
-        return instances;
     }
     
     private static Instance[] initializeAbaloneInstances() {

@@ -88,9 +88,7 @@ public class KDTree implements Serializable {
             return nodes[start];
         }
         // choose splitter
-        //int splitterIndex = chooseSplitterRandom(nodes, start, end);
         int splitterIndex = chooseApproxBestSplitter(nodes, start, end, depth);
-        
         KDTreeNode splitter = nodes[splitterIndex];
         //  partition based on splitter
         splitterIndex = partition(nodes, start, end, splitterIndex);
@@ -152,7 +150,10 @@ public class KDTree implements Serializable {
     
     /**
      * Choose an approximate best splitter
-     * Picks the median element from 10 randomly picked elements in nodes
+     * Picks the median element from 5 randomly picked elements between start and end
+     * If end-start is less than 5, it picks the median from the whole range.
+     * It selects dimensions in order, so that each level of the final KDTree
+     * splits on a different dimension
      * @param nodes the nodes to choose from
      * @param start the starting index
      * @param end the ending index
@@ -161,7 +162,8 @@ public class KDTree implements Serializable {
      */
     private int chooseApproxBestSplitter(KDTreeNode[] nodes, int start, int end, int depth){
         int SAMPLE_SIZE = 5;
-        int dimension = depth % dimensions;
+        //Ensure that each level of the tree selects on a different dimension
+        int dimension = depth % dimensions; 
         int splitter;
         if (end-start <= SAMPLE_SIZE){
             for (int n = start; n < end; n++){
