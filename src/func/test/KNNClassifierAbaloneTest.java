@@ -20,7 +20,7 @@ public class KNNClassifierAbaloneTest {
     public static void main(String[] args){
         Instance[] instances = initializeAbaloneInstances();
         Instance[] training = new Instance[3000];
-        Instance[] testing = new Instance[1601];
+        Instance[] testing = new Instance[1177];
         for (int i = 0; i < training.length; i++){
             training[i] = instances[i];
         }
@@ -31,7 +31,7 @@ public class KNNClassifierAbaloneTest {
         KDTree tree = new KDTree(new DataSet(training));
         buildTime = System.nanoTime() - buildTime;
         System.out.println("BuildTime = " + buildTime);
-        
+
         for (int k = 1; k < 10; k++){
             long testTime = 0;
             for (int i = 0; i < testing.length; i++){
@@ -43,10 +43,10 @@ public class KNNClassifierAbaloneTest {
             testTime /= testing.length;
             System.out.println("K = " + k + ", average search time = " + testTime);
         }
-        
-        
+
+
     }
-    
+
     private static Instance[] initializeAbaloneInstances() {
 
         double[][][] attributes = new double[4177][][];
