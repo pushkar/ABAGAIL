@@ -192,6 +192,16 @@ public class KDTree implements Serializable {
         return start;
     }
 
+    /**
+    * This function implements medianOfMedians on the passed in KDTreeNode Array
+    * this fn returns an acceptable splitter, guarenteed to be greater than 25%
+    * of the data and less than 25% of the data.
+    *
+    * @param nodes the list of KDTreeNodes to search through
+    * @param start the lower bound of the search, inclusive
+    * @param end the upper bound of the search, exclusive
+    * @return the index of the splitter
+    */
     private int medianOfMedians(KDTreeNode[] nodes, int start, int end){
         int MEDIAN_SIZE = 5;
         int partitions;
