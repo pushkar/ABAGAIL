@@ -104,7 +104,7 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
         // elite for the rest
         for (int i = toMate; i < newPopulation.length; i++) {
             int j = dd.sample(null).getDiscrete();
-            newPopulation[i] = population[j];
+            newPopulation[i] = (Instance) population[j].copy();
             newValues[i] = values[j];
         }
         // mutate
