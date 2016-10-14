@@ -44,10 +44,12 @@ public class Comparison {
                 return false;
             }
         }
-        // Check label values.
-        for (int i = 0; i < expected.getLabel().size(); i++) {
-            if (!isLabelCorrect(i)) {
-                return false;
+        // Check label values if it exists
+        if (expected.getLabel() != null) {
+            for (int i = 0; i < expected.getLabel().size(); i++) {
+                if (!isLabelCorrect(i)) {
+                    return false;
+                }
             }
         }
         return true;
