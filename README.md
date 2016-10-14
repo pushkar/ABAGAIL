@@ -6,7 +6,8 @@ The library contains a number of interconnected Java packages that implement mac
 Usage
 ------
 
-See [Wiki](https://github.com/pushkar/ABAGAIL/wiki)
+* See [FAQ](https://github.com/pushkar/ABAGAIL/blob/master/faq.md)
+* See [Wiki](https://github.com/pushkar/ABAGAIL/wiki)
 
 Issues
 -------
