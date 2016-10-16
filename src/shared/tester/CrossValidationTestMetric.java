@@ -13,7 +13,7 @@ import java.text.DecimalFormat;
  * @version 1.0
  */
 
-public class CrossValidationTestMetric implements TestMetric {
+public class CrossValidationTestMetric extends TestMetric {
 
     private int foldAccum;
     private double foldAvg;
