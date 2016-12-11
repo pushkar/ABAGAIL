@@ -15,39 +15,39 @@ import shared.Instance;
  * @version 1.0
  */
 public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
-    
+
     /**
      * The random number generator
      */
     private static final Random random = new Random();
-    
+
     /**
      * The population size
      */
     private int populationSize;
-    
+
     /**
      * The number of population to mate
      * each time step
      */
     private int toMate;
-    
+
     /**
      * The number of population to mutate
      * each time step
      */
     private int toMutate;
-    
+
     /**
      * The population
      */
     private Instance[] population;
-    
+
     /**
      * The values of the population
      */
     private double[] values;
-    
+
     /**
      * Make a new genetic algorithm
      * @param populationSize the size
@@ -89,7 +89,7 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
             probabilities[i] /= sum;
         }
         DiscreteDistribution dd = new DiscreteDistribution(probabilities);
-  
+
         // make the children
         double[] newValues = new double[populationSize];
         Instance[] newPopulation = new Instance[populationSize];
@@ -122,7 +122,10 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
         // the new generation
         population = newPopulation;
         values = newValues;
-        return sum / populationSize;
+        // return sum / populationSize;
+
+        GeneticAlgorithmProblem gap = (GeneticAlgorithmProblem) getOptimizationProblem();
+        return gap.value(getOptimal());
     }
 
     /**

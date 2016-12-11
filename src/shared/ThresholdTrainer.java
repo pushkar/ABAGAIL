@@ -5,7 +5,7 @@ package shared;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
-public class ThresholdTrainer implements Trainer { 
+public class ThresholdTrainer implements Trainer {
     /** The default threshold */
     private static final double THRESHOLD = 1E-6;
     /** The maxium number of iterations */
@@ -20,12 +20,12 @@ public class ThresholdTrainer implements Trainer {
      * The threshold
      */
     private double threshold;
-    
+
     /**
      * The number of iterations trained
      */
     private int iterations;
-    
+
     /**
      * The maximum number of iterations to use
      */
@@ -43,7 +43,7 @@ public class ThresholdTrainer implements Trainer {
         this.threshold = threshold;
         this.maxIterations = maxIterations;
     }
-    
+
 
     /**
      * Create a new convergence trainer
@@ -61,11 +61,11 @@ public class ThresholdTrainer implements Trainer {
         do {
            iterations++;
            error = trainer.train();
-        } while (Math.abs(error) > threshold
+        } while (Math.abs(error) < threshold
              && iterations < maxIterations);
         return error;
     }
-    
+
     /**
      * Get the number of iterations used
      * @return the number of iterations
@@ -73,6 +73,6 @@ public class ThresholdTrainer implements Trainer {
     public int getIterations() {
         return iterations;
     }
-    
+
 
 }
