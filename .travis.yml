@@ -6,9 +6,6 @@ matrix:
   include:
     - env: BUILD_DOCS=true
       jdk: oraclejdk8
-    - jdk: oraclejdk7
-    - jdk: openjdk7
-    - jdk: openjdk6
 
 script:
  - ant all
