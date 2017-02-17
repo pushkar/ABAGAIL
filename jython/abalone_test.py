@@ -17,6 +17,8 @@ import opt.RandomizedHillClimbing as RandomizedHillClimbing
 import opt.SimulatedAnnealing as SimulatedAnnealing
 import opt.ga.StandardGeneticAlgorithm as StandardGeneticAlgorithm
 
+from __future__ import with_statement
+
 INPUT_FILE = os.path.join("..", "src", "opt", "test", "abalone.txt")
 
 INPUT_LAYER = 7
