@@ -7,6 +7,8 @@ import util.ABAGAILArrays;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
+/* NOTE: migrated to src/test/java/abagail/util/AbagailArraysTest.java */
+@Deprecated
 public class ABAGAILArraysTest {
     
     /**

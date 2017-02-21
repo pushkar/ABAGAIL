@@ -6,6 +6,8 @@ package util;
  * @author Jesse Rosalia <https://github.com/theJenix>
  * @date 2013-03-07
  */
+/* NOTE: migrated to src/main/java/abagail/util/TimeUtil.java */
+@Deprecated
 public class TimeUtil {
 
     public static String formatTime(long time) {

@@ -10,6 +10,8 @@ import java.util.Set;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
+/* NOTE: Migrated to src/main/java/abagail/util/graph/Graph.java */
+@Deprecated
 public class Graph {
     /**
      * The list of nodes

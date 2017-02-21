@@ -8,6 +8,8 @@ import java.util.Random;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
+/* NOTE: migrated to src/main/java/abagail/util/AbagailArrays.java */
+@Deprecated
 public class ABAGAILArrays {
     /** Random number generator */
     public static final Random random = new Random();

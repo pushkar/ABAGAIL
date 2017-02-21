@@ -5,6 +5,8 @@ package util.graph;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
+/* NOTE: Migrated to src/main/java/abagail/util/graph/WeightedEdge.java */
+@Deprecated
 public class WeightedEdge extends Edge implements Comparable {
     
     /**
