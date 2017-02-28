@@ -5,6 +5,7 @@ or more than 15 rings.
 
 Based on AbaloneTest.java by Hannah Lau
 """
+from __future__ import with_statement
 import os
 import csv
 import time
@@ -16,8 +17,6 @@ from opt.example import NeuralNetworkOptimizationProblem
 import opt.RandomizedHillClimbing as RandomizedHillClimbing
 import opt.SimulatedAnnealing as SimulatedAnnealing
 import opt.ga.StandardGeneticAlgorithm as StandardGeneticAlgorithm
-
-from __future__ import with_statement
 
 INPUT_FILE = os.path.join("..", "src", "opt", "test", "abalone.txt")
 
