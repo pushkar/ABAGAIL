@@ -1,0 +1,14 @@
+language: java
+sudo: false
+
+# Build all the code on each JDK, but only build Javadoc on JDK8:
+matrix:
+  include:
+    - env: BUILD_DOCS=true
+      jdk: oraclejdk8
+
+script:
+ - ant all
+ - if [ "$BUILD_DOCS" == "true" ]; then
+      ant javadoc;
+   fi

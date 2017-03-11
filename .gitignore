@@ -2,9 +2,12 @@
 .DS_Store
 bin/*
 ABAGAIL.jar
+.idea
 # Package Files #
 *.jar
 *.war
 *.ear
 manifest.mf
 /bin
+
+*.java~

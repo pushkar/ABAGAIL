@@ -8,23 +8,24 @@ import shared.DataSetDescription;
 import shared.Instance;
 
 /**
- * A class for construcing a ensemble of decision stumps
+ * A class for constructing a ensemble of classifiers
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
 public class AdaBoostClassifier extends AbstractConditionalDistribution implements FunctionApproximater  {
+
     /**
-     * The classifier class to use
+     * The supplier of classifiers to use
      */
-    private Class classifier;
+    private final FunctionApproximaterSupplier classifierSupplier;
     
     /**
-     * The stumps themselves
+     * The classifiers themselves
      */
     private FunctionApproximater[] classifiers;
     
     /**
-     * The weights for each of the stumps
+     * The weights for each of the classifiers
      */
     private double[] weights;
     
@@ -37,33 +38,49 @@ public class AdaBoostClassifier extends AbstractConditionalDistribution implemen
      * The size of the ensemble
      */
     private int size;
+
     /**
-     * Create a new decision stump ensemble
-     * @param size the number of stumps
-     * @param splitEvaluator the splitting strategy to use
+     * Create a new ensemble given a {@link FunctionApproximaterSupplier} of classifiers.
+     * @param size the size of the ensemble
+     * @param classifierSupplier the {@link FunctionApproximaterSupplier} that supplies classifiers to use
+     */
+    public AdaBoostClassifier(int size, FunctionApproximaterSupplier classifierSupplier) {
+        this.size = size;
+        this.classifierSupplier = classifierSupplier;
+    }
+
+    /**
+     * Create a new ensemble with a given classifier type
+     * @param size the size of the ensemble
      * @param classifier the classifier class to use
      */
-    public AdaBoostClassifier(int size, Class classifier) {
-        this.size = size;
-        this.classifier = classifier;
+    public AdaBoostClassifier(int size, final Class classifier) {
+        this(size, new FunctionApproximaterSupplier() {
+            @Override public FunctionApproximater get() {
+                try {
+                    return (FunctionApproximater)
+                        classifier.getConstructor(new Class[0]).newInstance(new Object[0]);
+                } catch (Exception e) {
+                    throw new UnsupportedOperationException("Could not create " + classifier);
+                }
+            }
+        });
     }
-    
+
     /**
      * Create a new decision stump ensemble
-     * @param size the number of stumps
-     * @param splitEvaluator the splitting strategy to use
+     * @param size the size of the ensemble
      */
     public AdaBoostClassifier(int size) {
         this(size, DecisionStumpClassifier.class);
     }
     
     /**
-     * Make a new default ensemble
+     * Create a new default ensemble
      */
     public AdaBoostClassifier() {
         this(100);
     }
- 
 
     /**
      * Build the ensemble
@@ -84,14 +101,9 @@ public class AdaBoostClassifier extends AbstractConditionalDistribution implemen
          }               
         classRange = instances.getDescription().getLabelDescription().getDiscreteRange();
         for (int i = 0; i < classifiers.length; i++) {
-            try {
-                // make a new classifier
-                classifiers[i] = (FunctionApproximater) 
-                    classifier.getConstructor(new Class[0]).newInstance(new Object[0]);
-                classifiers[i].estimate(instances);
-            } catch (Exception e) {
-                throw new UnsupportedOperationException("Could not create " + classifier);
-            }
+            // make a new classifier
+            classifiers[i] = classifierSupplier.get();
+            classifiers[i].estimate(instances);
             // find the error for the newest classifier
             double error = 0;
             for (int j = 0; j < instances.size(); j++) {
@@ -163,32 +175,30 @@ public class AdaBoostClassifier extends AbstractConditionalDistribution implemen
     }
     
     /**
-     * Get the stump count
-     * @return the stump count
+     * Get the size of the ensemble
      */
     public int getSize() {
         return size;
     }
 
     /**
-     * Set the stump count
-     * @param i the stump count
+     * Set the size of the ensemble
      */
     public void setSize(int i) {
         size = i;
     }
 
     /**
-     * Get the decision stumps
-     * @return the stumps
+     * Get the classifiers
+     * @return the classfiers
      */
     public FunctionApproximater[] getClassifiers() {
         return classifiers;
     }
 
     /**
-     * Get the weights of the stumps
-     * @return the stumps
+     * Get the weights of the classifiers
+     * @return the weights of classifiers
      */
     public double[] getWeights() {
         return weights;

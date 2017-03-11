@@ -18,13 +18,13 @@ public class BackPropagationNetworkFactory {
     /**
      * Create a multilayer perceptron
      * @param nodeCounts the number of nodes in each layer
-     * @param transfer the transfer function
+     * @param transfer a list of transfer functions for each layer, except the last layer
      * @param outputLayer the output layer of the network
      * @param outputFunction the output transfer function
      * @return a multilayer perceptron with nodeCounts.length layers
      */
 	private BackPropagationNetwork createNetwork(int[] nodeCounts,
-	       DifferentiableActivationFunction transfer, Layer outputLayer,
+	       DifferentiableActivationFunction[] transfer, Layer outputLayer,
            DifferentiableActivationFunction outputFunction) {
 		if (nodeCounts.length < 2) {
 			throw new IllegalArgumentException();
@@ -43,7 +43,7 @@ public class BackPropagationNetworkFactory {
 		for (int i = 1; i < nodeCounts.length - 1; i++) {
 			Layer hiddenLayer = new BackPropagationLayer();
 			for (int j = 0; j < nodeCounts[i]; j++) {
-				hiddenLayer.addNode(new BackPropagationNode(transfer));
+				hiddenLayer.addNode(new BackPropagationNode(transfer[i]));
 			}
             hiddenLayer.addNode(new BackPropagationBiasNode(1));
 			network.addHiddenLayer(hiddenLayer);
@@ -65,10 +65,25 @@ public class BackPropagationNetworkFactory {
      * @return a multilayer perceptron with nodeCounts.length layers
      */
     public BackPropagationNetwork createRegressionNetwork(int[] nodeCounts, 
-            DifferentiableActivationFunction transfer) {
-        return createNetwork(nodeCounts, transfer, new BackPropagationLayer(),
+            DifferentiableActivationFunction[] transfers) {
+        return createNetwork(nodeCounts, transfers, new BackPropagationLayer(),
             new LinearActivationFunction());
     }
+    
+    /**
+	 * Create a multilayer perceptron
+	 * @param nodeCounts the number of nodes in each layer
+	 * @param transfer a list of transfer functions for each layer, except the last layer
+	 * @return a multilayer perceptron with nodeCounts.length layers
+	 */
+	public BackPropagationNetwork createRegressionNetwork(int[] nodeCounts,
+	        DifferentiableActivationFunction transfer) {
+	    DifferentiableActivationFunction[] transfers = new DifferentiableActivationFunction[nodeCounts.length-1];
+        for (int i = 0; i < nodeCounts.length-1; i++) {
+            transfers[i] = transfer;
+        }
+		return createRegressionNetwork(nodeCounts, new HyperbolicTangentSigmoid());
+	}
 
 	/**
 	 * Create a multilayer perceptron
@@ -83,18 +98,33 @@ public class BackPropagationNetworkFactory {
      * Create a multilayer perceptron
      * with a softmax output layer
      * @param nodeCounts the number of nodes in each layer
+     * @param transfer a list of transfer functions for each layer, except the last layer
+     * @return a multilayer perceptron with nodeCounts.length layers
+     */
+    public BackPropagationNetwork createClassificationNetwork(int[] nodeCounts,
+           DifferentiableActivationFunction[] transfers) {
+       if (nodeCounts[nodeCounts.length - 1] == 1) {
+           return createNetwork(nodeCounts, transfers, new BackPropagationLayer(),
+             new LogisticSigmoid());     
+       } else {
+           return createNetwork(nodeCounts, transfers, new BackPropagationSoftMaxOutputLayer(),
+               new LinearActivationFunction());
+       }
+    }
+
+    /**
+     * Create a multilayer perceptron
+     * @param nodeCounts the number of nodes in each layer
      * @param transfer the transfer function
      * @return a multilayer perceptron with nodeCounts.length layers
      */
     public BackPropagationNetwork createClassificationNetwork(int[] nodeCounts,
-           DifferentiableActivationFunction transfer) {
-       if (nodeCounts[nodeCounts.length - 1] == 1) {
-           return createNetwork(nodeCounts, transfer, new BackPropagationLayer(),
-             new LogisticSigmoid());     
-       } else {
-           return createNetwork(nodeCounts, transfer, new BackPropagationSoftMaxOutputLayer(),
-               new LinearActivationFunction());
-       }
+            DifferentiableActivationFunction transfer) {
+        DifferentiableActivationFunction[] transfers = new DifferentiableActivationFunction[nodeCounts.length-1];
+        for (int i = 0; i < nodeCounts.length-1; i++) {
+            transfers[i] = transfer;
+        }
+        return createClassificationNetwork(nodeCounts, transfers);
     }
 
     /**
