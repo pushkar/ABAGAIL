@@ -68,4 +68,8 @@ public class SimulatedAnnealing extends OptimizationAlgorithm {
         return cur;
     }
 
+    public double getTemperature() {
+        return t;
+    }
+
 }
