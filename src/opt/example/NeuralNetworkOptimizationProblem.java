@@ -2,20 +2,14 @@ package opt.example;
 
 import dist.Distribution;
 
-import opt.ContinuousAddOneNeighbor;
-import opt.EvaluationFunction;
-import opt.HillClimbingProblem;
-import opt.NeighborFunction;
-import opt.ga.ContinuousAddOneMutation;
-import opt.ga.UniformCrossOver;
-import opt.ga.CrossoverFunction;
-import opt.ga.GeneticAlgorithmProblem;
-import opt.ga.MutationFunction;
+import opt.*;
+import opt.ga.*;
 import shared.DataSet;
 import shared.ErrorMeasure;
 import shared.Instance;
 
 import func.nn.NeuralNetwork;
+import util.linalg.Vector;
 
 /**
  * A class for performing neural network optimzation
@@ -44,6 +38,8 @@ public class NeuralNetworkOptimizationProblem implements HillClimbingProblem, Ge
      * The distribution
      */
     private Distribution dist;
+
+    private double maxRandom;
     
     /**
      * Make a new neural network optimization
@@ -53,11 +49,27 @@ public class NeuralNetworkOptimizationProblem implements HillClimbingProblem, Ge
      */
     public NeuralNetworkOptimizationProblem(DataSet examples,
              NeuralNetwork network, ErrorMeasure measure) {
+        this(examples, network, measure, 1.0, 0.5);
+    }
+
+    /**
+     * Make a new neural network optimization
+     * @param examples the examples
+     * @param network the neural network
+     * @param measure the error measure
+     * @param maxNeighborOffset the maximum offset for the neighbor function
+     */
+    public NeuralNetworkOptimizationProblem(DataSet examples,
+                                            NeuralNetwork network,
+                                            ErrorMeasure measure,
+                                            double maxNeighborOffset,
+                                            double maxRandom) {
         eval = new NeuralNetworkEvaluationFunction(network, examples, measure);
         crossover = new UniformCrossOver();
-        neighbor = new ContinuousAddOneNeighbor();
-        mutate = new ContinuousAddOneMutation();
+        neighbor = new ContinuousAddAllNeighbor(maxNeighborOffset);
+        mutate = new ContinuousAddAllMutation(maxNeighborOffset);
         dist = new NeuralNetworkWeightDistribution(network.getLinks().size());
+        this.maxRandom = maxRandom;
     }
 
     /**
@@ -71,7 +83,9 @@ public class NeuralNetworkOptimizationProblem implements HillClimbingProblem, Ge
      * @see opt.OptimizationProblem#random()
      */
     public Instance random() {
-        return dist.sample(null);
+        Vector sampleWeights = dist.sample(null).getData();
+        sampleWeights.times(2 * maxRandom);
+        return new Instance(sampleWeights);
     }
 
     /**
