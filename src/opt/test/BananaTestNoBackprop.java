@@ -21,6 +21,7 @@ import func.nn.feedfwd.FeedForwardNetwork;
 import func.nn.feedfwd.FeedForwardNetworkBinary;
 import func.nn.feedfwd.FeedForwardNeuralNetworkFactory;
 
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -56,7 +57,7 @@ public class BananaTestNoBackprop {
     public static void main(String[] args) {
         // 1) Construct data instances for training.  These will also be run
         //    through the network at the bottom to verify the output
-        String dataFile = "../../shared/test/banana.arff";
+        String dataFile = new File("").getAbsolutePath() + "/src/shared/test/banana.arff";
         OptimizationType optType = OptimizationType.RHC;
         int iterations = 5000;
         int foldCount = 10;
@@ -155,7 +156,7 @@ public class BananaTestNoBackprop {
 
                 // 5) Instantiate a specific OptimizationAlgorithm, which defines how we pick our next potential
                 //    hypothesis.
-                OptimizationAlgorithm o = new RandomizedHillClimbing(nno, 1);
+                OptimizationAlgorithm o = new RandomizedHillClimbing(nno);
                 if (optType.equals(OptimizationType.GA)) {
                     o = new StandardGeneticAlgorithm(
                             Integer.parseInt(extraArgs[0]),

@@ -31,6 +31,8 @@ public class ThresholdTrainer implements Trainer {
      */
     private int maxIterations;
 
+    private long timeToTrain = 0;
+
     /**
      * Create a new convergence trainer
      * @param trainer the thrainer to use
@@ -58,9 +60,13 @@ public class ThresholdTrainer implements Trainer {
      */
     public double train() {
         double error = Double.MAX_VALUE;
+        long startTime, endTime;
         do {
            iterations++;
+           startTime = System.nanoTime();
            error = trainer.train();
+           endTime = System.nanoTime();
+           timeToTrain += (endTime - startTime);
         } while (Math.abs(error) > threshold
              && iterations < maxIterations);
         return error;
@@ -73,6 +79,9 @@ public class ThresholdTrainer implements Trainer {
     public int getIterations() {
         return iterations;
     }
-    
+
+    public long getTimeToTrain() {
+        return timeToTrain;
+    }
 
 }

@@ -1,5 +1,6 @@
 package func.test;
 
+import java.io.File;
 import java.io.IOException;
 
 import func.nn.backprop.*;
@@ -28,7 +29,7 @@ public class NNBananaTest {
                     new BackPropagationNetworkFactory();
 
             // Handle command line arguments
-            String dataFile = "../../shared/test/banana.arff";
+            String dataFile = new File("").getAbsolutePath() + "/src/shared/test/banana.arff";
             int foldCount = 10;
             for (int i = 0; i < args.length; i++) {
                 if (args[i].equals("-d") && args.length > i) {
