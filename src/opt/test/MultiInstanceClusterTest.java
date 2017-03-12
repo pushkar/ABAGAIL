@@ -3,6 +3,7 @@ package opt.test;
 import java.util.Arrays;
 import java.util.Random;
 
+import com.sun.org.apache.xpath.internal.operations.Mult;
 import dist.DiscreteDependencyTree;
 import dist.DiscreteUniformDistribution;
 import dist.Distribution;
@@ -13,7 +14,7 @@ import opt.ga.*;
 import opt.prob.GenericProbabilisticOptimizationProblem;
 import opt.prob.MIMIC;
 import opt.prob.ProbabilisticOptimizationProblem;
-import shared.FixedIterationTrainer;
+import shared.ThresholdTrainer;
 import shared.Instance;
 
 /**
@@ -35,9 +36,9 @@ public class MultiInstanceClusterTest {
     private static final int polyIncline = 7;
 
     /** The max run length **/
-    private static final int T = N / 10;
+    private static final int TDIV = 10;
 
-    private static final int RUNS = 10  ;
+    private static final int RUNS = 5;
 
     private static Instance generateInstance(Random rand) {
         double[] data = new double[N];
@@ -48,11 +49,32 @@ public class MultiInstanceClusterTest {
     }
 
     public static void main(String[] args) {
+        int M = MultiInstanceClusterTest.M;
+        int N = MultiInstanceClusterTest.N;
+        try {
+            for (int i = 0; i < args.length; i++) {
+                if (args[i].equals("-N")) {
+                    if (args.length > i) {
+                        N = Integer.parseInt(args[i + 1]);
+                    }
+                } else if (args[i].equals("-M")) {
+                    if (args.length > i) {
+                        M = Integer.parseInt(args[i + 1]);
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        int T = N / TDIV;
 
-        double[] avgRHC = new double[2];
-        double[] avgSA = new double[2];
-        double[] avgGA = new double[2];;
-        double[] avgMIMIC = new double[2];
+        double globalOptimum = N;
+        double optimalThreshold = globalOptimum - 1;
+
+        double[] avgRHC = new double[3];
+        double[] avgSA = new double[3];
+        double[] avgGA = new double[3];
+        double[] avgMIMIC = new double[3];
 
         Random rand = new Random(seed);
         Instance[] exactInstances = new Instance[M];
@@ -86,50 +108,54 @@ public class MultiInstanceClusterTest {
             double timeSeconds = 0.0;
 
             RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);
-            FixedIterationTrainer fit = new FixedIterationTrainer(rhc, 10000);
+            ThresholdTrainer fit = new ThresholdTrainer(rhc, rhc.valueToError(optimalThreshold),200000);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
             opt = ef.value(rhc.getOptimal());
             avgRHC[0] += opt;
             avgRHC[1] += timeSeconds;
+            avgRHC[2] += fit.getIterations();
 
             System.out.printf("Finished in %fs\n", timeSeconds);
             System.out.printf("RHC: %f\n\n", opt);
 
 
             SimulatedAnnealing sa = new SimulatedAnnealing(1E10, .95, hcp);
-            fit = new FixedIterationTrainer(sa, 1500);
+            fit = new ThresholdTrainer(sa, sa.valueToError(optimalThreshold),200000);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
             opt = ef.value(sa.getOptimal());
             avgSA[0] += opt;
             avgSA[1] += timeSeconds;
+            avgSA[2] += fit.getIterations();
 
             System.out.printf("Finished in %fs\n", timeSeconds);
             System.out.printf("SA: %f\n\n", opt);
 
             StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 10, gap);
-            fit = new FixedIterationTrainer(ga, 1000);
+            fit = new ThresholdTrainer(ga, ga.valueToError(optimalThreshold), 1000);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
             opt = ef.value(ga.getOptimal());
             avgGA[0] += opt;
             avgGA[1] += timeSeconds;
+            avgGA[2] += fit.getIterations();
 
             System.out.printf("Finished in %fs\n", timeSeconds);
             System.out.printf("GA: %f\n\n", opt);
 
             MIMIC mimic = new MIMIC(1500, 100, pop);
-            fit = new FixedIterationTrainer(mimic, 500);
+            fit = new ThresholdTrainer(mimic, mimic.valueToError(optimalThreshold), 500);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
             opt = ef.value(mimic.getOptimal());
             avgMIMIC[0] += opt;
             avgMIMIC[1] += timeSeconds;
+            avgMIMIC[2] += fit.getIterations();
 
             System.out.printf("Finished in %fs\n", timeSeconds);
             System.out.printf("MIMIC: %f\n\n", opt);
@@ -142,10 +168,10 @@ public class MultiInstanceClusterTest {
             avgMIMIC[i] /= RUNS;
         }
 
-        System.out.printf("%-10s%10s%10s\n", "ALGORITHM", "AVG OPT", "AVG TIME");
-        System.out.printf("%-10s%10.4f%10.6fs\n", "RHC", avgRHC[0], avgRHC[1]);
-        System.out.printf("%-10s%10.4f%10.6fs\n", "SA", avgSA[0], avgSA[1]);
-        System.out.printf("%-10s%10.4f%10.6fs\n", "GA", avgGA[0], avgGA[1]);
-        System.out.printf("%-10s%10.4f%10.6fs\n", "MIMIC", avgMIMIC[0], avgMIMIC[1]);
+        System.out.printf("%-10s%10s%10s%10s\n", "ALGORITHM", "AVG OPT", "AVG TIME", "AVG ITER");
+        System.out.printf("%-10s%10.4f%10.6fs%10.0f\n", "RHC", avgRHC[0], avgRHC[1], avgRHC[2]);
+        System.out.printf("%-10s%10.4f%10.6fs%10.0f\n", "SA", avgSA[0], avgSA[1], avgSA[2]);
+        System.out.printf("%-10s%10.4f%10.6fs%10.0f\n", "GA", avgGA[0], avgGA[1], avgGA[2]);
+        System.out.printf("%-10s%10.4f%10.6fs%10.0f\n", "MIMIC", avgMIMIC[0], avgMIMIC[1], avgMIMIC[2]);
     }
 }
