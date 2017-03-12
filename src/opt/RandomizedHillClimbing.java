@@ -39,7 +39,8 @@ public class RandomizedHillClimbing extends OptimizationAlgorithm {
             curVal = neighVal;
             cur = neigh;
         }
-        return curVal;
+        // error is 1 / fitness
+        return valueToError(curVal);
     }
 
     /**
@@ -47,6 +48,10 @@ public class RandomizedHillClimbing extends OptimizationAlgorithm {
      */
     public Instance getOptimal() {
         return cur;
+    }
+
+    public double valueToError(double value) {
+        return 1 / value;
     }
 
 }

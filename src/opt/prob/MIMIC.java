@@ -99,7 +99,11 @@ public class MIMIC extends OptimizationAlgorithm {
             }
         }
         distribution.estimate(new DataSet(kept));
-        return cutoff;
+        return valueToError(cutoff);
+    }
+
+    public double valueToError(double value) {
+        return 1 / value;
     }
 
 }

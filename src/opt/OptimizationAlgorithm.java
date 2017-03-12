@@ -36,4 +36,6 @@ public abstract class OptimizationAlgorithm implements Trainer {
      */
     public abstract Instance getOptimal();
 
+    public abstract double valueToError(double value);
+
 }

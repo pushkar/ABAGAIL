@@ -79,9 +79,11 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
         double[] probabilities = new double[population.length];
         // calculate probability distribution over the population
         double sum = 0;
+        double errorSum = 0;
         for (int i = 0; i < probabilities.length; i++) {
             probabilities[i] = values[i];
             sum += probabilities[i];
+            errorSum += valueToError(values[i]);
         }
         if (Double.isInfinite(sum)) {
             return sum;
@@ -123,7 +125,7 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
         // the new generation
         population = newPopulation;
         values = newValues;
-        return sum / populationSize;
+        return errorSum / populationSize;
     }
 
     /**
@@ -141,6 +143,10 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
             }
         }
         return population[best];
+    }
+
+    public double valueToError(double value) {
+        return 1 / value;
     }
 
 }
