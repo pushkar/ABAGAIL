@@ -23,7 +23,7 @@ public class kFoldSplitFilter implements DataSetFilter {
     public kFoldSplitFilter(int foldCount) {
         this.foldCount = Math.max(foldCount, 2);
         this.folds = new ArrayList<>();
-        this.validationPairs = new DataSet[foldCount][2];
+        this.validationPairs = new DataSet[this.foldCount][2];
         filtered = false;
     }
 
