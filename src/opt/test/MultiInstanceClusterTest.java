@@ -3,7 +3,6 @@ package opt.test;
 import java.util.Arrays;
 import java.util.Random;
 
-import com.sun.org.apache.xpath.internal.operations.Mult;
 import dist.DiscreteDependencyTree;
 import dist.DiscreteUniformDistribution;
 import dist.Distribution;

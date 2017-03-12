@@ -12,7 +12,6 @@ import opt.ga.*;
 import opt.prob.GenericProbabilisticOptimizationProblem;
 import opt.prob.MIMIC;
 import opt.prob.ProbabilisticOptimizationProblem;
-import shared.FixedIterationTrainer;
 import shared.ThresholdTrainer;
 
 /**
