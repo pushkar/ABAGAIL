@@ -56,7 +56,7 @@ public class BananaTestNoBackprop {
     public static void main(String[] args) {
         // 1) Construct data instances for training.  These will also be run
         //    through the network at the bottom to verify the output
-        String dataFile = "";
+        String dataFile = "../../shared/test/banana.arff";
         OptimizationType optType = OptimizationType.RHC;
         int iterations = 5000;
         int foldCount = 10;
