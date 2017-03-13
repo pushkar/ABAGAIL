@@ -69,7 +69,7 @@ public class FourPeaksTest {
             double timeSeconds = 0.0;
 
             RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);
-            ThresholdTrainer fit = new ThresholdTrainer(rhc, rhc.valueToError(optimalThreshold), 200000);
+            ThresholdTrainer fit = new ThresholdTrainer(rhc, rhc.valueToError(optimalThreshold), 500000);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
@@ -81,8 +81,8 @@ public class FourPeaksTest {
             System.out.printf("Finished in %fs\n", timeSeconds);
             System.out.printf("RHC: %f\n\n", opt);
 
-            SimulatedAnnealing sa = new SimulatedAnnealing(1E12, .999, hcp);
-            fit = new ThresholdTrainer(sa, sa.valueToError(optimalThreshold), 200000);
+            SimulatedAnnealing sa = new SimulatedAnnealing(1E8, .9, hcp);
+            fit = new ThresholdTrainer(sa, sa.valueToError(optimalThreshold), 500000);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
@@ -95,7 +95,7 @@ public class FourPeaksTest {
             System.out.printf("SA: %f\n\n", opt);
 
             StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 10, gap);
-            fit = new ThresholdTrainer(ga, ga.valueToError(optimalThreshold),1000);
+            fit = new ThresholdTrainer(ga, ga.valueToError(optimalThreshold),4500);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
@@ -107,8 +107,8 @@ public class FourPeaksTest {
             System.out.printf("Finished in %fs\n", timeSeconds);
             System.out.printf("GA: %f\n\n", opt);
 
-            MIMIC mimic = new MIMIC(1000, 30, pop);
-            fit = new ThresholdTrainer(mimic, mimic.valueToError(optimalThreshold), 500);
+            MIMIC mimic = new MIMIC(250, 20, pop);
+            fit = new ThresholdTrainer(mimic, mimic.valueToError(optimalThreshold), 2000);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
@@ -121,7 +121,7 @@ public class FourPeaksTest {
             System.out.printf("MIMIC: %f\n\n", opt);
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             avgRHC[i] /= RUNS;
             avgSA[i] /= RUNS;
             avgGA[i] /= RUNS;

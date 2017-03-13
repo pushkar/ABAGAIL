@@ -125,7 +125,7 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
         // the new generation
         population = newPopulation;
         values = newValues;
-        return errorSum / populationSize;
+        return valueToError(ga.value(getOptimal()));
     }
 
     /**

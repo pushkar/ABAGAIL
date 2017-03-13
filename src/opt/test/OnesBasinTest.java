@@ -101,7 +101,7 @@ public class OnesBasinTest {
             System.out.printf("SA: %f\n\n", opt);
 
             StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 10, gap);
-            fit = new ThresholdTrainer(ga, ga.valueToError(optimalThreshold),2000);
+            fit = new ThresholdTrainer(ga, ga.valueToError(optimalThreshold),4500);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
@@ -113,7 +113,7 @@ public class OnesBasinTest {
             System.out.printf("Finished in %fs\n", timeSeconds);
             System.out.printf("GA: %f\n\n", opt);
 
-            MIMIC mimic = new MIMIC(2000, 100, pop);
+            MIMIC mimic = new MIMIC(500, 100, pop);
             fit = new ThresholdTrainer(mimic, mimic.valueToError(optimalThreshold),1000);
             fit.train();
 
@@ -127,7 +127,7 @@ public class OnesBasinTest {
             System.out.printf("MIMIC: %f\n\n", opt);
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             avgRHC[i] /= RUNS;
             avgSA[i] /= RUNS;
             avgGA[i] /= RUNS;

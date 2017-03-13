@@ -29,7 +29,7 @@ public class MultiInstanceClusterTest {
     private static final int N = 50;
 
     /** The number of instances **/
-    private static final int M = 10;
+    private static final int M = 20;
 
     /** The polynomial "incline" of the exact score function **/
     private static final int polyIncline = 7;
@@ -37,7 +37,7 @@ public class MultiInstanceClusterTest {
     /** The max run length **/
     private static final int TDIV = 10;
 
-    private static final int RUNS = 5;
+    private static final int RUNS = 2;
 
     private static Instance generateInstance(Random rand) {
         double[] data = new double[N];
@@ -107,7 +107,7 @@ public class MultiInstanceClusterTest {
             double timeSeconds = 0.0;
 
             RandomizedHillClimbing rhc = new RandomizedHillClimbing(hcp);
-            ThresholdTrainer fit = new ThresholdTrainer(rhc, rhc.valueToError(optimalThreshold),200000);
+            ThresholdTrainer fit = new ThresholdTrainer(rhc, rhc.valueToError(optimalThreshold),500000);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
@@ -120,8 +120,8 @@ public class MultiInstanceClusterTest {
             System.out.printf("RHC: %f\n\n", opt);
 
 
-            SimulatedAnnealing sa = new SimulatedAnnealing(1E10, .95, hcp);
-            fit = new ThresholdTrainer(sa, sa.valueToError(optimalThreshold),200000);
+            SimulatedAnnealing sa = new SimulatedAnnealing(1E10, .9995, hcp);
+            fit = new ThresholdTrainer(sa, sa.valueToError(optimalThreshold),500000);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
@@ -134,7 +134,7 @@ public class MultiInstanceClusterTest {
             System.out.printf("SA: %f\n\n", opt);
 
             StandardGeneticAlgorithm ga = new StandardGeneticAlgorithm(200, 100, 10, gap);
-            fit = new ThresholdTrainer(ga, ga.valueToError(optimalThreshold), 1000);
+            fit = new ThresholdTrainer(ga, ga.valueToError(optimalThreshold), 1500);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
@@ -146,8 +146,8 @@ public class MultiInstanceClusterTest {
             System.out.printf("Finished in %fs\n", timeSeconds);
             System.out.printf("GA: %f\n\n", opt);
 
-            MIMIC mimic = new MIMIC(1500, 100, pop);
-            fit = new ThresholdTrainer(mimic, mimic.valueToError(optimalThreshold), 500);
+            MIMIC mimic = new MIMIC(500, 100, pop);
+            fit = new ThresholdTrainer(mimic, mimic.valueToError(optimalThreshold), 1000);
             fit.train();
 
             timeSeconds = fit.getTimeToTrain() / toSeconds;
@@ -160,7 +160,7 @@ public class MultiInstanceClusterTest {
             System.out.printf("MIMIC: %f\n\n", opt);
         }
 
-        for (int i = 0; i < 2; i++) {
+        for (int i = 0; i < 3; i++) {
             avgRHC[i] /= RUNS;
             avgSA[i] /= RUNS;
             avgGA[i] /= RUNS;
