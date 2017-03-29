@@ -7,7 +7,7 @@ import shared.Instance;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
-public class StandardDecisionTreeSplit extends DecisionTreeSplit {
+public class StandardDecisionTreeSplit extends DecisionTreeSplit implements IntegerAttribute {
     
     /**
      * The attribute being split on
@@ -42,6 +42,12 @@ public class StandardDecisionTreeSplit extends DecisionTreeSplit {
     public int getBranchOf(Instance data) {
         return data.getDiscrete(attribute);
     }
+
+    /**
+     * @see IntegerAttribute#getAttribute()
+     * @return
+     */
+    public int getAttribute() { return this.attribute; }
     
     /**
      * @see java.lang.Object#toString()

@@ -7,7 +7,7 @@ import shared.Instance;
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
-public class BinaryDecisionTreeSplit extends DecisionTreeSplit {
+public class BinaryDecisionTreeSplit extends DecisionTreeSplit implements IntegerAttribute {
     
     /**
      * The attribute being split on
@@ -47,6 +47,12 @@ public class BinaryDecisionTreeSplit extends DecisionTreeSplit {
             return 1; 
         }
     }
+
+    /**
+     * @see func.dtree.IntegerAttribute
+     * @return
+     */
+    public int getAttribute() { return this.attribute; }
     
     /**
      * @see java.lang.Object#toString()
