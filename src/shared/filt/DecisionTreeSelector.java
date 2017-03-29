@@ -7,8 +7,7 @@ import shared.Instance;
 import util.linalg.DenseVector;
 import util.linalg.Vector;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Joshua Wang joshuawang@gatech.edu
@@ -18,11 +17,15 @@ public class DecisionTreeSelector implements DataSetFilter{
     private SplitEvaluator splitEvaluator;
     private PruningCriteria pruningCriteria;
 
-    private Set<Integer> relevantAttributes;
+    private List<Integer> relevantAttributes;
 
     public DecisionTreeSelector(SplitEvaluator splitEvaluator, PruningCriteria pruningCriteria) {
         this.splitEvaluator = splitEvaluator;
         this.pruningCriteria = pruningCriteria;
+    }
+
+    public DecisionTreeSelector(SplitEvaluator splitEvaluator) {
+        this(splitEvaluator, null);
     }
 
     public void filter(DataSet set) {
@@ -31,7 +34,8 @@ public class DecisionTreeSelector implements DataSetFilter{
         dtree.estimate(set);
 
         // Extract the attributes that were split on
-        relevantAttributes = getIntegerAttributes(dtree.getRoot());
+        relevantAttributes = new LinkedList(getIntegerAttributes(dtree.getRoot()));
+        Collections.sort(relevantAttributes);
 
         // Keep only those attributes
         int numRelevantAttributes = relevantAttributes.size();
@@ -71,7 +75,7 @@ public class DecisionTreeSelector implements DataSetFilter{
         return aSet;
     }
 
-    public Set<Integer> getRelevantAttributes() {
+    public List<Integer> getRelevantAttributes() {
         return relevantAttributes;
     }
 
