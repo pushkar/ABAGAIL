@@ -3,6 +3,7 @@ package shared.filt;
 import func.DecisionTreeClassifier;
 import func.dtree.*;
 import shared.DataSet;
+import shared.DataSetDescription;
 import shared.Instance;
 import util.linalg.DenseVector;
 import util.linalg.Vector;
@@ -52,8 +53,8 @@ public class DecisionTreeSelector implements DataSetFilter{
             inst.setData(new DenseVector(relevantData));
         }
 
-        // The data description is no longer valid
-        set.setDescription(null);
+        // Induce data description
+        set.setDescription(new DataSetDescription(set));
     }
 
     private Set<Integer> getIntegerAttributes(DecisionTreeNode node) {
