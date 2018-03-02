@@ -24,6 +24,13 @@ public class ContinuousPeaksEvaluationFunction implements EvaluationFunction {
     }
 
     /**
+     * Track number of times value() is called.
+     * Expected to be incremented by all value() calls.
+     */
+
+    public long valueCallCount = 0;
+
+    /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
@@ -56,6 +63,7 @@ public class ContinuousPeaksEvaluationFunction implements EvaluationFunction {
         if (max1 > t && max0 > t) {
             r = data.size();
         }
+        this.valueCallCount += 1;
         return Math.max(max1, max0) + r;
     }
 }

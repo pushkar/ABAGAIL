@@ -20,6 +20,14 @@ public class TravelingSalesmanRouteEvaluationFunction extends TravelingSalesmanE
         super(points);
     }
 
+
+    /**
+     * Track number of times value() is called.
+     * Expected to be incremented by all value() calls.
+     */
+
+    public long valueCallCount = 0;
+
     /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
@@ -29,6 +37,7 @@ public class TravelingSalesmanRouteEvaluationFunction extends TravelingSalesmanE
             distance += getDistance(d.getDiscrete(i), d.getDiscrete(i+1));
         }
         distance += getDistance(d.getDiscrete(d.size() - 1), d.getDiscrete(0));
+        this.valueCallCount += 1;
         return 1/distance;
     }
 

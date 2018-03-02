@@ -54,6 +54,7 @@ public class NeuralNetworkEvaluationFunction implements EvaluationFunction {
             error += measure.value(new Instance(network.getOutputValues()), examples.get(i));
         }
         // the fitness is 1 / error
+        // turn this into a maximization problem b/c that's what SA, RHC, GA do!
         return 1 / error;
     }
 

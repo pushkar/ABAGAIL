@@ -13,6 +13,14 @@ public class FlipFlopEvaluationFunction implements EvaluationFunction {
     /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
+
+    /**
+     * Track number of times value() is called.
+     * Expected to be incremented by all value() calls.
+     */
+
+    public long valueCallCount = 0;
+
     public double value(Instance d) {
         Vector data = d.getData();
         double val = 0;
@@ -21,6 +29,7 @@ public class FlipFlopEvaluationFunction implements EvaluationFunction {
                 val++;
             }
         }
+        this.valueCallCount += 1;
         return val;
     }
 }

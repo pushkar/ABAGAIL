@@ -24,6 +24,13 @@ public class FourPeaksEvaluationFunction implements EvaluationFunction {
     }
 
     /**
+     * Track number of times value() is called.
+     * Expected to be incremented by all value() calls.
+     */
+
+    public long valueCallCount = 0;
+
+    /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
@@ -42,6 +49,7 @@ public class FourPeaksEvaluationFunction implements EvaluationFunction {
         if (head > t && tail > t) {
             r = data.size();
         }
+        this.valueCallCount += 1;
         return Math.max(tail, head) + r;
     }
     
