@@ -37,7 +37,7 @@ public class TravelingSalesmanCrossOver implements CrossoverFunction {
             nextb[b.getDiscrete(i)] = b.getDiscrete(i+1);
         }
         nexta[a.getDiscrete(a.size() - 1)] = a.getDiscrete(0);
-        nexta[b.getDiscrete(b.size() - 1)] = b.getDiscrete(0);
+        nextb[b.getDiscrete(b.size() - 1)] = b.getDiscrete(0);
         boolean[] visited = new boolean[a.size()];
         int[] child = new int[a.size()];
         child[0] = Distribution.random.nextInt(a.size());
