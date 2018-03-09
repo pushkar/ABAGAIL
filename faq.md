@@ -346,7 +346,7 @@ Make sure you are using a version where this issue has been fixed. See: [https:/
 
 
 ***
-##What are some characteristics of problems simulated annealing works well on?
+## What are some characteristics of problems simulated annealing works well on?
 Generally, simulated annealing works well if there are multiple minimum and you need to find the global minimum because SA will (hopefully) break out of the local minimum. 
 
 in the ABAGAIL library look for sample test problems `under opt > example` directory
