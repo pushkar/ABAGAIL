@@ -34,14 +34,6 @@ import opt.prob.ProbabilisticOptimizationProblem as ProbabilisticOptimizationPro
 import shared.FixedIterationTrainer as FixedIterationTrainer
 
 N = 50
-TRAINING_ITERATIONS = {'RHC': 200000, 'SA': 200000, 'GA': 1000, 'MIMIC': 1000}
-SA_TEMP = 1E1
-SA_COOLRATE = .1
-GA_POP = 200
-GA_MATE = 0
-GA_MUTATE = 10
-MIMIC_GENERATE = 200
-MIMIC_KEEP = 10
 
 # ranges = [random.randint(1, N) for i in range(N)]
 ef = NQueensFitnessFunction()
