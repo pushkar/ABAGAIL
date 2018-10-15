@@ -1,0 +1,34 @@
+group 'edu.gatech'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile group: 'org.apache.commons', name: 'commons-csv', version: '1.6'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+jar {
+    from(configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }) {
+        exclude "META-INF/*.SF"
+        exclude "META-INF/*.DSA"
+        exclude "META-INF/*.RSA"
+    }
+
+    manifest {
+        attributes 'Implementation-Title': 'ABAGAIL',
+                'Implementation-Version': version,
+                'Built-By': System.getProperty('user.name'),
+                'Built-Date': new Date(),
+                'Built-JDK': System.getProperty('java.version'),
+                'Main-Class': 'edu.gatech.AbagailApp'
+    }
+}
