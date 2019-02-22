@@ -13,6 +13,7 @@ import java.util.regex.Pattern;
 import shared.DataSet;
 import shared.DataSetDescription;
 import shared.Instance;
+import util.linalg.DenseVector;
 /**
  * Class to read in data from a ARFF file
  * @author Jarvis Johnson <https://github.com/Magicjarvis>
@@ -25,7 +26,7 @@ public class ArffDataSetReader extends DataSetReader {
 	private final String ATTRIBUTE_TAG = "@attribute";
 	private final int SPLIT_LIMIT = 3;
 
-	
+
 	public ArffDataSetReader(String file) {
 		super(file);
 	}
@@ -48,7 +49,7 @@ public class ArffDataSetReader extends DataSetReader {
 	/**
 	 * Parses the buffer in to a map attribute->
 	 * @param in Buffer to read from
-	 * @return 
+	 * @return Hashmap linking attributes to numeric values
 	 * @throws IOException
 	 */
 	private List<Map<String, Double>> processAttributes(BufferedReader in)
@@ -103,7 +104,7 @@ public class ArffDataSetReader extends DataSetReader {
 	                }
 					ins[i] = d;
 				}
-				Instance i = new Instance(ins);
+				Instance i = new Instance(new DenseVector(Arrays.copyOfRange(ins, 0, ins.length - 1)), new Instance(ins[ins.length - 1])); // This assumes the class label is the last attribute. User should change if that's not the case
 				instances.add(i);
 			}
 			line = in.readLine();
