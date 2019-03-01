@@ -27,5 +27,4 @@ public class LogisticSigmoid extends DifferentiableActivationFunction {
         double logistic = value(value);
         return logistic * (1 - logistic);
 	}
-
 }
