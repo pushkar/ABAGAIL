@@ -19,11 +19,10 @@ public class RELU extends DifferentiableActivationFunction {
 	 * @see nn.function.DifferentiableActivationFunction#derivative(double)
 	 */
     public double derivative(double value) {
-        value = this.value(value);
         if (value <= 0) {
             return 0;
         } else {
-            return 1;
+            return value;
         }
 	}
 }
