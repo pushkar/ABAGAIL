@@ -15,7 +15,7 @@ public class RPROPUpdateRule extends WeightUpdateRule {
 	 * The decrease parameter
 	 */
 	private static final double DECREASE = .5;
-	
+
 	/**
 	 * The initial learning rate
 	 */
@@ -25,29 +25,36 @@ public class RPROPUpdateRule extends WeightUpdateRule {
 	 * The max learning rate
 	 */
 	private double maxLearningRate;
-	
+
 	/**
 	 * The min learning rate
 	 */
 	private double minLearningRate;
-	
+
+	/**
+	 * The momentum
+	 */
+	private double momentum;
+
 	/**
 	 * Make a new rprop update rule
 	 * @param initial the initial learning rate
 	 * @param max the maximum learning rate
 	 * @param min the minimum learning rate
+	 * @param momentum
 	 */
-	public RPROPUpdateRule(double initial, double max, double min) {
+	public RPROPUpdateRule(double initial, double max, double min, double momentum) {
 		this.initialLearningRate = initial;
 		this.maxLearningRate = max;
 		this.minLearningRate = min;
+		this.momentum = momentum;
 	}
-	
+
 	/**
 	 * Make a new rprop update rule with default values
 	 */
 	public RPROPUpdateRule() {
-		this(.1, 50, .000001);
+		this(.1, 50, .000001, 0);
 	}
 
 	/**
@@ -65,15 +72,15 @@ public class RPROPUpdateRule extends WeightUpdateRule {
 		}
 		if (link.getLastError() * link.getError() > 0) {
 			link.setLearningRate(Math.min(
-				link.getLearningRate() * INCREASE, maxLearningRate));
-			link.changeWeight(-sign * link.getLearningRate());
+					link.getLearningRate() * INCREASE, maxLearningRate));
+			link.changeWeight(-sign * link.getLearningRate() + link.getLastChange()*momentum);
 		} else if (link.getLastError() * link.getError() < 0) {
 			link.setLearningRate(Math.max(
-				link.getLearningRate() * DECREASE, minLearningRate));
+					link.getLearningRate() * DECREASE, minLearningRate));
 			link.setError(0);
-			link.changeWeight(-link.getLastChange());
+			link.changeWeight(-link.getLastChange() + link.getLastChange()*momentum);
 		} else {
-			link.changeWeight(-sign * link.getLearningRate());
+			link.changeWeight(-sign * link.getLearningRate() + link.getLastChange()*momentum);
 		}
 	}
 
