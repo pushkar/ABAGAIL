@@ -5,7 +5,7 @@ import func.nn.Link;
 
 
 /**
- * 
+ *
  * @author Andrew Guillory gtg008g@mail.gatech.edu
  * @version 1.0
  */
@@ -19,7 +19,7 @@ public class BackPropagationLink extends Link {
      * many patterns.
      */
     private double error;
-    
+
     /**
      * The last derivative of the error function
      * in respect to this node, sometimes
@@ -27,36 +27,42 @@ public class BackPropagationLink extends Link {
      * momentum type terms.
      */
     private double lastError;
-    
+
     /**
      * The last change made to this link (last delta),
      * sometimes used in algorithms with momentum
      * type terms.
      */
     private double lastChange;
-    
+
     /**
      * A learning rate term which is used in
      * some algorithms that have weight specific
      * learning rates.
      */
     private double learningRate;
-    
+
     /**
-     * @see nn.Link#changeWeight(double)
+     * A time step term which is used in
+     * some algorithms that use a time step.
+     */
+    private double timeStep=0;
+
+    /**
+     * @see func.nn.Link#changeWeight(double)
      */
     public void changeWeight(double delta) {
          super.changeWeight(delta);
          lastChange = delta;
     }
-    
+
     /**
      * Backpropagate error values into this link
      */
     public void backpropagate() {
         addError(getInValue() * getOutError());
     }
-    
+
     /**
      * Add error to this link
      * @param error the error to add
@@ -64,16 +70,16 @@ public class BackPropagationLink extends Link {
     public void addError(double error) {
         this.error += error;
     }
-    
+
     /**
-     * Clear out the error and 
+     * Clear out the error and
      * set the current error to be the last error
      */
     public void clearError() {
         lastError = error;
         error = 0;
     }
-    
+
     /**
      * Get the error derivative with respect to this weight
      * @return the error derivative value
@@ -81,7 +87,7 @@ public class BackPropagationLink extends Link {
     public double getError() {
         return error;
     }
-    
+
     /**
      * Set the error
      * @param error the error to set
@@ -105,7 +111,7 @@ public class BackPropagationLink extends Link {
     public double getLastError() {
         return lastError;
     }
-    
+
     /**
      * Set the learning rate
      * @param learningRate the learning rate
@@ -121,7 +127,23 @@ public class BackPropagationLink extends Link {
     public double getLearningRate() {
         return learningRate;
     }
-    
+
+    /**
+     * Set the time step
+     * @param timeStep the timeStep
+     */
+    public void setTimeStep(double timeStep) {
+      this.timeStep = timeStep;
+    }
+
+    /**
+     * Get the time step
+     * @return the time step
+     */
+    public double getTimeStep() {
+      return timeStep;
+    }
+
     /**
      * Get the output error
      * @return the output error
@@ -129,7 +151,7 @@ public class BackPropagationLink extends Link {
     public double getOutError() {
         return ((BackPropagationNode) getOutNode()).getInputError();
     }
-    
+
     /**
      * Get the weighted output error
      * @return the output error times the weigh tof the link
@@ -138,7 +160,7 @@ public class BackPropagationLink extends Link {
         return ((BackPropagationNode) getOutNode()).getInputError()
             * getWeight();
     }
-    
+
     /**
      * Get the input error
      * @return the input error
