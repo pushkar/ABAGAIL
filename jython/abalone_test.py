@@ -109,8 +109,8 @@ def main():
             networks[i].setInputValues(instance.getData())
             networks[i].run()
 
-            predicted = instance.getLabel().getContinuous()
-            actual = networks[i].getOutputValues().get(0)
+            actual = instance.getLabel().getContinuous()
+            predicted = networks[i].getOutputValues().get(0)
 
             if abs(predicted - actual) < 0.5:
                 correct += 1
