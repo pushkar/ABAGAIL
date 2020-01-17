@@ -72,7 +72,7 @@ public class NetworkBuilder {
   }
 
   /**
-   * Set Activation Function (Default: RELU)
+   * Set Activation Function (Default: LogisticSigmoid)
    */
   public NetworkBuilder withActivationFunction(DifferentiableActivationFunction activationFunction) {
     this.activationFunction = activationFunction;
@@ -96,7 +96,7 @@ public class NetworkBuilder {
   }
 
   /**
-   * Set Update Rule (Default: Adam)
+   * Set Update Rule (Default: RPROPUpdateRule)
    */
   public NetworkBuilder withUpdateRule(WeightUpdateRule updateRule) {
     this.updateRule = updateRule;
