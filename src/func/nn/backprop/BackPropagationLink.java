@@ -46,14 +46,7 @@ public class BackPropagationLink extends Link {
      * A time step term which is used in
      * some algorithms that use a time step.
      */
-    private double timeStep;
-
-    /**
-     * Constructor - initiate timeStep (ADAM).
-     */
-    public BackPropagationLink(){
-      timeStep=0;
-    }
+    private double timeStep=0;
 
     /**
      * @see func.nn.Link#changeWeight(double)
