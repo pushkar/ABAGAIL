@@ -62,7 +62,7 @@ public class NetworkBuilder {
    * Constructor - initialize defaults
    */
   public NetworkBuilder(){
-    layers = new int[]{10, 2};
+    layers = new int[]{100, 2};
     network = new BackPropagationNetwork();
     activationFunction = new LogisticSigmoid();
     updateRule = new RPROPUpdateRule();
@@ -72,7 +72,7 @@ public class NetworkBuilder {
   }
 
   /**
-   * Set Activation Function (Default: LogisticSigmoid)
+   * Set Activation Function
    */
   public NetworkBuilder withActivationFunction(DifferentiableActivationFunction activationFunction) {
     this.activationFunction = activationFunction;
@@ -80,7 +80,7 @@ public class NetworkBuilder {
   }
 
   /**
-   * Set Depth and Width of NN Layers (Default: {20, 10, 2})
+   * Set Depth and Width of NN Layers
    */
   public NetworkBuilder withLayers(int[] layers) {
     this.layers = layers;
@@ -96,7 +96,7 @@ public class NetworkBuilder {
   }
 
   /**
-   * Set Update Rule (Default: RPROPUpdateRule)
+   * Set Update Rule
    */
   public NetworkBuilder withUpdateRule(WeightUpdateRule updateRule) {
     this.updateRule = updateRule;
@@ -104,7 +104,7 @@ public class NetworkBuilder {
   }
 
   /**
-   * Set Iterations (Default: Convergence Trainer/iters=0)
+   * Set Iterations
    */
   public NetworkBuilder withIterations(int iters) {
     this.iters = iters;
@@ -112,7 +112,7 @@ public class NetworkBuilder {
   }
 
   /**
-   * Set Gradient Error Measure (Default: SumOfSquaresError())
+   * Set Gradient Error Measure
    */
   public NetworkBuilder withErrorMeasure(GradientErrorMeasure errorMeasure) {
     this.errorMeasure = errorMeasure;
