@@ -7,7 +7,7 @@ or more than 15 rings.
 
 Based on AbaloneTest.java by Hannah Lau
 
-Edit the classpath to to the location of your ABAGAIL jar file then run:  
+Run the bat or shell file first to add the ABAGAIL jar to your classpath then run:  
 jython abalone_test2.py > out.txt
 """
 from __future__ import with_statement
@@ -53,7 +53,7 @@ def main():
 #    network = BackpropNetworkBuilder()\
 #      .withLayers([INPUT_LAYER,HIDDEN_LAYER,OUTPUT_LAYER])\
 #      .withDataSet(DataSet(instances))\
-#      .withIterations(10000)\
+#      .withIterations(TRAINING_ITERATIONS)\
 #      .withUpdateRule(ADAM())\
 #      .withActivationFunction(RELU())\
 #      .withErrorMeasure(SumOfSquaresError())\
@@ -64,7 +64,7 @@ def main():
         .withLayers([INPUT_LAYER,HIDDEN_LAYER,OUTPUT_LAYER])\
         .withDataSet(DataSet(instances))\
         .withSA(15000, .95)\
-        .withIterations(1000)\
+        .withIterations(TRAINING_ITERATIONS)\
         .train()
     
     end = time.time()
