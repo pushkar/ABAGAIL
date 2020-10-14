@@ -67,8 +67,7 @@ public abstract class TravelingSalesmanEvaluationFunction implements EvaluationF
     }
 
     /**
-     * Return function evaluation count
-     * @return int fEvals
+     * Reset function evaluation count
      */
     public void resetFunctionEvaluationCount(){
       this.fEvals=0;

@@ -47,8 +47,7 @@ public class FlipFlopEvaluationFunction implements EvaluationFunction {
     }
 
     /**
-     * Return function evaluation count
-     * @return int fEvals
+     * Reset function evaluation count
      */
     public void resetFunctionEvaluationCount(){
       this.fEvals=0;

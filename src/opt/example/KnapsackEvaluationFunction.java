@@ -85,8 +85,7 @@ public class KnapsackEvaluationFunction implements EvaluationFunction {
     }
 
     /**
-     * Return function evaluation count
-     * @return int fEvals
+     * Reset function evaluation count
      */
     public void resetFunctionEvaluationCount(){
       this.fEvals=0;

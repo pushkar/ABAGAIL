@@ -53,7 +53,6 @@ public class FourPeaksTest {
         FixedIterationTrainer fit = new FixedIterationTrainer(rhc, 5);
         fit.train();
         System.out.println("RHC: " + ef.value(rhc.getOptimal()));
-        System.out.println("RHC: " + ef.getFunctionEvaluations());
 
         SimulatedAnnealing sa = new SimulatedAnnealing(1E11, .95, hcp);
         fit = new FixedIterationTrainer(sa, 200000);
