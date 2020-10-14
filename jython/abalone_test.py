@@ -5,11 +5,13 @@ or more than 15 rings.
 
 Based on AbaloneTest.java by Hannah Lau
 """
+from __future__ import with_statement
 import os
 import csv
 import time
 
 from func.nn.backprop import BackPropagationNetworkFactory
+from func.nn import OptNetworkBuilder
 from shared import SumOfSquaresError, DataSet, Instance
 from opt.example import NeuralNetworkOptimizationProblem
 
@@ -17,9 +19,8 @@ import opt.RandomizedHillClimbing as RandomizedHillClimbing
 import opt.SimulatedAnnealing as SimulatedAnnealing
 import opt.ga.StandardGeneticAlgorithm as StandardGeneticAlgorithm
 
-from __future__ import with_statement
 
-INPUT_FILE = os.path.join("..", "src", "opt", "test", "abalone.txt")
+INPUT_FILE = os.path.join("abalone.txt")
 
 INPUT_LAYER = 7
 HIDDEN_LAYER = 5
@@ -53,21 +54,27 @@ def train(oa, network, oaName, instances, measure):
     :param AbstractErrorMeasure measure:
     """
     print "\nError results for %s\n---------------------------" % (oaName,)
+    
+    FILE_NAME=oaName+".csv"
+    OUTPUT_FILE = os.path.join("data", FILE_NAME)
+    with open(OUTPUT_FILE, "wb") as results:
+        writer= csv.writer(results, delimiter=',')
 
-    for iteration in xrange(TRAINING_ITERATIONS):
-        oa.train()
+        for iteration in xrange(TRAINING_ITERATIONS):
+            oa.train()
+    
+            error = 0.00
+            for instance in instances:
+                network.setInputValues(instance.getData())
+                network.run()
+    
+                output = instance.getLabel()
+                output_values = network.getOutputValues()
+                example = Instance(output_values, Instance(output_values.get(0)))
+                error += measure.value(output, example)
 
-        error = 0.00
-        for instance in instances:
-            network.setInputValues(instance.getData())
-            network.run()
-
-            output = instance.getLabel()
-            output_values = network.getOutputValues()
-            example = Instance(output_values, Instance(output_values.get(0)))
-            error += measure.value(output, example)
-
-        print "%0.03f" % error
+            print error/len(instances)
+            writer.writerow([error/len(instances)])
 
 
 def main():
@@ -89,8 +96,8 @@ def main():
         nnop.append(NeuralNetworkOptimizationProblem(data_set, classification_network, measure))
 
     oa.append(RandomizedHillClimbing(nnop[0]))
-    oa.append(SimulatedAnnealing(1E11, .95, nnop[1]))
-    oa.append(StandardGeneticAlgorithm(200, 100, 10, nnop[2]))
+    oa.append(SimulatedAnnealing(15000, .95, nnop[1]))
+    oa.append(StandardGeneticAlgorithm(225, 50, 75, nnop[2]))
 
     for i, name in enumerate(oa_names):
         start = time.time()
