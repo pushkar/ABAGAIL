@@ -12,18 +12,24 @@ import shared.Instance;
  * @version 1.0
  */
 public class MaxKColorFitnessFunction implements EvaluationFunction {
-    
+
     /**
-     * 
+     *
      */
     private Vertex[] vertices;
     private int graphSize;
-    
+
+    /**
+     * Function Evaluation Count
+     */
+    private int fEvals;
+
     public MaxKColorFitnessFunction(Vertex[] vertices) {
         this.vertices = vertices;
         this.graphSize = vertices.length;
+        this.fEvals = 0;
     }
-    
+
     private boolean conflict = false;
 
     /**
@@ -31,6 +37,7 @@ public class MaxKColorFitnessFunction implements EvaluationFunction {
      * Find how many iterations does it take to find if k-colors can be or can not be assigned to a given graph.
      */
     public double value(Instance d) {
+        this.fEvals++;
         Vector data = d.getData();
         int n = data.size();
         double iterations = 0;
@@ -53,7 +60,22 @@ public class MaxKColorFitnessFunction implements EvaluationFunction {
         return iterations;
     }
 
-    
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public int getFunctionEvaluations(){
+      return this.fEvals;
+    }
+
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public void resetFunctionEvaluationCount(){
+      this.fEvals=0;
+    }
+
     public String foundConflict(){
     	return conflict ? "Failed to find Max-K Color combination !" : "Found Max-K Color Combination !";
     }

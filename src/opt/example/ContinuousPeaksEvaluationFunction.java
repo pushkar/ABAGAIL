@@ -14,19 +14,26 @@ public class ContinuousPeaksEvaluationFunction implements EvaluationFunction {
      * The t value
      */
     private int t;
-    
+
+    /**
+     * Function Evaluation Count
+     */
+    private int fEvals;
+
     /**
      * Make a new continuous peaks function
      * @param t the t value
      */
     public ContinuousPeaksEvaluationFunction(int t) {
-        this.t = t;
+      this.fEvals=0;
+      this.t = t;
     }
 
     /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        this.fEvals++;
         Vector data = d.getData();
         int max0 = 0;
         int count = 0;
@@ -51,5 +58,21 @@ public class ContinuousPeaksEvaluationFunction implements EvaluationFunction {
             r = data.size();
         }
         return Math.max(max1, max0) + r;
+    }
+
+   /**
+   * Return function evaluation count
+   * @return int fEvals
+   */
+    public int getFunctionEvaluations(){
+      return this.fEvals;
+    }
+
+    /**
+    * Return function evaluation count
+    * @return int fEvals
+    */
+    public void resetFunctionEvaluationCount(){
+      this.fEvals=0;
     }
 }

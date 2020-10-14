@@ -24,6 +24,7 @@ public class TravelingSalesmanRouteEvaluationFunction extends TravelingSalesmanE
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        super.incrementFunctionEvaluations();
         double distance = 0;
         for (int i = 0; i < d.size() - 1; i++) {
             distance += getDistance(d.getDiscrete(i), d.getDiscrete(i+1));

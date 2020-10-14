@@ -10,10 +10,24 @@ import shared.Instance;
  * @version 1.0
  */
 public class FlipFlopEvaluationFunction implements EvaluationFunction {
+
+    /**
+     * Function Evaluation Count
+     */
+    private int fEvals;
+
+    /**
+     * Make a new count ones function
+     */
+    public FlipFlopEvaluationFunction(){
+      this.fEvals=0;
+    }
+
     /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        this.fEvals++;
         Vector data = d.getData();
         double val = 0;
         for (int i = 0; i < data.size() - 1; i++) {
@@ -22,5 +36,21 @@ public class FlipFlopEvaluationFunction implements EvaluationFunction {
             }
         }
         return val;
+    }
+
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public int getFunctionEvaluations(){
+      return this.fEvals;
+    }
+
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public void resetFunctionEvaluationCount(){
+      this.fEvals=0;
     }
 }

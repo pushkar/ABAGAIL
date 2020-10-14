@@ -10,27 +10,32 @@ import shared.Instance;
  * @version 1.0
  */
 public class KnapsackEvaluationFunction implements EvaluationFunction {
-    
+
     /**
      * The values for the things that can be put in the knapsack
      */
     private double[] values;
-    
+
     /**
      * The weights for the things that can be put in the knapsack
      */
     private double[] weights;
-    
+
     /**
      * The maximum weight that the knapsack can take
      */
     private double maxWeight;
-    
+
     /**
      * The weight of all the items
      */
     private double allItemsWeight;
-    
+
+    /**
+     * Function Evaluation Count
+     */
+    private int fEvals;
+
     /**
      * Make a new knapsack evaluation function
      * @param values the set of values
@@ -42,6 +47,7 @@ public class KnapsackEvaluationFunction implements EvaluationFunction {
             double[] weights,
             double maximumValue,
             int[] copiesPerElement) {
+        this.fEvals=0;
         this.values = values;
         this.weights = weights;
         maxWeight = maximumValue;
@@ -54,6 +60,7 @@ public class KnapsackEvaluationFunction implements EvaluationFunction {
      * Find the value of the knapsack with the given items.
      */
     public double value(Instance d) {
+        this.fEvals++;
         Vector entriesInKnapsack = d.getData();
         double weight = 0;
         double value = 0;
@@ -69,4 +76,19 @@ public class KnapsackEvaluationFunction implements EvaluationFunction {
         }
     }
 
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public int getFunctionEvaluations(){
+      return this.fEvals;
+    }
+
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public void resetFunctionEvaluationCount(){
+      this.fEvals=0;
+    }
 }

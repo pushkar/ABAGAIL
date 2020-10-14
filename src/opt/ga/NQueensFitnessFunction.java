@@ -10,24 +10,30 @@ import shared.Instance;
 
 public class NQueensFitnessFunction implements EvaluationFunction {
 
+  /**
+   * Function Evaluation Count
+   */
+  private int fEvals;
+
 	public NQueensFitnessFunction() {
-		// TODO Auto-generated constructor stub
+		this.fEvals=0;
 	}
-	
+
 	private NQueensBoardGame currentBoard;
 
 	/**
-	 * the number of moves the above algorithm takes to 
+	 * the number of moves the above algorithm takes to
 	 * find the first solution
 	 */
 	public double value(Instance d) {
+	  this.fEvals++;
 		double fitness = 0;
 
 		NQueensBoardGame board = getBoardForGivenInstance(d);
 		currentBoard = board;
 		int boardSize = board.getSize();
 
-		// Calculate the number of non-attacking pairs of queens 
+		// Calculate the number of non-attacking pairs of queens
 		List<BoardLocation> qPositions = board.getQueenPositions();
 		//
 		for (int fromX = 0; fromX < (boardSize - 1); fromX++) {
@@ -63,12 +69,12 @@ public class NQueensFitnessFunction implements EvaluationFunction {
 		//System.out.println("===============");
 		//System.out.println(board.toString());
 		//System.out.println("================");
-		
+
 		return fitness;
 	}
 
 	/**
-	 * 
+	 *
 	 * @param d
 	 * @return
 	 */
@@ -82,9 +88,25 @@ public class NQueensFitnessFunction implements EvaluationFunction {
 
 		return board;
 	}
-	
+
 	public String boardPositions(){
-		
+
 		return currentBoard.toString();
 	}
+
+  /**
+   * Return function evaluation count
+   * @return int fEvals
+   */
+  public int getFunctionEvaluations(){
+    return this.fEvals;
+  }
+
+  /**
+   * Return function evaluation count
+   * @return int fEvals
+   */
+  public void resetFunctionEvaluationCount(){
+    this.fEvals=0;
+  }
 }

@@ -10,23 +10,31 @@ import shared.Instance;
  * @version 1.0
  */
 public class FourPeaksEvaluationFunction implements EvaluationFunction {
+
+    /**
+     * Function Evaluation Count
+     */
+    private int fEvals;
+
     /**
      * The t value
      */
     private int t;
-    
+
     /**
      * Make a new four peaks function
      * @param t the t value
      */
     public FourPeaksEvaluationFunction(int t) {
-        this.t = t;
+      this.fEvals=0;
+      this.t = t;
     }
 
     /**
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        this.fEvals++;
         Vector data = d.getData();
         int i = 0;
         while (i < data.size() && data.get(i) == 1) {
@@ -44,6 +52,20 @@ public class FourPeaksEvaluationFunction implements EvaluationFunction {
         }
         return Math.max(tail, head) + r;
     }
-    
-    
+
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public int getFunctionEvaluations(){
+      return this.fEvals;
+    }
+
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public void resetFunctionEvaluationCount(){
+      this.fEvals=0;
+    }
 }

@@ -12,6 +12,12 @@ public abstract class TravelingSalesmanEvaluationFunction implements EvaluationF
      * The distance between city i and j
      */
     private double[][] distances;
+
+    /**
+     * Function Evaluation Count
+     */
+    private int fEvals;
+
     /**
      * Make a new traveling salesman  evaluation function
      * @param points the points at which the cities are located
@@ -28,7 +34,7 @@ public abstract class TravelingSalesmanEvaluationFunction implements EvaluationF
             }
         }
     }
-    
+
     /**
      * Get the distance between two points
      * @param i the first point
@@ -43,5 +49,28 @@ public abstract class TravelingSalesmanEvaluationFunction implements EvaluationF
             int b = Math.min(i,j);
             return distances[a][b];
         }
+    }
+
+    /**
+     * Increment evaluation count
+     */
+    protected void incrementFunctionEvaluations(){
+      this.fEvals++;
+    }
+
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public int getFunctionEvaluations(){
+      return this.fEvals;
+    }
+
+    /**
+     * Return function evaluation count
+     * @return int fEvals
+     */
+    public void resetFunctionEvaluationCount(){
+      this.fEvals=0;
     }
 }
