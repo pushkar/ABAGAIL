@@ -1,6 +1,7 @@
 import sys
 import os
 import time
+import csv
 
 import java.io.FileReader as FileReader
 import java.io.File as File
@@ -32,10 +33,27 @@ import opt.prob.GenericProbabilisticOptimizationProblem as GenericProbabilisticO
 import opt.prob.MIMIC as MIMIC
 import opt.prob.ProbabilisticOptimizationProblem as ProbabilisticOptimizationProblem
 import shared.FixedIterationTrainer as FixedIterationTrainer
+import shared.ConvergenceTrainer as ConvergenceTrainer
 
 from array import array
 
-
+def train(alg_func, alg_name, ef, iters):
+    ef.resetFunctionEvaluationCount()
+    fit = ConvergenceTrainer(alg_func)
+    FILE_NAME=alg_name+"-fourpeaks.csv"
+    OUTPUT_FILE = os.path.join("data", FILE_NAME)
+    with open(OUTPUT_FILE, "wb") as results:
+        writer= csv.writer(results, delimiter=',')
+        writer.writerow(["iters","fevals","fitness"])
+        for i in range(iters):
+            fit.train()
+            #print str(i) + ", " + str(ef.getFunctionEvaluations()) + ", " + str(ef.value(alg_func.getOptimal()))
+            writer.writerow([i, ef.getFunctionEvaluations()-i, ef.value(alg_func.getOptimal())])
+            
+    print alg_name + ": " + str(ef.value(alg_func.getOptimal()))
+    print "Function Evaluations: " + str(ef.getFunctionEvaluations()-iters)
+    print "Iters: " + str(iters)
+    print "####"
 
 """
 Commandline parameter(s):
@@ -58,21 +76,13 @@ gap = GenericGeneticAlgorithmProblem(ef, odd, mf, cf)
 pop = GenericProbabilisticOptimizationProblem(ef, odd, df)
 
 rhc = RandomizedHillClimbing(hcp)
-fit = FixedIterationTrainer(rhc, 200000)
-fit.train()
-print "RHC: " + str(ef.value(rhc.getOptimal()))
+train(rhc, "RHC", ef, 40000)
 
 sa = SimulatedAnnealing(1E11, .95, hcp)
-fit = FixedIterationTrainer(sa, 200000)
-fit.train()
-print "SA: " + str(ef.value(sa.getOptimal()))
+train(sa, "SA", ef, 50000)
 
 ga = StandardGeneticAlgorithm(200, 100, 10, gap)
-fit = FixedIterationTrainer(ga, 1000)
-fit.train()
-print "GA: " + str(ef.value(ga.getOptimal()))
+train(ga, "GA", ef, 1000)
 
 mimic = MIMIC(200, 20, pop)
-fit = FixedIterationTrainer(mimic, 1000)
-fit.train()
-print "MIMIC: " + str(ef.value(mimic.getOptimal()))
+train(mimic,"MIMIC", ef, 1000)

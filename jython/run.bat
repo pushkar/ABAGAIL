@@ -25,3 +25,8 @@ jython abalone_test.py
 :: TSP
 echo "Running TSP test"
 jython travelingsalesman.py
+
+:: graphs
+echo "Creating Sample Graphs"
+python plot_data.py
+python fourpeaks_plot.py
