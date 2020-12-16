@@ -82,7 +82,8 @@ public class BackPropagationNetworkFactory {
         for (int i = 0; i < nodeCounts.length-1; i++) {
             transfers[i] = transfer;
         }
-		return createRegressionNetwork(nodeCounts, new HyperbolicTangentSigmoid());
+		//return createRegressionNetwork(nodeCounts, new HyperbolicTangentSigmoid());
+		return createRegressionNetwork(nodeCounts, transfers);
 	}
 
 	/**
