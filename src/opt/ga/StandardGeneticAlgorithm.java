@@ -19,7 +19,7 @@ public class StandardGeneticAlgorithm extends OptimizationAlgorithm {
     /**
      * The random number generator
      */
-    private static final Random random = new Random();
+    public static final Random random = new Random();
     
     /**
      * The population size

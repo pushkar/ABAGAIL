@@ -24,6 +24,7 @@ public class TravelingSalesmanSortEvaluationFunction extends TravelingSalesmanEv
      * @see opt.EvaluationFunction#value(opt.OptimizationData)
      */
     public double value(Instance d) {
+        super.incrementFunctionEvaluations();
         double[] ddata = new double[d.size()];
         for (int i = 0; i < ddata.length; i++) {
             ddata[i] = d.getContinuous(i);
