@@ -14,7 +14,7 @@ from __future__ import with_statement
 import os
 import csv
 import time
-from func.nn.backprop import BackPropagationNetwork, ADAM
+from func.nn.backprop import BackPropagationNetwork, Adam
 from func.nn.activation import RELU
 from func.nn import OptNetworkBuilder, BackpropNetworkBuilder
 from shared import SumOfSquaresError, DataSet, Instance
@@ -54,7 +54,7 @@ def main():
 #      .withLayers([INPUT_LAYER,HIDDEN_LAYER,OUTPUT_LAYER])\
 #      .withDataSet(DataSet(instances))\
 #      .withIterations(TRAINING_ITERATIONS)\
-#      .withUpdateRule(ADAM())\
+#      .withUpdateRule(Adam())\
 #      .withActivationFunction(RELU())\
 #      .withErrorMeasure(SumOfSquaresError())\
 #      .train()
