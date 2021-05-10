@@ -1,12 +1,12 @@
 package func.nn.backprop;
 
 /**
- * ADAM implementation
+ * Adam implementation
  * pseudocode from Kingma and Ba
  * @author John Mansfield
  * @version 1.0
  */
-public class ADAM extends WeightUpdateRule {
+public class Adam extends WeightUpdateRule {
 
   /**
    * The learning rate
@@ -34,12 +34,12 @@ public class ADAM extends WeightUpdateRule {
   private double variance;
 
   /**
-   * ADAM constructor
+   * Adam constructor
    * @param alpha the initial learning rate
    * @param decay1 controls exponential decay
    * @param decay2 controls exponential decay
    */
-  public ADAM(double alpha, double decay1, double decay2) {
+  public Adam(double alpha, double decay1, double decay2) {
     this.alpha = alpha;
     this.decay1 = decay1;
     this.decay2 = decay2;
@@ -48,10 +48,10 @@ public class ADAM extends WeightUpdateRule {
   }
 
   /**
-   * ADAM constructor with default values
+   * Adam constructor with default values
    * suggested by paper
    */
-  public ADAM() {
+  public Adam() {
     this(.001, .9, .999);
     this.mean=0;
     this.variance=0;

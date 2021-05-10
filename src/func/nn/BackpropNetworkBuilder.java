@@ -10,7 +10,7 @@ import shared.*;
  *
  * example usage:
  *     BackPropagationNetwork network = new NetworkBuilder()
- *       .withUpdateRule(new ADAM(.025, .9, .95))
+ *       .withUpdateRule(new Adam(.025, .9, .95))
  *       .withLayers(new int[] {25,10,2})
  *       .withDataSet(new DataSet(instances))
  *       .withIterations(500)
