@@ -7,7 +7,7 @@ mkdir -p data/plot logs image
 
 # four peaks
 echo "four peaks"
-jython /home/john/Desktop/jython/fourpeaks.py
+jython fourpeaks.py
 
 # count ones
 echo "count ones"
