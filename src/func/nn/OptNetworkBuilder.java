@@ -7,12 +7,18 @@ import opt.*;
 import opt.example.NeuralNetworkOptimizationProblem;
 import opt.ga.StandardGeneticAlgorithm;
 import shared.*;
+import shared.filt.RandomOrderFilter;
+import shared.filt.TestTrainSplitFilter;
+import shared.writer.CSVWriter;
+
+import java.io.File;
+import java.io.IOException;
 import java.text.DecimalFormat;
 
 /**
  * Optimization Alg. - Neural Network Builder
  * @author John Mansfield
- * @version 1.0
+ * @version 1.1
  *
  * example usage:
  *     FeedForwardNetwork network = new OptNetworkBuilder()
@@ -53,6 +59,16 @@ public class OptNetworkBuilder implements NetworkBuilder {
    * DataSet
    */
   private DataSet set;
+
+  /**
+   * Test set
+   */
+  private DataSet testSet;
+
+  /**
+   * Percent of data to reserve for training
+   */
+  private int percentTrain;
 
   /**
    * Iterations
@@ -100,6 +116,7 @@ public class OptNetworkBuilder implements NetworkBuilder {
     iters = 1000;
     errorMeasure = new SumOfSquaresError();
     optAlg=RandomizedHillClimbing.class;
+    percentTrain=75;
   }
 
   /**
@@ -121,8 +138,14 @@ public class OptNetworkBuilder implements NetworkBuilder {
   /**
    * Set the DataSet
    */
-  public OptNetworkBuilder withDataSet(DataSet set) {
-    this.set = set;
+  public OptNetworkBuilder withDataSet(DataSet set, int percentTrain) {
+    this.percentTrain=percentTrain;
+    RandomOrderFilter randomOrderFilter = new RandomOrderFilter();
+    randomOrderFilter.filter(set);
+    TestTrainSplitFilter testTrainSplit = new TestTrainSplitFilter(percentTrain);
+    testTrainSplit.filter(set);
+    this.set=testTrainSplit.getTrainingSet();
+    this.testSet = testTrainSplit.getTestingSet();
     return this;
   }
 
@@ -171,9 +194,25 @@ public class OptNetworkBuilder implements NetworkBuilder {
   }
 
   /**
-   * Build NN and Train
+   * Get network out of sample error
+   */
+  private double test(FeedForwardNetwork network, DataSet patterns, GradientErrorMeasure measure) {
+    double error=0;
+    for(int i=0; i<patterns.size(); i++){
+      Instance pattern = patterns.get(i);
+      network.setInputValues(pattern.getData());
+      network.run();
+      Instance output = new Instance(network.getOutputValues());
+      error += measure.value(output, pattern);
+    }
+    return error / patterns.size();
+  }
+
+  /**
+   * Build NN and Train/test network
    * @return the network for testing
    */
+  //todo add verbose param option
   public FeedForwardNetwork train() {
 
     if (set==null){
@@ -183,21 +222,38 @@ public class OptNetworkBuilder implements NetworkBuilder {
     //build
     network = factory.createClassificationNetwork(this.layers, (DifferentiableActivationFunction) this.activationFunction);
     NeuralNetworkOptimizationProblem nnop = new NeuralNetworkOptimizationProblem(set, network, errorMeasure);
+    String optName;
 
     //set opt alg
     OptimizationAlgorithm oa;
     if (optAlg == SimulatedAnnealing.class){
       oa = new SimulatedAnnealing(this.t, this.cooling, nnop);
+      optName="SA";
     }
     else if (optAlg== StandardGeneticAlgorithm.class){
       oa = new StandardGeneticAlgorithm(this.populationSize, this.toMate, this.toMutate, nnop);
+      optName="GA";
     }
     else {
       oa = new RandomizedHillClimbing(nnop);
+      optName="RHC";
+    }
+
+    //setup out to csv
+    double error;
+    double testError;
+    String fileName = optName + "-NNOut.csv";
+    String[] fields = {"train", "test"};
+    String workingDir = System.getProperty("user.dir");
+    System.out.println("\nSaving train test error to: \n" + workingDir + File.separator + fileName);
+    CSVWriter csv = new CSVWriter(workingDir + File.separator + fileName, fields);
+    try {
+      csv.open();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
 
     //opt network train - from AbaloneTest.java
-    double error;
     DecimalFormat df = new DecimalFormat("0.000");
     for (int i = 0; i < iters; i++) {
       oa.train();
@@ -209,7 +265,23 @@ public class OptNetworkBuilder implements NetworkBuilder {
         example.setLabel(new Instance(network.getOutputValues()));
         error += errorMeasure.value(output, example);
       }
-      System.out.println(i + " | " + iters + ": " + df.format(error / set.getInstances().length));
+      error = error / set.getInstances().length;
+      //System.out.print("training iter: " + i + " training error: " + error);
+      //test
+      testError=test(network, testSet, (GradientErrorMeasure) errorMeasure);
+      //System.out.println(" test error:" + testError);
+      try {
+        csv.write(""+error);
+        csv.write(""+testError);
+        csv.nextRecord();
+      } catch (IOException e) {
+        e.printStackTrace();
+      }
+    }
+    try {
+      csv.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
     return network;
   }

@@ -7,7 +7,7 @@ import shared.ErrorMeasure;
 /**
  * Interface for neural network builder
  * @author John Mansfield
- * @version 1.0
+ * @version 1.1
  */
 
 public interface NetworkBuilder {
@@ -22,9 +22,10 @@ public interface NetworkBuilder {
   /**
    * Set the DataSet
    * @param set - the DataSet
+   * @param percentTrain - percent of data for training
    * @return NetworkBuilder instance
    */
-  public abstract NetworkBuilder withDataSet(DataSet set);
+  public abstract NetworkBuilder withDataSet(DataSet set, int percentTrain);
 
   /**
    * Set the ActivationFunction

@@ -2,18 +2,22 @@ package func.nn;
 import func.nn.activation.*;
 import func.nn.backprop.*;
 import shared.*;
+import shared.filt.RandomOrderFilter;
+import shared.filt.TestTrainSplitFilter;
+import shared.writer.CSVWriter;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  * Backprop - Neural Network Builder
  * @author John Mansfield
- * @version 1.0
+ * @version 1.1
  *
  * example usage:
  *     BackPropagationNetwork network = new NetworkBuilder()
- *       .withUpdateRule(new Adam(.025, .9, .95))
  *       .withLayers(new int[] {25,10,2})
- *       .withDataSet(new DataSet(instances))
- *       .withIterations(500)
+ *       .withDataSet(new DataSet(instances), percentTrain)
  *       .train();
  */
 
@@ -54,7 +58,17 @@ public class BackpropNetworkBuilder implements NetworkBuilder{
   private DataSet set;
 
   /**
-   * Iterations (when not using convergence trainer)
+   * Test set
+   */
+  private DataSet testSet;
+
+  /**
+   * Percent of data to reserve for training
+   */
+  private int percentTrain;
+
+  /**
+   * Iterations
    */
   private int iters;
 
@@ -64,11 +78,12 @@ public class BackpropNetworkBuilder implements NetworkBuilder{
   public BackpropNetworkBuilder(){
     layers = new int[]{100, 1};
     network = new BackPropagationNetwork();
-    activationFunction = new LogisticSigmoid();
-    updateRule = new RPROPUpdateRule();
+    activationFunction = new RELU();
+    updateRule = new Adam();
     factory = new BackPropagationNetworkFactory();
-    iters = 0;
+    iters = 500;
     errorMeasure = new SumOfSquaresError();
+    percentTrain = 75;
   }
 
   /**
@@ -93,10 +108,16 @@ public class BackpropNetworkBuilder implements NetworkBuilder{
   }
 
   /**
-   * Set DataSet
+   * Set DataSet and train percent
    */
-  public BackpropNetworkBuilder withDataSet(DataSet set) {
-    this.set = set;
+  public BackpropNetworkBuilder withDataSet(DataSet set, int percentTrain) {
+    this.percentTrain=percentTrain;
+    RandomOrderFilter randomOrderFilter = new RandomOrderFilter();
+    randomOrderFilter.filter(set);
+    TestTrainSplitFilter testTrainSplit = new TestTrainSplitFilter(percentTrain);
+    testTrainSplit.filter(set);
+    this.set=testTrainSplit.getTrainingSet();
+    this.testSet = testTrainSplit.getTestingSet();
     return this;
   }
 
@@ -130,9 +151,25 @@ public class BackpropNetworkBuilder implements NetworkBuilder{
   }
 
   /**
-   * Build NN and Train
-   * @return the network for testing
+   * Get network out of sample error
    */
+  private double test(BackPropagationNetwork network, DataSet patterns, GradientErrorMeasure measure) {
+    double error=0;
+    for(int i=0; i<patterns.size(); i++){
+      Instance pattern = patterns.get(i);
+      network.setInputValues(pattern.getData());
+      network.run();
+      Instance output = new Instance(network.getOutputValues());
+      error += measure.value(output, pattern);
+    }
+    return error / patterns.size();
+  }
+
+  /**
+   * Build NN and Train/Test
+   * @return the network
+   */
+  //todo add verbose param option
   public BackPropagationNetwork train() {
 
     if (set==null){
@@ -147,21 +184,41 @@ public class BackpropNetworkBuilder implements NetworkBuilder{
     }
     network = factory.createClassificationNetwork(this.layers, activationFunctions);
 
-    //train
+    //setup out to csv
     double error;
-    if (iters==0){
-      ConvergenceTrainer trainer = new ConvergenceTrainer(new BatchBackPropagationTrainer(set, network, (GradientErrorMeasure) errorMeasure, updateRule));
-      System.out.println("Running convergence trainer.");
-      error=trainer.train();
-      System.out.println("training error: " + error);
-      System.out.print("number of iterations: " + trainer.getIterations());
+    double testError;
+    String fileName = "NNOut.csv";
+    String[] fields = {"train", "test"};
+    String workingDir = System.getProperty("user.dir");
+    System.out.println("\nSaving train test error to: \n" + workingDir + File.separator + fileName);
+    CSVWriter csv = new CSVWriter(workingDir + File.separator + fileName, fields);
+    try {
+      csv.open();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
-    else {
-      for (int i = 0; i < iters; i++) {
-        BatchBackPropagationTrainer trainer = new BatchBackPropagationTrainer(set, network, (GradientErrorMeasure) errorMeasure, updateRule);
-        error=trainer.train();
-        System.out.println("training iter: " + i + " training error: " + error);
+
+    for (int i = 0; i < iters; i++) {
+      //train
+      BatchBackPropagationTrainer trainer = new BatchBackPropagationTrainer(set, network, (GradientErrorMeasure) errorMeasure, updateRule);
+      error=trainer.train();
+      //System.out.print("training iter: " + i + " training error: " + error);
+      //test
+      testError=test(network, testSet, (GradientErrorMeasure) errorMeasure);
+      //System.out.println(" test error:" + testError);
+
+      try {
+        csv.write(""+error);
+        csv.write(""+testError);
+        csv.nextRecord();
+      } catch (IOException e) {
+        e.printStackTrace();
       }
+    }
+    try {
+      csv.close();
+    } catch (IOException e) {
+      e.printStackTrace();
     }
     return network;
   }
