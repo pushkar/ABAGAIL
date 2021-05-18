@@ -9,9 +9,14 @@ import util.linalg.DenseVector;
 /**
  * A filter that changes attributes from discrete to binary
  * @author Andrew Guillory gtg008g@mail.gatech.edu
- * @version 1.0
+ * @version 1.1
  */
 public class DiscreteToBinaryFilter implements DataSetFilter {
+
+  /**
+   * Attribute count after conversion to binary
+   */
+    private int newAttributeCount = 0;
 
     /**
      * @see shared.filt.DataSetFilter#filter(shared.DataSet)
@@ -21,7 +26,6 @@ public class DiscreteToBinaryFilter implements DataSetFilter {
             dataSet.setDescription(new DataSetDescription(dataSet));
         }
         // count how big the new data vector is
-        int newAttributeCount = 0;
         DataSetDescription oldDescription = dataSet.getDescription();
         for (int i = 0; i < oldDescription.getAttributeTypes().length; i++) {
             if (oldDescription.getAttributeTypes()[i] == AttributeType.DISCRETE) {
@@ -51,8 +55,15 @@ public class DiscreteToBinaryFilter implements DataSetFilter {
         }
         // the description is no longer valid
         dataSet.setDescription(null);
+        System.out.println("length=" + newAttributeCount);
     }
-    
-    
+
+  /**
+   * Get the new attribute count
+   * @return newAttributeCount
+   */
+    public int getNewAttributeCount(){
+      return this.newAttributeCount;
+    }
 
 }
