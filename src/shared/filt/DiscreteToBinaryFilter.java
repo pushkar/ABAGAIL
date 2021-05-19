@@ -55,7 +55,6 @@ public class DiscreteToBinaryFilter implements DataSetFilter {
         }
         // the description is no longer valid
         dataSet.setDescription(null);
-        System.out.println("length=" + newAttributeCount);
     }
 
   /**
