@@ -12,6 +12,15 @@ import shared.reader.DataSetReader;
 
 import java.io.File;
 
+/**
+ * Iris nn example using network builder
+ *
+ * https://archive.ics.uci.edu/ml/datasets/Iris
+ *
+ * @author John Mansfield
+ * @version 1.0
+ */
+
 public class IrisTest {
 
   private static int outputLayerSize;
@@ -34,17 +43,19 @@ public class IrisTest {
   }
 
   private static LayeredNetwork runNetwork(DataSet set) {
+    int percentTrain=75;
+
     //create backprop network using builder
     BackPropagationNetwork network = new BackpropNetworkBuilder()
       .withLayers(new int[] {25,10,outputLayerSize})
-      .withDataSet(set, 75)
+      .withDataSet(set, percentTrain)
       .withIterations(5000)
       .train();
 
     //create opt network using builder
     /**FeedForwardNetwork network = new OptNetworkBuilder()
       .withLayers(new int[] {25,10,outputLayerSize})
-      .withDataSet(set, 75)
+      .withDataSet(set, percentTrain)
       .withSA(100000, .975)
       .withIterations(1000)
       .train();
@@ -55,7 +66,6 @@ public class IrisTest {
 
   public static void main(String[] args) throws Exception {
     DataSet set = initializeData();
-    //set = new DataSet(instances);
     System.out.println(new DataSetDescription(set));
     LayeredNetwork nn = runNetwork(set);
   }
