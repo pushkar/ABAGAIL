@@ -4,7 +4,7 @@
  * https://archive.ics.uci.edu/ml/datasets/Iris
  *
  * @author John Mansfield
- * @version 1.0
+ * @version 1.1
 """
 
 from __future__ import with_statement
@@ -15,10 +15,9 @@ from shared.filt import LabelSplitFilter, DiscreteToBinaryFilter
 from shared.reader import CSVDataSetReader, DataSetReader
 from java.io import File
 
-def initialize_data():
-    
+def initialize_data(input_data):
     #import data
-    dsr = CSVDataSetReader((File("iris.txt")).getAbsolutePath())
+    dsr = CSVDataSetReader((File(input_data)).getAbsolutePath())
     ds = dsr.read();
     
     #split last attribute for label
@@ -30,28 +29,47 @@ def initialize_data():
     dbf.filter(ds.getLabelDataSet())
     output_layer_size=dbf.getNewAttributeCount()
 
-    return output_layer_size, ds
+    return ds, output_layer_size
 
-def main():
-    
-    output_layer_size, set = initialize_data()
-    percent_train=75
-    
-    #create backprop network using builder
+def run_networks(set, output_layer_size, percent_train):
+        
+    #build and run backprop network using builder
     network = BackpropNetworkBuilder()\
       .withLayers([25,10,output_layer_size])\
       .withDataSet(set, percent_train)\
       .withIterations(5000)\
       .train()
+      
+    #build and run RHC opt network using builder 
+    network = OptNetworkBuilder()\
+        .withLayers([25,10,output_layer_size])\
+        .withDataSet(set, percent_train)\
+        .withRHC()\
+        .withIterations(1000)\
+        .train()
+    
+    #build and run SA opt network using builder 
+    network = OptNetworkBuilder()\
+        .withLayers([25,10,output_layer_size])\
+        .withDataSet(set, percent_train)\
+        .withSA(15000, .95)\
+        .withIterations(1000)\
+        .train()
         
-    #create opt network using builder 
-    #can also use withRHC() or withGA(popSize, toMate, toMutate)
-#    network = OptNetworkBuilder()\
-#        .withLayers([25,10,output_layer_size])\
-#        .withDataSet(set, percent_train)\
-#        .withSA(15000, .95)\
-#        .withIterations(1000)\
-#        .train()
- 
+    #build and run GA opt network using builder 
+    network = OptNetworkBuilder()\
+        .withLayers([25,10,output_layer_size])\
+        .withDataSet(set, percent_train)\
+        .withGA(300, 150, 50)\
+        .withIterations(100)\
+        .train()
+
+def main():
+    
+    input_data="iris.txt"
+    set, output_layer_size = initialize_data(input_data)
+    percent_train=75 #reserve 25 percent for test data
+    run_networks(set, output_layer_size, percent_train)
+
 if __name__ == "__main__":
     main()

@@ -19,8 +19,9 @@ echo "Running knapsack"
 jython knapsack.py
 
 :: abalone test
-echo "Running abalone test"
-jython abalone_test.py
+echo "Running iris test"
+jython iris_test.py
+move /Y *.csv data
 
 :: TSP
 echo "Running TSP test"
