@@ -21,9 +21,10 @@ jython continuouspeaks.py
 echo "Running knapsack"
 jython knapsack.py
 
-# abalone test
-echo "Running abalone test"
-jython abalone_test.py
+# iris test
+echo "Running iris test"
+jython iris_test.py
+mv *.csv data
 
 # traveling salesman
 echo "Running traveling salesman test"
