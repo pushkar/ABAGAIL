@@ -8,13 +8,44 @@ The library contains a number of interconnected Java packages that implement mac
 Usage
 ------
 
-* See [FAQ](https://github.com/pushkar/ABAGAIL/blob/master/faq.md)
-* See [Wiki](https://github.com/pushkar/ABAGAIL/wiki)
+Here is a simple example of how to import data and build a neural network using the iris data set (taken from [IrisTest.java] (https://github.com/pushkar/ABAGAIL/blob/master/src/opt/test/IrisTest.java)).  
+```
+//import data
+DataSetReader dsr = new CSVDataSetReader((new File("src/opt/test/iris.txt")).getAbsolutePath());
+DataSet ds = dsr.read();
 
-Issues
--------
+//split last attribute for label
+LabelSplitFilter lsf = new LabelSplitFilter();
+lsf.filter(ds);
 
-See [Issues page](https://github.com/pushkar/ABAGAIL/issues?state=open).
+//convert label to binary for nn classification and get outputLayerSize
+DiscreteToBinaryFilter dbf = new DiscreteToBinaryFilter();
+dbf.filter(ds.getLabelDataSet());
+outputLayerSize=dbf.getNewAttributeCount();
+
+//reserve 25% for testing
+int percentTrain=75;
+
+//create backprop network using builder
+BackPropagationNetwork network = new BackpropNetworkBuilder()
+  .withLayers(new int[] {25,10,outputLayerSize})
+  .withDataSet(ds, percentTrain)
+  .withIterations(5000)
+  .train();
+  
+//create opt network using builder
+FeedForwardNetwork network = new OptNetworkBuilder()
+  .withLayers(new int[] {25,10,outputLayerSize})
+  .withDataSet(ds, percentTrain)
+  .withSA(100000, .975)
+  .withIterations(1000)
+  .train();
+
+```
+
+*For discrete opt problem examples see [discrete opt] (https://github.com/pushkar/ABAGAIL/tree/master/src/opt/test)
+*For jython examples see [Jython] (https://github.com/pushkar/ABAGAIL/tree/master/jython)
+*Also see [Wiki](https://github.com/pushkar/ABAGAIL/wiki), [FAQ](https://github.com/pushkar/ABAGAIL/blob/master/faq.md) 
 
 Contributing
 ------------
