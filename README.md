@@ -43,7 +43,7 @@ FeedForwardNetwork network = new OptNetworkBuilder()
 
 ```
 
-*For graph example from csv using python matplotlib see (plot_data.py)[https://github.com/pushkar/ABAGAIL/blob/master/jython/plot_data.py]  
+*For graph example from csv using python matplotlib see [plot_data.py](https://github.com/pushkar/ABAGAIL/blob/master/jython/plot_data.py)   
 *For discrete opt problem examples see [src/opt/test](https://github.com/pushkar/ABAGAIL/tree/master/src/opt/test)   
 *For jython examples see [Jython](https://github.com/pushkar/ABAGAIL/tree/master/jython)  
 *Also see [Wiki](https://github.com/pushkar/ABAGAIL/wiki), [FAQ](https://github.com/pushkar/ABAGAIL/blob/master/faq.md) 
