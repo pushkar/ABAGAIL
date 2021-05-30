@@ -8,7 +8,7 @@ The library contains a number of interconnected Java packages that implement mac
 Usage
 ------
 
-Here is a simple example of how to import data and build a neural network using the iris data set (taken from [IrisTest.java] (https://github.com/pushkar/ABAGAIL/blob/master/src/opt/test/IrisTest.java)).  
+Here is a simple example of how to import data and build a neural network using the iris data set (taken from [IrisTest.java](https://github.com/pushkar/ABAGAIL/blob/master/src/opt/test/IrisTest.java)).  
 ```
 //import data
 DataSetReader dsr = new CSVDataSetReader((new File("src/opt/test/iris.txt")).getAbsolutePath());
@@ -43,8 +43,8 @@ FeedForwardNetwork network = new OptNetworkBuilder()
 
 ```
 
-*For discrete opt problem examples see [discrete opt] (https://github.com/pushkar/ABAGAIL/tree/master/src/opt/test)
-*For jython examples see [Jython] (https://github.com/pushkar/ABAGAIL/tree/master/jython)
+*For discrete opt problem examples see [discrete opt](https://github.com/pushkar/ABAGAIL/tree/master/src/opt/test)
+*For jython examples see [Jython](https://github.com/pushkar/ABAGAIL/tree/master/jython)
 *Also see [Wiki](https://github.com/pushkar/ABAGAIL/wiki), [FAQ](https://github.com/pushkar/ABAGAIL/blob/master/faq.md) 
 
 Contributing
