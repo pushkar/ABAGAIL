@@ -43,8 +43,8 @@ FeedForwardNetwork network = new OptNetworkBuilder()
 
 ```
 
-*For discrete opt problem examples see [discrete opt](https://github.com/pushkar/ABAGAIL/tree/master/src/opt/test)
-*For jython examples see [Jython](https://github.com/pushkar/ABAGAIL/tree/master/jython)
+*For discrete opt problem examples see [src/opt/test](https://github.com/pushkar/ABAGAIL/tree/master/src/opt/test)   
+*For jython examples see [Jython](https://github.com/pushkar/ABAGAIL/tree/master/jython)  
 *Also see [Wiki](https://github.com/pushkar/ABAGAIL/wiki), [FAQ](https://github.com/pushkar/ABAGAIL/blob/master/faq.md) 
 
 Contributing
