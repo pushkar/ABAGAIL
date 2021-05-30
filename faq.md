@@ -12,16 +12,12 @@
 
 #### Usage Questions
 * [Can you generate graphs out of ABAGAIL library?](#user-content-can-you-generate-graphs-out-of-abagail-library)
-* [How does ABAGAIL output results?](#user-content-how-does-abagail-output-results)
-* [Does Abagail have any form of built in cross validation?](#user-content-does-abagail-have-any-form-of-built-in-cross-validation)
 * [How can I find out the actual number of iterations performed in Abagail?](#how-can-i-find-out-the-actual-number-of-iterations-performed-in-abagail)
 * [Could someone help explain the training_iterations in ABAGAIL? When I increase it, I get better accuracy.](#could-someone-help-explain-the-training_iterations-in-abagail-when-i-increase-it-i-get-better-accuracy)
 * [My neural network classifier is performing very poorly, how to fix it?](#user-content-my-neural-network-classifier-is-performing-very-poorly-how-to-fix-it)
 * [How does the neural network get its weights updated?](#user-content-how-does-the-neural-network-get-its-weights-updated)
-* [How to change number of neurons in a hidden layer?](#user-content-how-to-change-number-of-neurons-in-a-hidden-layer)
 * [I am trying to understand what the count ones optimization function is doing, but I am not sure...](#i-am-trying-to-understand-what-the-count-ones-optimization-function-is-doing-but-i-am-not-sure)
 * [TravelingSalesmanRouteEvaluationFunction - why the 1/total distance?](#user-content-travelingsalesmanrouteevaluationfunction---why-the-1total-distance)
-* [How do I get multi-label classification working in AbaloneTest.java?](#user-content-how-do-i-get-multi-label-classification-working-in-abalonetestjava)
 * [My dataset has categorical features, can i use ABAGAIL?](#user-content-my-dataset-has-categorical-features-can-i-use-abagail)
 
 #### Other questions
@@ -159,62 +155,6 @@ Currently no. There are several external libraries and software you can use to v
 
 ***
 
-## How does ABAGAIL output results?
-The test functions output results to command line. Saving data to disk requires extending the source code.
-
-Here is a simple extension methods for writing output to file, created by Yeshwant Dattatreya.
-```
-    public void write_output_to_file(String output_dir, String file_path, String result, Boolean final_result) {
-        // This function will have to be modified depending on the format of your file name. 
-        // Else the splits won't work.
-        try {
-            if (final_result) {
-                String full_path = output_dir + "/" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) +
-                        "/" + "final_result.csv";
-                String[] params = file_path.split("_");
-                String line = "";
-                switch (params.length) {
-                    case 9:
-                        line = params[0] + ",none," + params[6] + "," + params[8].split("\\.")[0];
-                        break;
-                    case 10:
-                        line = params[0] + "," + params[3] + "," + params[7] + "," + params[9].split("\\.")[0];
-                        break;
-                    case 11:
-                        line = params[0] + "," + params[3] + "_" + params[4] + "," + params[8] + ","
-                                + params[10].split("\\.")[0];
-                        break;
-                }
-                PrintWriter pwtr = new PrintWriter(new BufferedWriter(new FileWriter(full_path, true)));
-                synchronized (pwtr) {
-                    pwtr.println(line + result);
-                    pwtr.close();
-                }
-            } else {
-                String full_path = output_dir + "/" + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) +
-                        "/" + file_path;
-                Path p = Paths.get(full_path);
-                Files.createDirectories(p.getParent());
-                Files.write(p, result.getBytes());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-```
-
-[Back to top](#user-content-table-of-contents)
-
-***
-
-## Does Abagail have any form of built in cross validation?
-
-Currently no. You will need to extend the source code to add cross-validation.
-
-[Back to top](#user-content-table-of-contents)
-
-***
-
 ## How can I find out the actual number of iterations performed in ABAGAIL?
 When you work with random search optimization problems, the number of iterations in the example problems is fixed. 
 
@@ -275,16 +215,6 @@ Networks is an instance of BackPropagationNetwork.java, which has a method `upda
 [Back to top](#user-content-table-of-contents)
 
 ***
-## How to change number of neurons in a hidden layer?
-
-> Q: I'm trying to use ABAGAIL to train a neural network with randomized hill climbing. It looks like the number of nodes in a hidden layer is assigned to be the same as the number of nodes in the input layer. How do I change the number of neurons in a hidden layer?
-
-Look at AbaloneTest.java for an example. It shows you how to set up the layers using an int array. This file is under `opt > test`.
-
-[Back to top](#user-content-table-of-contents)
-
-
-***
 
 ## I am trying to understand what the count ones optimization function is doing, but I am not sure...
 
@@ -300,33 +230,6 @@ If you dig through the classes that uses the ranges variable, it will become cle
 The object of the Traveling Salesman problem is to minimize the distance in a route. However, the optimization algorithms maximize their fitness functions. So it returns the inverse of the distance, which gets larger as the distance gets smaller.
  
 Returning the normal distance would result in the algorithms finding the longest routes, which isn't what we're interested in.
-
-[Back to top](#user-content-table-of-contents)
-
-***
-## How do I get multi-label classification working in AbaloneTest.java?
-
-This is from the method `initializeInstances`. 
-
-You'll need to change whatever your classes are let's say ("cat" -> 0, "dog" -> 1, "other" ->2). This encoding will then correspond to the output layer. I.e. "cat" -> 0 will correspond to the 0th output layer in the array.
- 
-```
-        Instance[] instances = new Instance[attributes.length];
-
-        for(int i = 0; i < instances.length; i++) {
-            instances[i] = new Instance(attributes[i][0]);
-            
-            // Read the digit 0-9 from the attribute array that was read from the csv
-            int c = (int) attributes[i][1][0];
-
-            // Create a double array of length 10, all values are initialized to 0
-            double[] classes = new double[nClasses];
-
-            // Set the i'th index to 1.0
-            classes[c] = 1.0; 
-            instances[i].setLabel(new Instance(classes));
-        }
-```
 
 [Back to top](#user-content-table-of-contents)
 
