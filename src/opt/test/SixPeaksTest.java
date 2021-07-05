@@ -27,7 +27,7 @@ import opt.prob.ProbabilisticOptimizationProblem;
 import shared.FixedIterationTrainer;
 
 /**
- * Copied from ContinuousPeaksTest
+ * Copied from FourPeaksTest
  * @version 1.0
  */
 public class SixPeaksTest {

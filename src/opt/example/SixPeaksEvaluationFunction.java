@@ -6,7 +6,7 @@ import shared.Instance;
 import opt.example.FourPeaksEvaluationFunction;
 
 /**
- * A six peaks evaluation function
+ * A six peaks evaluation function - from (Bonet, Isbell and Viola, 1997)
  * @author John Mansfield
  * @version 1.0
  */
@@ -23,7 +23,7 @@ public class SixPeaksEvaluationFunction implements EvaluationFunction {
     private int t;
 
     /**
-     * Make a new four peaks function
+     * Make a new six peaks function
      *
      * @param t the t value
      */
