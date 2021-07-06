@@ -6,7 +6,7 @@ import shared.Instance;
 import opt.example.FourPeaksEvaluationFunction;
 
 /**
- * A six peaks evaluation function - from (Bonet, Isbell and Viola, 1997)
+ * A six peaks evaluation function from (Bonet, Isbell, and Viola, 1997)
  * @author John Mansfield
  * @version 1.0
  */
@@ -39,7 +39,6 @@ public class SixPeaksEvaluationFunction implements EvaluationFunction {
         this.fEvals++;
         Vector data = d.getData();
 
-        //todo: instead of calling four peaks ef twice this could be optimized
         //check four peaks value
         FourPeaksEvaluationFunction fpef = new FourPeaksEvaluationFunction(this.t);
         double fourPeaksMax=fpef.value(d);
@@ -50,11 +49,10 @@ public class SixPeaksEvaluationFunction implements EvaluationFunction {
         }
         double sixPeaksMax=fpef.value(d);
 
-        //Convert data back
+        //Convert back
         for (int i=0; i<data.size(); i++){
             data.set(i, (int) data.get(i) ^ 1);
         }
-
         return Math.max(fourPeaksMax, sixPeaksMax);
     }
 
