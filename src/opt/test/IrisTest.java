@@ -31,11 +31,6 @@ public class IrisTest {
     DataSetReader dsr = new CSVDataSetReader((new File("src/opt/test/iris.txt")).getAbsolutePath());
     DataSet ds = dsr.read();
 
-    //standardize data
-    StandardMeanAndVariance smv = new StandardMeanAndVariance();
-    smv.fit(ds);
-    smv.transform(ds);
-
     //split last attribute for label
     LabelSplitFilter lsf = new LabelSplitFilter();
     lsf.filter(ds);
@@ -44,7 +39,7 @@ public class IrisTest {
     DiscreteToBinaryFilter dbf = new DiscreteToBinaryFilter();
     dbf.filter(ds.getLabelDataSet());
     outputLayerSize=dbf.getNewAttributeCount();
-
+    
     return ds;
   }
 
