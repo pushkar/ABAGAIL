@@ -7,6 +7,7 @@ import func.nn.backprop.BackPropagationNetwork;
 import func.nn.feedfwd.FeedForwardNetwork;
 import shared.*;
 import shared.filt.*;
+import shared.normalizer.StandardMeanAndVariance;
 import shared.reader.CSVDataSetReader;
 import shared.reader.DataSetReader;
 
@@ -30,11 +31,16 @@ public class IrisTest {
     DataSetReader dsr = new CSVDataSetReader((new File("src/opt/test/iris.txt")).getAbsolutePath());
     DataSet ds = dsr.read();
 
+    //standardize data
+    StandardMeanAndVariance smv = new StandardMeanAndVariance();
+    smv.fit(ds);
+    smv.transform(ds);
+
     //split last attribute for label
     LabelSplitFilter lsf = new LabelSplitFilter();
     lsf.filter(ds);
 
-    //convert label to binary for nn classification and get outputLayerSize
+    //encode label as one-hot array and get outputLayerSize
     DiscreteToBinaryFilter dbf = new DiscreteToBinaryFilter();
     dbf.filter(ds.getLabelDataSet());
     outputLayerSize=dbf.getNewAttributeCount();
@@ -53,13 +59,12 @@ public class IrisTest {
       .train();
 
     //create opt network using builder
-    /**FeedForwardNetwork network = new OptNetworkBuilder()
+    FeedForwardNetwork network2 = new OptNetworkBuilder()
       .withLayers(new int[] {25,10,outputLayerSize})
       .withDataSet(set, percentTrain)
       .withSA(100000, .975)
       .withIterations(1000)
       .train();
-     **/
 
     return network;
   }

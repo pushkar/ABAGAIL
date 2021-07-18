@@ -18,7 +18,7 @@ DataSet ds = dsr.read();
 LabelSplitFilter lsf = new LabelSplitFilter();
 lsf.filter(ds);
 
-//convert label to binary for nn classification and get outputLayerSize
+//encode label as one-hot array and get outputLayerSize
 DiscreteToBinaryFilter dbf = new DiscreteToBinaryFilter();
 dbf.filter(ds.getLabelDataSet());
 outputLayerSize=dbf.getNewAttributeCount();
@@ -34,7 +34,7 @@ BackPropagationNetwork network = new BackpropNetworkBuilder()
   .train();
   
 //create opt network using builder
-FeedForwardNetwork network = new OptNetworkBuilder()
+FeedForwardNetwork network2 = new OptNetworkBuilder()
   .withLayers(new int[] {25,10,outputLayerSize})
   .withDataSet(ds, percentTrain)
   .withSA(100000, .975)
