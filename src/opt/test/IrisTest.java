@@ -51,6 +51,12 @@ public class IrisTest {
     testTrainSplit.filter(ds);
     train=testTrainSplit.getTrainingSet();
     test=testTrainSplit.getTestingSet();
+
+    //standardize data
+    StandardMeanAndVariance smv = new StandardMeanAndVariance();
+    smv.fit(train);
+    smv.transform(train);
+    smv.transform(test);
   }
 
   private static void runNetwork() {
