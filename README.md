@@ -23,8 +23,20 @@ DiscreteToBinaryFilter dbf = new DiscreteToBinaryFilter();
 dbf.filter(ds.getLabelDataSet());
 outputLayerSize=dbf.getNewAttributeCount();
 
-//reserve 25% for testing
+//test-train split
 int percentTrain=75;
+RandomOrderFilter randomOrderFilter = new RandomOrderFilter();
+randomOrderFilter.filter(ds);
+TestTrainSplitFilter testTrainSplit = new TestTrainSplitFilter(percentTrain);
+testTrainSplit.filter(ds);
+train=testTrainSplit.getTrainingSet();
+test=testTrainSplit.getTestingSet();
+
+//standardize data
+StandardMeanAndVariance smv = new StandardMeanAndVariance();
+smv.fit(train);
+smv.transform(train);
+smv.transform(test);
 
 //create backprop network using builder
 BackPropagationNetwork network = new BackpropNetworkBuilder()
