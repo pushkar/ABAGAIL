@@ -21,11 +21,11 @@ public interface NetworkBuilder {
 
   /**
    * Set the DataSet
-   * @param set - the DataSet
-   * @param percentTrain - percent of data for training
+   * @param train - training set
+   * @param test - test set
    * @return NetworkBuilder instance
    */
-  public abstract NetworkBuilder withDataSet(DataSet set, int percentTrain);
+  public abstract NetworkBuilder withDataSet(DataSet train, DataSet test);
 
   /**
    * Set the ActivationFunction

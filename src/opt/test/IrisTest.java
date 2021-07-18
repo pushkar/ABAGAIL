@@ -25,11 +25,14 @@ import java.io.File;
 public class IrisTest {
 
   private static int outputLayerSize;
+  private static DataSet train;
+  private static DataSet test;
 
-  private static DataSet initializeData() throws Exception {
+  private static void initializeData() throws Exception {
     //import data
     DataSetReader dsr = new CSVDataSetReader((new File("src/opt/test/iris.txt")).getAbsolutePath());
     DataSet ds = dsr.read();
+    System.out.println(new DataSetDescription(ds));
 
     //split last attribute for label
     LabelSplitFilter lsf = new LabelSplitFilter();
@@ -39,34 +42,37 @@ public class IrisTest {
     DiscreteToBinaryFilter dbf = new DiscreteToBinaryFilter();
     dbf.filter(ds.getLabelDataSet());
     outputLayerSize=dbf.getNewAttributeCount();
-    
-    return ds;
+
+    //test-train split
+    int percentTrain=75;
+    RandomOrderFilter randomOrderFilter = new RandomOrderFilter();
+    randomOrderFilter.filter(ds);
+    TestTrainSplitFilter testTrainSplit = new TestTrainSplitFilter(percentTrain);
+    testTrainSplit.filter(ds);
+    train=testTrainSplit.getTrainingSet();
+    test=testTrainSplit.getTestingSet();
   }
 
-  private static LayeredNetwork runNetwork(DataSet set) {
-    int percentTrain=75;
+  private static void runNetwork() {
 
     //create backprop network using builder
     BackPropagationNetwork network = new BackpropNetworkBuilder()
       .withLayers(new int[] {25,10,outputLayerSize})
-      .withDataSet(set, percentTrain)
+      .withDataSet(train, test)
       .withIterations(5000)
       .train();
 
     //create opt network using builder
     FeedForwardNetwork optNetwork = new OptNetworkBuilder()
       .withLayers(new int[] {25,10,outputLayerSize})
-      .withDataSet(set, percentTrain)
+      .withDataSet(train, test)
       .withSA(100000, .975)
       .withIterations(1000)
       .train();
-
-    return network;
   }
 
   public static void main(String[] args) throws Exception {
-    DataSet set = initializeData();
-    System.out.println(new DataSetDescription(set));
-    LayeredNetwork nn = runNetwork(set);
+    initializeData();
+    runNetwork();
   }
 }

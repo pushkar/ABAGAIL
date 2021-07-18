@@ -66,11 +66,6 @@ public class OptNetworkBuilder implements NetworkBuilder {
   private DataSet testSet;
 
   /**
-   * Percent of data to reserve for training
-   */
-  private int percentTrain;
-
-  /**
    * Iterations
    */
   private int iters;
@@ -116,7 +111,6 @@ public class OptNetworkBuilder implements NetworkBuilder {
     iters = 1000;
     errorMeasure = new SumOfSquaresError();
     optAlg=RandomizedHillClimbing.class;
-    percentTrain=75;
   }
 
   /**
@@ -138,14 +132,9 @@ public class OptNetworkBuilder implements NetworkBuilder {
   /**
    * Set the DataSet
    */
-  public OptNetworkBuilder withDataSet(DataSet set, int percentTrain) {
-    this.percentTrain=percentTrain;
-    RandomOrderFilter randomOrderFilter = new RandomOrderFilter();
-    randomOrderFilter.filter(set);
-    TestTrainSplitFilter testTrainSplit = new TestTrainSplitFilter(percentTrain);
-    testTrainSplit.filter(set);
-    this.set=testTrainSplit.getTrainingSet();
-    this.testSet = testTrainSplit.getTestingSet();
+  public OptNetworkBuilder withDataSet(DataSet train, DataSet test) {
+    this.set=train;
+    this.testSet=test;
     return this;
   }
 

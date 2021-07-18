@@ -63,11 +63,6 @@ public class BackpropNetworkBuilder implements NetworkBuilder{
   private DataSet testSet;
 
   /**
-   * Percent of data to reserve for training
-   */
-  private int percentTrain;
-
-  /**
    * Iterations
    */
   private int iters;
@@ -83,7 +78,6 @@ public class BackpropNetworkBuilder implements NetworkBuilder{
     factory = new BackPropagationNetworkFactory();
     iters = 500;
     errorMeasure = new SumOfSquaresError();
-    percentTrain = 75;
   }
 
   /**
@@ -110,14 +104,9 @@ public class BackpropNetworkBuilder implements NetworkBuilder{
   /**
    * Set DataSet and train percent
    */
-  public BackpropNetworkBuilder withDataSet(DataSet set, int percentTrain) {
-    this.percentTrain=percentTrain;
-    RandomOrderFilter randomOrderFilter = new RandomOrderFilter();
-    randomOrderFilter.filter(set);
-    TestTrainSplitFilter testTrainSplit = new TestTrainSplitFilter(percentTrain);
-    testTrainSplit.filter(set);
-    this.set=testTrainSplit.getTrainingSet();
-    this.testSet = testTrainSplit.getTestingSet();
+  public BackpropNetworkBuilder withDataSet(DataSet train, DataSet test) {
+    this.set=train;
+    this.testSet=test;
     return this;
   }
 
