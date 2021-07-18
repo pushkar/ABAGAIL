@@ -54,7 +54,7 @@ public class IrisTest {
       .train();
 
     //create opt network using builder
-    FeedForwardNetwork network2 = new OptNetworkBuilder()
+    FeedForwardNetwork optNetwork = new OptNetworkBuilder()
       .withLayers(new int[] {25,10,outputLayerSize})
       .withDataSet(set, percentTrain)
       .withSA(100000, .975)

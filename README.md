@@ -34,7 +34,7 @@ BackPropagationNetwork network = new BackpropNetworkBuilder()
   .train();
   
 //create opt network using builder
-FeedForwardNetwork network2 = new OptNetworkBuilder()
+FeedForwardNetwork optNetwork = new OptNetworkBuilder()
   .withLayers(new int[] {25,10,outputLayerSize})
   .withDataSet(ds, percentTrain)
   .withSA(100000, .975)
