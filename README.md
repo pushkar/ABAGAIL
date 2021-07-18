@@ -41,14 +41,14 @@ smv.transform(test);
 //create backprop network using builder
 BackPropagationNetwork network = new BackpropNetworkBuilder()
   .withLayers(new int[] {25,10,outputLayerSize})
-  .withDataSet(ds, percentTrain)
+  .withDataSet(ds, train, test)
   .withIterations(5000)
   .train();
   
 //create opt network using builder
 FeedForwardNetwork optNetwork = new OptNetworkBuilder()
   .withLayers(new int[] {25,10,outputLayerSize})
-  .withDataSet(ds, percentTrain)
+  .withDataSet(ds, train, test)
   .withSA(100000, .975)
   .withIterations(1000)
   .train();
