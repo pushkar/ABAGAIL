@@ -2,7 +2,7 @@
 * Grid search example
 *
 * @author John Mansfield
-* @version 1.0
+* @version 1.1
 """
 
 from __future__ import with_statement
