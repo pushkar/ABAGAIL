@@ -10,7 +10,8 @@ import os
 import itertools
 from func.nn import OptNetworkBuilder, BackpropNetworkBuilder
 from shared import DataSet, Instance
-from shared.filt import LabelSplitFilter, DiscreteToBinaryFilter
+from shared.filt import LabelSplitFilter, DiscreteToBinaryFilter, RandomOrderFilter, TestTrainSplitFilter
+from shared.normalizer import StandardMeanAndVariance
 from shared.reader import CSVDataSetReader, DataSetReader
 from java.io import File
 
@@ -23,20 +24,35 @@ def initialize_data(input_data):
     lsf = LabelSplitFilter()
     lsf.filter(ds)
 
-    #convert label to binary for nn classification and get outputLayerSize
+    #encode label as one-hot array and get outputLayerSize
     dbf = DiscreteToBinaryFilter()
     dbf.filter(ds.getLabelDataSet())
     output_layer_size=dbf.getNewAttributeCount()
+    
+    #test-train split
+    percentTrain=75;
+    randomOrderFilter = RandomOrderFilter();
+    randomOrderFilter.filter(ds);
+    testTrainSplit = TestTrainSplitFilter(percentTrain);
+    testTrainSplit.filter(ds);
+    train=testTrainSplit.getTrainingSet();
+    test=testTrainSplit.getTestingSet();
+    
+    #standardize data
+    smv = StandardMeanAndVariance();
+    smv.fit(train);
+    smv.transform(train);
+    smv.transform(test);
 
-    return ds, output_layer_size
+    return train, test, output_layer_size
 
-def grid_search(set, output_layer_size, percent_train, temp_range, decay_range):
+def grid_search(train, test, output_layer_size, temp_range, decay_range):
     for i in itertools.product(temp_range, decay_range):
         print("running SA opt network with temp, decay:", i)
         #build and run SA opt network using builder 
         network = OptNetworkBuilder()\
             .withLayers([25,10,output_layer_size])\
-            .withDataSet(set, percent_train)\
+            .withDataSet(train,test)\
             .withSA(i[0], i[1])\
             .withIterations(1000)\
             .train()
@@ -45,11 +61,10 @@ def grid_search(set, output_layer_size, percent_train, temp_range, decay_range):
         
 def main():
     input_data="iris.txt"
-    set, output_layer_size = initialize_data(input_data)
-    percent_train=75 #reserve 25 percent for test data
+    train, test, output_layer_size = initialize_data(input_data)
     temp_range=[1000, 10000, 100000]
     decay_range=[.4, .7, .9]
-    grid_search(set, output_layer_size, percent_train, temp_range, decay_range)
+    grid_search(train, test, output_layer_size, temp_range, decay_range)
 
 if __name__ == "__main__":
     main()
