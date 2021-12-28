@@ -1,13 +1,8 @@
 package dist;
 
 
+import util.graph.*;
 import util.linalg.DenseVector;
-import util.graph.DFSTree;
-import util.graph.Graph;
-import util.graph.KruskalsMST;
-import util.graph.Node;
-import util.graph.Tree;
-import util.graph.WeightedEdge;
 
 import shared.DataSet;
 import shared.DataSetDescription;
@@ -129,6 +124,7 @@ public class DiscreteDependencyTree extends AbstractDistribution {
         }
         // find the mst
         g = new KruskalsMST().transform(g);
+        //g = new PrimsMST().transform(g);
         // direct it
         Tree rg = (Tree) new DFSTree().transform(g);
         return rg;
