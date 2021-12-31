@@ -191,17 +191,17 @@ public class KColoringMinimizeTest {
 
     static Graph makeZachery() {
         //From the well known Zachary Karate Club https://commons.wikimedia.org/wiki/File:Zachary%27s_karate_club.png
-        return  makeNetwork(34,"src/shared/test/kcolorcsv/zach_edgelist.csv");
+        return  makeNetwork(34,"src/opt/test/kcolorcsv/zach_edgelist.csv");
     }
 
     static Graph makeWikiEdges() {
         //6-Node Graph from wikipedia https://en.wikipedia.org/wiki/Graph_coloring#Polynomial_time
-       return  makeNetwork(6,"src/shared/test/kcolorcsv/wiki_graph.csv");
+       return  makeNetwork(6,"src/opt/test/kcolorcsv/wiki_graph.csv");
     }
 
     static Graph makePetersen() {
         //Petersen graph from wikipedia https://en.wikipedia.org/wiki/Petersen_graph
-        return makeNetwork(10,"src/shared/test/kcolorcsv/petersen_graph_structure1.csv");
+        return makeNetwork(10,"src/opt/test/kcolorcsv/petersen_graph_structure1.csv");
     }
 
     static Graph makeNetwork(int count, String filename) {
