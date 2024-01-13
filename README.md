@@ -11,54 +11,6 @@ Usage
 *For jython | csv | python and grid search examples see [/jython](https://github.com/pushkar/ABAGAIL/blob/master/jython)   
 *Also see [Wiki](https://github.com/pushkar/ABAGAIL/wiki), [FAQ](https://github.com/pushkar/ABAGAIL/blob/master/faq.md) 
 
-Here is a simple example of how to import data and build a neural network using the iris data set (taken from [IrisTest.java](https://github.com/pushkar/ABAGAIL/blob/master/src/opt/test/IrisTest.java)).  Train and test error will be exported in csv format to the current working directory.   
-```
-//import data
-DataSetReader dsr = new CSVDataSetReader((new File("src/opt/test/iris.txt")).getAbsolutePath());
-DataSet ds = dsr.read();
-
-//split last attribute for label
-LabelSplitFilter lsf = new LabelSplitFilter();
-lsf.filter(ds);
-
-//encode label as one-hot array and get outputLayerSize
-DiscreteToBinaryFilter dbf = new DiscreteToBinaryFilter();
-dbf.filter(ds.getLabelDataSet());
-outputLayerSize=dbf.getNewAttributeCount();
-
-//test-train split
-int percentTrain=75;
-RandomOrderFilter randomOrderFilter = new RandomOrderFilter();
-randomOrderFilter.filter(ds);
-TestTrainSplitFilter testTrainSplit = new TestTrainSplitFilter(percentTrain);
-testTrainSplit.filter(ds);
-train=testTrainSplit.getTrainingSet();
-test=testTrainSplit.getTestingSet();
-
-//standardize data
-StandardMeanAndVariance smv = new StandardMeanAndVariance();
-smv.fit(train);
-smv.transform(train);
-smv.transform(test);
-
-//create backprop network using builder
-BackPropagationNetwork network = new BackpropNetworkBuilder()
-  .withLayers(new int[] {25,10,outputLayerSize})
-  .withDataSet(train, test)
-  .withIterations(5000)
-  .train();
-  
-//create opt network using builder
-FeedForwardNetwork optNetwork = new OptNetworkBuilder()
-  .withLayers(new int[] {25,10,outputLayerSize})
-  .withDataSet(train, test)
-  .withSA(100000, .975)
-  .withIterations(1000)
-  .train();
-
-```
-
-
 Contributing
 ------------
 
